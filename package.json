@@ -1,0 +1,24 @@
+{
+  "name": "hrr45-mvp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasperC1999/hrr45-mvp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JasperC1999/hrr45-mvp/issues"
+  },
+  "homepage": "https://github.com/JasperC1999/hrr45-mvp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.13.1"
+  }
+}
