@@ -9,6 +9,8 @@ class App extends React.Component {
     this.state = {
       total: 0,
       sessionTotal: 0,
+      userName: 'anonymous',
+      userTotal: 0,
     };
     this.buttonClickHandler = this.buttonClickHandler.bind(this);
     this.getTotal = this.getTotal.bind(this);
@@ -18,10 +20,6 @@ class App extends React.Component {
   componentDidMount() {
     this.getTotal();
     setInterval(() => this.putTotal(), 5000);
-  }
-
-  componentWillUnmount() {
-    // clearInterval(this.interval);
   }
 
   getTotal() {
