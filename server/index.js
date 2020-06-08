@@ -50,7 +50,7 @@ app.post('/user', (req, res) => {
       console.error(err);
       res.sendStatus(500);
     } else {
-      res.send(results);
+      res.send({ message: results});
     }
   });
 });

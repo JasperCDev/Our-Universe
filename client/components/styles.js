@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 `;
 
@@ -25,12 +26,11 @@ export const Div = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: auto;
+  position: relative;
 `;
 
 export const Counter = styled.h1`
   font-size: 6em;
-  padding: 0 auto;
   color: green;
 `;
 
@@ -48,4 +48,25 @@ export const Button = styled.button`
     border-style: outset;
     background-color: #037a82
   }
+`;
+
+
+export const FormDiv = styled.div`
+  border: 2px solid darkgrey;
+  height: 150%;
+  width: 150%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: lightgrey;
+  border-radius: 1%;
+  animation-name: ${ScrollUpForm};
+  animation-duration: 10s;
+`;
+
+export const ScrollUpForm = keyframes`
+  0% { background-color: lightgrey; }
+  100% { background-color: black; }
 `;

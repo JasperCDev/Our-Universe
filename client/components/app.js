@@ -1,7 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
-import { GlobalStyle, Div, Counter, Button } from './styles'
+import { GlobalStyle, Div, Counter, Button } from './styles';
+
+import LoginForm from './loginForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,10 +13,13 @@ class App extends React.Component {
       sessionTotal: 0,
       userName: 'anonymous',
       userTotal: 0,
+      formSubmitted: false,
     };
     this.buttonClickHandler = this.buttonClickHandler.bind(this);
     this.getTotal = this.getTotal.bind(this);
     this.putTotal = this.putTotal.bind(this);
+    this.userFormSubmitHandler = this.userFormSubmitHandler.bind(this);
+    this.postUser = this.postUser.bind(this);
   }
 
   componentDidMount() {
@@ -38,20 +43,42 @@ class App extends React.Component {
 
   putTotal() {
     if (!this.state.sessionTotal) {
-       this.getTotal();
+      this.getTotal();
       return;
     }
     $.ajax('/total', {
       method: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify({total: this.state.sessionTotal}),
-      dataType: "json",
+      dataType: 'json',
       success: (result) => {
-        console.log(`Saved ${this.state.sessionTotal}`)
+        console.log(`Saved ${this.state.sessionTotal}`);
         this.getTotal();
       },
       error: (err) => console.error(err)
     });
+  }
+
+  postUser(userName) {
+    $.ajax('/user', {
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({userName: userName}),
+      dataType: 'json',
+      success: (result) => {
+        console.log(result)
+        this.setState({
+          userName: userName,
+          formSubmitted: true,
+        });
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  userFormSubmitHandler(e) {
+    e.preventDefault();
+    this.postUser(e.target[0].value);;
   }
 
   buttonClickHandler() {
@@ -62,10 +89,15 @@ class App extends React.Component {
   }
 
   render() {
-    const { total, sessionTotal } = this.state;
+    const { total, sessionTotal, formSubmitted } = this.state;
     return (
         <Div>
           <GlobalStyle />
+          {
+            formSubmitted ?
+            <></> :
+            <LoginForm submitHandler={this.userFormSubmitHandler} />
+          }
           <Counter>{total}</Counter>
           <Button onClick={this.buttonClickHandler}>Click Me!</Button>
         </Div>

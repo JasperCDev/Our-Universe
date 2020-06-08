@@ -28,7 +28,6 @@ const updateGlobalTotal = (n, cb) => {
   });
 }
 
-
 const getUser = (userName, cb) => {
   User.findOne({username: userName}, (err, user) => {
     if (err) {
