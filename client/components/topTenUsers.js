@@ -9,7 +9,6 @@ const TopTenUsers = ({ users }) => (
         <TopUser>{`${index + 1}) ${user.username}: ${user.total}`}</TopUser>
         {user[index + 1] ? <hr/> : <></>}
       </>
-
     ))}
   </TopTenUsersDiv>
 );

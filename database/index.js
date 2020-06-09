@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost/oneMillion', {useNewUrlParser: true});
+mongoose.connect('mongodb://ds055565.mlab.com:55565/heroku_3kqnt9zm', {useNewUrlParser: true});
 
 
 const db = mongoose.connection;
