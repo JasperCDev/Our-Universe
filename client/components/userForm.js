@@ -16,7 +16,8 @@ const UserForm = ({ submitHandler, toggleLogin, login }) => (
         <br />
         <button type="submit" >Submit</button>
       </form>
-      <p onClick={toggleLogin} >Don't have an account?</p>
+      <p>Don't have an account?</p>
+      <a onClick={toggleLogin} >Click here</a>
     </FormDiv>
     :
     <FormDiv>
@@ -31,6 +32,7 @@ const UserForm = ({ submitHandler, toggleLogin, login }) => (
         <button type="submit" >Submit</button>
       </form>
       <p onClick={toggleLogin} >Already have an account?</p>
+      <a onClick={toggleLogin} >Click here</a>
     </FormDiv>
     }
   </>

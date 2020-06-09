@@ -37,7 +37,8 @@ export const Counter = styled.h1`
 
 export const Greeting = styled.h2`
   font-size: 2.5em;
-  color: redorange;
+  color: teal;
+  font-family: helvetica;
 `;
 
 export const Button = styled.button`
