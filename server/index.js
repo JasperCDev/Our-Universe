@@ -11,6 +11,10 @@ const bodyParser = require('body-parser');
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.send('loaded!');
+})
+
 app.get('/total', (req, res) => {
   dbControllers.getGlobalTotal((err, results) => {
     if (err) {
