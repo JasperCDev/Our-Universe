@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
 export const Div = styled.div`
   display: flex;
   width: 500px;
-  height: 400px;
+  height: 500px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -39,6 +39,7 @@ export const Greeting = styled.h2`
   font-size: 2.5em;
   color: teal;
   font-family: helvetica;
+  margin-top: 0;
 `;
 
 export const Button = styled.button`

@@ -6,9 +6,9 @@ const db = require('../database/index');
 const dbControllers = require('../database/controllers');
 
 const bodyParser = require('body-parser');
+const path = require('path');
 
-
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
 app.get('/total', (req, res) => {
