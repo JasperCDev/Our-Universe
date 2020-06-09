@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const totalSchema = mongoose.Schema({
-  id: Number,
   total: Number,
 });
 

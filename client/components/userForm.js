@@ -11,7 +11,7 @@ const UserForm = ({ submitHandler, toggleLogin, login }) => (
         <label>
           Username:
           <br />
-          <input type="text" placeholder="username" />
+          <input type="text" placeholder="username" required/>
         </label>
         <br />
         <button type="submit" >Submit</button>

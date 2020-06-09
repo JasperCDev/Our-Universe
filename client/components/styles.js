@@ -32,6 +32,12 @@ export const Div = styled.div`
 export const Counter = styled.h1`
   font-size: 6em;
   color: green;
+  margin: 0;
+`;
+
+export const Greeting = styled.h2`
+  font-size: 2.5em;
+  color: redorange;
 `;
 
 export const Button = styled.button`
@@ -46,7 +52,7 @@ export const Button = styled.button`
   }
   :active {
     border-style: outset;
-    background-color: #037a82
+    background-color: lightblue;
   }
 `;
 
@@ -69,4 +75,15 @@ export const FormDiv = styled.div`
 export const ScrollUpForm = keyframes`
   0% { background-color: lightgrey; }
   100% { background-color: black; }
+`;
+
+export const TopTenUsersDiv = styled.div`
+  border: 1px solid black;
+  border-radius: 3%;
+  width: 15em;
+`;
+
+export const TopUser = styled.p`
+  padding-left: 1em;
+  font-size: 1.2em;
 `;

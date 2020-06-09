@@ -5,7 +5,7 @@ const port = 3000;
 const db = require('../database/index');
 const dbControllers = require('../database/controllers');
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 
 app.use(express.static('public'));
@@ -19,7 +19,7 @@ app.get('/total', (req, res) => {
     } else {
       res.send(results);
     }
-  })
+  });
 });
 
 app.put('/total', (req, res) => {
@@ -34,7 +34,8 @@ app.put('/total', (req, res) => {
 });
 
 app.get('/user', (req, res) => {
-  dbControllers.getUser(req.body.userName, (err, results) => {
+  const userName = req.query.u;
+  dbControllers.getUser(userName, (err, results) => {
     if (err) {
       console.error(err);
       res.sendStatus(500);
@@ -50,11 +51,32 @@ app.post('/user', (req, res) => {
       console.error(err);
       res.sendStatus(500);
     } else {
-      res.send({ message: results});
+      res.send(results);
     }
   });
 });
 
+app.put('/user', (req, res) => {
+  dbControllers.updateUserTotal(req.body.userName, req.body.userSessionTotal, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.sendStatus(500);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+app.get('/users', (req, res) => {
+  const n = Number(req.query.n);
+  dbControllers.getTopUsers(n, (err, results) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.send(results);
+    }
+  })
+})
 
 
 app.listen(port, () => console.log(`Listening on PORT ${port}`));

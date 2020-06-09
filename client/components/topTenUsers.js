@@ -1,14 +1,17 @@
 import React from 'react';
+import { TopTenUsersDiv, TopUser } from './styles';
 
 const TopTenUsers = ({ users }) => (
-  <div>
-    {users.map(user => (
-      <div>
-        <p>{user.userName}</p>
-        <p>{user.total}</p>
-      </div>
+  <TopTenUsersDiv>
+    <h3>Top Ten Players:</h3>
+    {users.map((user, index) => (
+      <>
+        <TopUser>{`${index + 1}) ${user.username}: ${user.total}`}</TopUser>
+        {user[index + 1] ? <hr/> : <></>}
+      </>
+
     ))}
-  </div>
-)
+  </TopTenUsersDiv>
+);
 
 export default TopTenUsers;

@@ -1,10 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
-import styled from 'styled-components';
-import { GlobalStyle, Div, Counter, Button } from './styles';
+import { GlobalStyle, Div, Counter, Greeting, Button } from './styles';
 
 import UserForm from './userForm';
 import TopTenUsers from './topTenUsers';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -14,29 +14,42 @@ class App extends React.Component {
       sessionTotal: 0,
       userName: 'anonymous',
       userTotal: 0,
+      userSessionTotal: 0,
       formSubmitted: false,
       login: true,
+      topTenUsers: [],
     };
-    this.buttonClickHandler = this.buttonClickHandler.bind(this);
-    this.getTotal = this.getTotal.bind(this);
-    this.putTotal = this.putTotal.bind(this);
+    this.counterLifeCycle = this.counterLifeCycle.bind(this);
+    this.getGlobalTotal = this.getGlobalTotal.bind(this);
+    this.updateGlobalTotal = this.updateGlobalTotal.bind(this);
+    this.updateUserTotal = this.updateUserTotal.bind(this);
+    this.registerUser = this.registerUser.bind(this);
+    this.logInUser = this.logInUser.bind(this);
     this.userFormSubmitHandler = this.userFormSubmitHandler.bind(this);
-    this.postUser = this.postUser.bind(this);
+    this.buttonClickHandler = this.buttonClickHandler.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
+    this.getTopTenUsers = this.getTopTenUsers.bind(this);
   }
 
   componentDidMount() {
-    this.getTotal();
-    setInterval(() => this.putTotal(), 5000);
+    this.getGlobalTotal();
+    this.getTopTenUsers();
+    setInterval(() => this.counterLifeCycle(), 5000);
   }
 
-  getTotal() {
-    $.ajax('/total', {
+  counterLifeCycle() {
+    this.updateGlobalTotal()
+    .then(this.getGlobalTotal)
+    .then(this.updateUserTotal)
+    .then(this.getTopTenUsers);
+  }
+
+  getGlobalTotal() {
+    return $.ajax('/total', {
       method: 'GET',
-      success: (result) => {
-        console.log(`new number: ${result.total}`);
+      success: (response) => {
         this.setState({
-          total: result.total,
+          total: response.total,
           sessionTotal: 0,
         });
       },
@@ -44,63 +57,91 @@ class App extends React.Component {
     });
   }
 
-  putTotal() {
-    if (!this.state.sessionTotal) {
-      this.getTotal();
-      return;
-    }
-    $.ajax('/total', {
+  updateGlobalTotal() {
+    //if (!this.state.sessionTotal) return new Promise(() => {});
+    return $.ajax('/total', {
       method: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify({total: this.state.sessionTotal}),
       dataType: 'json',
-      success: (result) => {
-        console.log(`Saved ${this.state.sessionTotal}`);
-        this.getTotal();
+      success: (response) => {
       },
       error: (err) => console.error(err)
     });
   }
 
-  postUser(userName) {
-    $.ajax('/user', {
+  registerUser(userName) {
+    return $.ajax('/user', {
       method: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({userName: userName}),
+      data: JSON.stringify({"userName": `${userName}`}),
       dataType: 'json',
-      success: (result) => {
-        console.log(result);
-        this.setState({
-          userName: userName,
-          formSubmitted: true,
-        });
+      success: (response) => {
+        console.log(response);
+        if (response.message === `user ${userName} already exists!`) {
+          alert(response.message);
+        } else {
+          this.setState({
+            userName: response.userName,
+            formSubmitted: true,
+          });
+        }
       },
       error: (err) => console.error(err),
     });
   }
 
-  getUser(userName) {
-    $.ajax('/user', {
+  logInUser(userName) {
+    return $.ajax(`/user?u=${userName}`, {
       method: 'GET',
-      contentType: 'application/json',
-      data: JSON.stringify({userName: userName}),
-      dataType: 'json',
-      success: (result) => {
-        this.setState({
-          userName: userName,
-          formSubmitted: true,
-        });
+      success: (response) => {
+        if (response.message) {
+          alert(response.message);
+        } else {
+          this.setState({
+            userName: response.username,
+            userTotal: response.total,
+            formSubmitted: true,
+          });
+        }
       },
       error: (err) => console.error(err),
+    });
+  }
+
+  updateUserTotal() {
+    //if (!this.state.userSessionTotal) return new Promise(() => {});
+    return $.ajax('/user', {
+      method: 'PUT',
+      contentType: 'application/json',
+      data: JSON.stringify({ userName: this.state.userName, userSessionTotal: this.state.userSessionTotal, }),
+      dataType: 'json',
+      success: () => {
+        this.setState({
+          userSessionTotal: 0,
+        })
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  getTopTenUsers() {
+    return $.ajax('/users?n=10', {
+      method: 'GET',
+      success: (response) => {
+        this.setState({
+          topTenUsers: response,
+        });
+      }
     });
   }
 
   userFormSubmitHandler(e) {
     e.preventDefault();
     if (this.state.login) {
-      this.postUser(e.target.value);
+      this.logInUser(e.target[0].value);
     } else {
-      this.postUser(e.target[0].value);
+      this.registerUser(e.target[0].value);
     }
   }
 
@@ -108,6 +149,8 @@ class App extends React.Component {
     this.setState((prevState) => ({
       total: prevState.total + 1,
       sessionTotal: prevState.sessionTotal + 1,
+      userTotal: prevState.userTotal + 1,
+      userSessionTotal: prevState.userSessionTotal + 1,
     }));
   }
 
@@ -118,20 +161,33 @@ class App extends React.Component {
   }
 
   render() {
-    const { total, sessionTotal, formSubmitted, login } = this.state;
-    return (
-      <Div>
-        <GlobalStyle />
-        {
-          formSubmitted ?
-          <></> :
+    const { total, userName, userTotal, sessionTotal, formSubmitted, login, topTenUsers } = this.state;
+
+    if (!formSubmitted) {
+      return (
+        <>
+          <Div>
+          <GlobalStyle />
           <UserForm submitHandler={this.userFormSubmitHandler} toggleLogin={this.toggleLogin} login={login} />
-        }
-        <Counter>{total}</Counter>
-        <Button onClick={this.buttonClickHandler}>Click Me!</Button>
-      </Div>
-    )
+          </Div>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <Div>
+            <GlobalStyle />
+            <Greeting>{`Hello, ${userName}`}</Greeting>
+            <Counter>{total}</Counter>
+            <h3><b>{`${userName}: ${userTotal}`}</b></h3>
+            <Button onClick={this.buttonClickHandler}>Click Me!</Button>
+          </Div>
+          <TopTenUsers users={topTenUsers} />
+        </>
+      );
+    }
   }
 }
+
 
 export default App;
