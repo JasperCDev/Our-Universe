@@ -1,101 +1,73 @@
-const { GlobalTotal, User } = require('./models');
+const { client } = require('./index');
 
+const getGlobalTotal = (req, res) => {
+  const query = {
+    text: 'SELECT global_clicks FROM global_total',
+  }
 
-const getGlobalTotal = (cb) => {
-  GlobalTotal.findOne({}, (err, response) => {
-    if (err) {
-      cb(err);
-    } else {
-      if (response == null) {
-        GlobalTotal.create({total: 0}, (err, user) => {
-          if (err) {
-            cb(err);
-          } else {
-            cb(null, user);
-          }
-        })
-      }
-      cb(null, response);
+  client.query(query)
+  .then((dbResponse) => res.send(dbResponse.rows))
+  .catch((dbErr) => res.sendStatus(500));
+}
+
+const updateGlobalTotal = (req, res) => {
+  const query = {
+    text: 'UPDATE global_total SET global_clicks = global_total.global_clicks + $1',
+    values: [req.body.total]
+  }
+
+  client.query(query)
+  .then((dbResponse) => res.send('Global clicks updated!'))
+  .catch((dbErr) => res.sendStatus(500));
+}
+
+const getUser = (req, res) => {
+  console.log(req.query.u);
+  const query = {
+    text: 'SELECT * FROM users WHERE user_name=$1',
+    values: [req.query.u]
+  }
+
+  client.query(query)
+  .then((dbResponse) => res.send(dbResponse.rows[0] || 'That user does not exist'))
+  .catch((dbErr) => res.sendStatus(500));
+}
+
+const createUser = (req, res) => {
+  const query = {
+    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
+    values: [req.body.userName, 0]
+  }
+
+  client.query(query)
+  .then((dbResponse) => res.send('User created!'))
+  .catch((dbErr) => {
+    if (dbErr.routine === '_bt_check_unique') {
+      res.status(400).send('User already exists');
     }
+    res.sendStatus(500).send(dbErr.detail);
   });
 }
 
-const updateGlobalTotal = (n, cb) => {
-  GlobalTotal.findOne({}, (err, response) => {
-    if (err) {
-      cb(err);
-    } else {
-      const newN = n + response.total;
-      GlobalTotal.findOneAndUpdate({}, {total: newN}, (err, response) => {
-        if (err) {
-          cb(err);
-        } else {
-          cb(null, response);
-        }
-      });
-    }
-  });
+const updateUserTotal = (req, res) => {
+  const query = {
+    text: 'UPDATE users SET user_clicks = users.user_clicks + $1 WHERE user_name = $2',
+    values: [req.body.total, req.body.userName]
+  }
+
+  client.query(query)
+  .then((dbResponse) => res.send('User clicks updated!'))
+  .catch((dbErr) => res.sendStatus(500));
 }
 
-const getUser = (userName, cb) => {
-  User.findOne({username: userName}, (err, user) => {
-    if (err) {
-      cb(err);
-    } else {
-      if (user === null) {
-        cb(null, {message: `user ${userName} does not exist`})
-      } else {
-        cb(null, user);
-      }
-    }
-  });
-}
+const getTopTenUsers = (req, res) => {
+  const query = {
+    text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 10'
+  }
 
-const createUser = (userName, cb) => {
-  User.findOne({username: userName}, (err, user) => {
-    if (err) {
-      cb(err);
-    } else {
-      if (user === null) {
-        User.create({username: userName, total: 0}, (err2, response) => {
-          if (err2) {
-            cb(err2);
-          } else {
-            cb(null, {userName: userName, message: `user ${userName} created!!`});
-          }
-        });
-      } else {
-        cb(null, {userName: null, message: `user ${userName} already exists!`});
-      }
-    }
-  });
-}
-
-const updateUserTotal = (userName, n, cb) => {
-  User.findOne({username: userName}, (err, user) => {
-    if (err) {
-      cb(err);
-    } else {
-      const newN = n + user.total;
-      User.findOneAndUpdate({username: userName}, {total: newN}, (err, response) => {
-        if (err) {
-          cb(err);
-        } else {
-          cb(null, response);
-        }
-      });
-    }
-  });
-}
-
-const getTopUsers = (n, cb) => {
-  User.find({}, null, {sort: {total: -1}, limit: n}, (err, response) => {
-    if (err) {
-      cb(err);
-    } else {
-      cb(null, response);
-    }
-  });
+  client.query(query)
+  .then((dbResponse) => res.send(dbResponse.rows))
+  .catch((dbErr) => res.sendStatus(500));
 }
 
 
@@ -105,5 +77,5 @@ module.exports = {
   getUser,
   createUser,
   updateUserTotal,
-  getTopUsers,
+  getTopTenUsers
 }

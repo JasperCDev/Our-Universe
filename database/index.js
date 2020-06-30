@@ -1,18 +1,18 @@
-const mongoose = require('mongoose');
+const { Client } = require('pg');
 
-
-mongoose.connect('mongodb://ds055565.mlab.com:55565/heroku_3kqnt9zm', {useNewUrlParser: true});
-
-
-const db = mongoose.connection;
-
-
-db.on('error', () => {
-  console.log('mongoose connection error');
+const client = new Client({
+  user: 'postgres',
+  password: 'postgres',
+  port: 5432,
+  database: 'journey_to_one_million',
 });
 
-db.once('open', function() {
-  console.log('Connected to MongoDB!');
-});
+client.connect()
+  .then(() => console.log('connected!!!!!!!!!!!!!'))
+  .catch((err) => console.error(err));
+
+module.exports = {
+  client,
+};
 
 

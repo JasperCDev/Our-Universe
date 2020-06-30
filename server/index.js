@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 const db = require('../database/index');
 const dbControllers = require('../database/controllers');
@@ -8,75 +8,35 @@ const dbControllers = require('../database/controllers');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const compression = require('compression');
+
+app.use(compression());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
 app.get('/total', (req, res) => {
-  dbControllers.getGlobalTotal((err, results) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.send(results);
-    }
-  });
+  dbControllers.getGlobalTotal(req, res);
 });
 
 app.put('/total', (req, res) => {
-  dbControllers.updateGlobalTotal(req.body.total, (err, results) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.send(results);
-    }
-  });
+  dbControllers.updateGlobalTotal(req, res);
 });
 
 app.get('/user', (req, res) => {
-  const userName = req.query.u;
-  dbControllers.getUser(userName, (err, results) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.send(results);
-    }
-  });
+  dbControllers.getUser(req, res);
 });
 
 app.post('/user', (req, res) => {
-  dbControllers.createUser(req.body.userName, (err, results) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.send(results);
-    }
-  });
+  dbControllers.createUser(req, res);
 });
 
 app.put('/user', (req, res) => {
-  dbControllers.updateUserTotal(req.body.userName, req.body.userSessionTotal, (err, results) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.send(results);
-    }
-  });
+  dbControllers.updateUserTotal(req, res);
 });
 
 app.get('/users', (req, res) => {
-  const n = Number(req.query.n);
-  dbControllers.getTopUsers(n, (err, results) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.send(results);
-    }
-  })
+  dbControllers.getTopTenUsers(req, res);
 });
 
 
-app.listen(port, () => console.log(`Listening on PORT ${port}`));
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

@@ -12,23 +12,13 @@ class App extends React.Component {
     this.state = {
       total: 0,
       sessionTotal: 0,
-      userName: 'anonymous',
+      userName: '',
       userTotal: 0,
       userSessionTotal: 0,
       formSubmitted: false,
       login: true,
       topTenUsers: [],
     };
-    this.counterLifeCycle = this.counterLifeCycle.bind(this);
-    this.getGlobalTotal = this.getGlobalTotal.bind(this);
-    this.updateGlobalTotal = this.updateGlobalTotal.bind(this);
-    this.updateUserTotal = this.updateUserTotal.bind(this);
-    this.registerUser = this.registerUser.bind(this);
-    this.logInUser = this.logInUser.bind(this);
-    this.userFormSubmitHandler = this.userFormSubmitHandler.bind(this);
-    this.buttonClickHandler = this.buttonClickHandler.bind(this);
-    this.toggleLogin = this.toggleLogin.bind(this);
-    this.getTopTenUsers = this.getTopTenUsers.bind(this);
   }
 
   componentDidMount() {
@@ -37,14 +27,14 @@ class App extends React.Component {
     setInterval(() => this.counterLifeCycle(), 5000);
   }
 
-  counterLifeCycle() {
+  counterLifeCycle = () => {
     this.updateGlobalTotal()
     .then(this.getGlobalTotal)
     .then(this.updateUserTotal)
     .then(this.getTopTenUsers);
   }
 
-  getGlobalTotal() {
+  getGlobalTotal = () => {
     return $.ajax('/total', {
       method: 'GET',
       success: (response) => {
@@ -57,20 +47,19 @@ class App extends React.Component {
     });
   }
 
-  updateGlobalTotal() {
+  updateGlobalTotal = () => {
     //if (!this.state.sessionTotal) return new Promise(() => {});
     return $.ajax('/total', {
       method: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify({total: this.state.sessionTotal}),
       dataType: 'json',
-      success: (response) => {
-      },
+      success: (response) => {},
       error: (err) => console.error(err)
     });
   }
 
-  registerUser(userName) {
+  registerUser = (userName) => {
     return $.ajax('/user', {
       method: 'POST',
       contentType: 'application/json',
@@ -91,7 +80,7 @@ class App extends React.Component {
     });
   }
 
-  logInUser(userName) {
+  logInUser = (userName) => {
     return $.ajax(`/user?u=${userName}`, {
       method: 'GET',
       success: (response) => {
@@ -109,7 +98,7 @@ class App extends React.Component {
     });
   }
 
-  updateUserTotal() {
+  updateUserTotal = ()  => {
     //if (!this.state.userSessionTotal) return new Promise(() => {});
     return $.ajax('/user', {
       method: 'PUT',
@@ -125,7 +114,7 @@ class App extends React.Component {
     });
   }
 
-  getTopTenUsers() {
+  getTopTenUsers = () => {
     return $.ajax('/users?n=10', {
       method: 'GET',
       success: (response) => {
@@ -136,7 +125,7 @@ class App extends React.Component {
     });
   }
 
-  userFormSubmitHandler(e) {
+  userFormSubmitHandler = (e) => {
     e.preventDefault();
     if (this.state.login) {
       this.logInUser(e.target[0].value);
@@ -145,7 +134,7 @@ class App extends React.Component {
     }
   }
 
-  buttonClickHandler() {
+  buttonClickHandler = () => {
     this.setState((prevState) => ({
       total: prevState.total + 1,
       sessionTotal: prevState.sessionTotal + 1,
@@ -154,7 +143,7 @@ class App extends React.Component {
     }));
   }
 
-  toggleLogin(e) {
+  toggleLogin = (e) => {
     this.setState((prevState) => ({
       login: !prevState.login,
     }));
@@ -162,7 +151,6 @@ class App extends React.Component {
 
   render() {
     const { total, userName, userTotal, sessionTotal, formSubmitted, login, topTenUsers } = this.state;
-
     if (!formSubmitted) {
       return (
         <>

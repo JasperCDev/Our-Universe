@@ -21,8 +21,8 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Div = styled.div`
   display: flex;
-  width: 500px;
-  height: 500px;
+  width: 1000px;
+  height: 1000px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -30,8 +30,8 @@ export const Div = styled.div`
 `;
 
 export const Counter = styled.h1`
-  font-size: 6em;
-  color: green;
+  font-size: 7em;
+  color: aquamarine;
   margin: 0;
 `;
 
