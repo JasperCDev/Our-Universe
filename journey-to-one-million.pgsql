@@ -4,10 +4,10 @@ CREATE DATABASE journey_to_one_million;
 
 \c journey_to_one_million;
 
-DROP TABLE IF EXISTS global_total;
+DROP TABLE IF EXISTS global_clicks;
 
-CREATE TABLE global_total (
-  global_clicks INTEGER NOT NULL DEFAULT 0
+CREATE TABLE global_clicks (
+  click_count INTEGER NOT NULL DEFAULT 0
 );
 
 DROP TABLE IF EXISTS users;

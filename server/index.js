@@ -14,12 +14,12 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
-app.get('/total', (req, res) => {
-  dbControllers.getGlobalTotal(req, res);
+app.get('/global_clicks', (req, res) => {
+  dbControllers.getGlobalClicks(req, res);
 });
 
-app.put('/total', (req, res) => {
-  dbControllers.updateGlobalTotal(req, res);
+app.put('/global_clicks', (req, res) => {
+  dbControllers.updateGlobalClicks(req, res);
 });
 
 app.get('/user', (req, res) => {
@@ -31,7 +31,7 @@ app.post('/user', (req, res) => {
 });
 
 app.put('/user', (req, res) => {
-  dbControllers.updateUserTotal(req, res);
+  dbControllers.updateUserClicks(req, res);
 });
 
 app.get('/users', (req, res) => {

@@ -1,19 +1,22 @@
 const { client } = require('./index');
 
-const getGlobalTotal = (req, res) => {
+const getGlobalClicks = (req, res) => {
   const query = {
-    text: 'SELECT global_clicks FROM global_total',
+    text: 'SELECT * FROM global_clicks',
   }
 
   client.query(query)
-  .then((dbResponse) => res.send(dbResponse.rows))
-  .catch((dbErr) => res.sendStatus(500));
+  .then((dbResponse) => res.send(dbResponse))
+  .catch((dbErr) => {
+    console.log(dbErr);
+    res.sendStatus(500);
+  });
 }
 
-const updateGlobalTotal = (req, res) => {
+const updateGlobalClicks = (req, res) => {
   const query = {
-    text: 'UPDATE global_total SET global_clicks = global_total.global_clicks + $1',
-    values: [req.body.total]
+    text: 'UPDATE global_clicks SET click_count = global_clicks.click_count + $1',
+    values: [req.body.clicks]
   }
 
   client.query(query)
@@ -36,7 +39,7 @@ const getUser = (req, res) => {
 const createUser = (req, res) => {
   const query = {
     text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
-    values: [req.body.userName, 0]
+    values: [req.body.user_name, 0]
   }
 
   client.query(query)
@@ -49,10 +52,10 @@ const createUser = (req, res) => {
   });
 }
 
-const updateUserTotal = (req, res) => {
+const updateUserClicks = (req, res) => {
   const query = {
     text: 'UPDATE users SET user_clicks = users.user_clicks + $1 WHERE user_name = $2',
-    values: [req.body.total, req.body.userName]
+    values: [req.body.clicks, req.body.user_name]
   }
 
   client.query(query)
@@ -72,10 +75,10 @@ const getTopTenUsers = (req, res) => {
 
 
 module.exports = {
-  getGlobalTotal,
-  updateGlobalTotal,
+  getGlobalClicks,
+  updateGlobalClicks,
   getUser,
   createUser,
-  updateUserTotal,
+  updateUserClicks,
   getTopTenUsers
 }
