@@ -58,6 +58,10 @@ export const Button = styled.button`
   }
 `;
 
+export const ScrollUpForm = keyframes`
+  0% { background-color: lightgrey; }
+  100% { background-color: black; }
+`;
 
 export const FormDiv = styled.div`
   border: 2px solid darkgrey;
@@ -72,11 +76,6 @@ export const FormDiv = styled.div`
   border-radius: 1%;
   animation-name: ${ScrollUpForm};
   animation-duration: 10s;
-`;
-
-export const ScrollUpForm = keyframes`
-  0% { background-color: lightgrey; }
-  100% { background-color: black; }
 `;
 
 export const TopTenUsersDiv = styled.div`

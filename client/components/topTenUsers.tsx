@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { TopTenUsersDiv, TopUser } from './styles';
 
-const TopTenUsers = ({ users }) => (
+interface User {
+  user_name: string;
+  user_clicks: number;
+}
+
+interface Props {
+  users: User[];
+}
+
+const TopTenUsers: FC = ({ users }: Props) => {
+  return (
   <TopTenUsersDiv>
     <h3>Top Ten Players:</h3>
     {users.map((user, index) => (
@@ -11,6 +21,6 @@ const TopTenUsers = ({ users }) => (
       </>
     ))}
   </TopTenUsersDiv>
-);
-
+  );
+}
 export default TopTenUsers;

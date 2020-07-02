@@ -1,7 +1,14 @@
 import React from 'react';
 import { FormDiv, ScrollUpForm } from './styles';
 
-const UserForm = ({ submitHandler, toggleLogin, login }) => (
+
+interface Props {
+  submitHandler: () => void;
+  toggleLogin: () => void;
+  login: boolean;
+}
+
+const UserForm = ({ submitHandler, toggleLogin, login }: Props) => (
   <>
     {
     login ?
