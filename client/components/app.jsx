@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import { GlobalStyle, Div, Counter, Greeting, Button } from './styles';
 
@@ -6,178 +6,146 @@ import UserForm from './userForm.jsx';
 import TopTenUsers from './topTenUsers.jsx';
 
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      global_clicks: 0,
-      session_clicks: 0,
-      user_name: '',
-      user_clicks: 0,
-      user_session_clicks: 0,
-      form_submitted: false,
-      login: true,
-      top_ten_users: [],
-    };
+const App = () => {
+  const [global_clicks, set_global_clicks] = useState(0);
+  const [session_clicks, set_session_clicks] = useState(0);
+  const [user_name, set_user_name] = useState('');
+  const [user_clicks, set_user_clicks] = useState(0);
+  const [user_session_clicks, set_user_session_clicks] = useState(0);
+  const [form_submitted, set_form_submitted] = useState(false);
+  const [login, set_login] = useState(true);
+  const [top_ten_users, set_top_ten_users] = useState([]);
+
+  useEffect(() => {
+    getGlobalClicks();
+    getTopTenUsers();
+    setInterval(() => clicksLifeCycle(), 5000);
+  });
+
+  const clicksLifeCycle = () => {
+    updateGlobalClicks()
+    .then(getGlobalClicks)
+    .then(updateUserClicks)
+    .then(getTopTenUsers);
   }
 
-  componentDidMount() {
-    this.getGlobalClicks();
-    this.getTopTenUsers();
-    setInterval(() => this.clicksLifeCycle(), 5000);
-  }
-
-  clicksLifeCycle = () => {
-    this.updateGlobalClicks()
-    .then(this.getGlobalClicks)
-    .then(this.updateUserClicks)
-    .then(this.getTopTenUsers);
-  }
-
-  getGlobalClicks = () => {
+  const getGlobalClicks = () => {
     return $.ajax('/global_clicks', {
       method: 'GET',
       success: (response) => {
-        this.setState({
-          global_clicks: response.rows[0].click_count,
-          session_clicks: 0
-        });
+        set_global_clicks(response.rows[0].click_count);
+        set_session_clicks(0);
       },
       error: (err) => console.error(err)
     });
   }
 
-  updateGlobalClicks = () => {
-    //if (!this.state.session_clicks) return new Promise(() => {});
-    console.log(this.state.session_clicks);
+  const updateGlobalClicks = () => {
+    //if (!session_clicks) return new Promise(() => {});
     return $.ajax('/global_clicks', {
       method: 'PUT',
       contentType: 'application/json',
-      data: JSON.stringify({"clicks": this.state.session_clicks}),
-      success: (response) => {
-        console.log('hererererererererererere')
-      },
-      error: (err) => console.error('errrrrrrrrrrrrr', err)
+      data: JSON.stringify({"clicks": session_clicks}),
+      success: (response) => {},
+      error: (err) => console.error(err)
     });
   }
 
-  registerUser = (user_name) => {
+  const registerUser = (user_name) => {
     return $.ajax('/user', {
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({"user_name": `${user_name}`}),
       success: (response) => {
-        console.log(response);
-        if (response === `User already exists`) {
+        if (response === 'User already exists') {
           alert(response);
         } else {
-          console.log(response);
-          this.setState({
-            user_name: response.user_name,
-            form_submitted: true,
-          });
+          set_user_name(response.user_name);
+          set_form_submitted(true);
         }
       },
       error: (err) => console.error(err),
     });
   }
 
-  logInUser = (user_name) => {
+  const logInUser = (user_name) => {
     return $.ajax(`/user?u=${user_name}`, {
       method: 'GET',
       success: (response) => {
         if (response === 'That user does not exist') {
             alert(response);
         } else {
-          this.setState({
-            user_name: response.user_name,
-            user_clicks: response.user_clicks,
-            form_submitted: true,
-          });
+          set_user_name(response.user_name);
+          set_user_clicks(response.user_clicks)
+          set_form_submitted(true);
         }
       },
       error: (err) => console.error(err),
     });
   }
 
-  updateUserClicks = ()  => {
-    //if (!this.state.user_session_clicks) return new Promise(() => {});
+  const updateUserClicks = ()  => {
+    //if (!user_session_clicks) return new Promise(() => {});
     return $.ajax('/user', {
       method: 'PUT',
       contentType: 'application/json',
-      data: JSON.stringify({ "user_name": this.state.user_name, "clicks": this.state.user_session_clicks, }),
+      data: JSON.stringify({ "user_name": user_name, "clicks": user_session_clicks, }),
       success: (response) => {
-        console.log('here');
-        this.setState({
-          user_session_clicks: 0,
-        });
+        set_user_session_clicks(0);
       },
       error: (err) => console.error(err),
     });
   }
 
-  getTopTenUsers = () => {
+  const getTopTenUsers = () => {
     return $.ajax('/users', {
       method: 'GET',
       success: (response) => {
-        console.log('topTenUsers', response);
-        this.setState({
-          top_ten_users: response,
-        });
+        set_top_ten_users(response);
       }
     });
   }
 
-  userFormSubmitHandler = (e) => {
+  const userFormSubmitHandler = (e) => {
     e.preventDefault();
-    if (this.state.login) {
-      this.logInUser(e.target[0].value);
+    if (login) {
+      logInUser(e.target[0].value);
     } else {
-      this.registerUser(e.target[0].value);
+      registerUser(e.target[0].value);
     }
   }
 
-  buttonClickHandler = () => {
-    this.setState((prevState) => ({
-      global_clicks: prevState.global_clicks + 1,
-      session_clicks: prevState.session_clicks + 1,
-      user_clicks: prevState.user_clicks + 1,
-      user_session_clicks: prevState.user_session_clicks + 1,
-    }));
+  const buttonClickHandler = () => {
+    set_global_clicks(global_clicks + 1);
+    set_session_clicks(session_clicks + 1);
+    set_user_clicks(user_clicks + 1);
+    set_user_session_clicks(user_session_clicks + 1);
   }
 
-  toggleLogin = (e) => {
-    this.setState((prevState) => ({
-      login: !prevState.login,
-    }));
-  }
+  const toggleLogin = (e) => set_login(!login);
 
-  render() {
-    const { global_clicks, user_name, user_clicks, session_clicks, form_submitted, login, top_ten_users } = this.state;
-    if (!form_submitted) {
-      return (
-        <>
-          <Div>
-          <GlobalStyle />
-          <UserForm submitHandler={this.userFormSubmitHandler} toggleLogin={this.toggleLogin} login={login} />
-          </Div>
-        </>
-      )
-    } else {
-      return (
-        <>
-          <Div>
-            <GlobalStyle />
-            <Greeting>{`Hello, ${user_name}`}</Greeting>
-            <Counter>{global_clicks}</Counter>
-            <h3><b>{`${user_name}: ${user_clicks}`}</b></h3>
-            <Button onClick={this.buttonClickHandler}>Click Me!</Button>
-          </Div>
-          <TopTenUsers users={top_ten_users} />
-        </>
-      );
-    }
+  if (!form_submitted) {
+    return (
+      <>
+        <Div>
+        <GlobalStyle />
+        <UserForm submitHandler={userFormSubmitHandler} toggleLogin={toggleLogin} login={login} />
+        </Div>
+      </>
+    )
   }
+  return (
+    <>
+      <Div>
+        <GlobalStyle />
+        <Greeting>{`Hello, ${user_name}`}</Greeting>
+        <Counter>{global_clicks}</Counter>
+        <h3><b>{`${user_name}: ${user_clicks}`}</b></h3>
+        <Button onClick={buttonClickHandler}>Click Me!</Button>
+      </Div>
+      <TopTenUsers users={top_ten_users} />
+    </>
+  );
 }
 
 
