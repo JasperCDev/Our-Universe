@@ -52,7 +52,7 @@ const App: FC = () => {
   const updateGlobalClicks = (): Promise<any> => {
     // if (!session_clicks) return new Promise(() => {});
     return axios.put('/global_clicks', {
-      clicks: session_clicks
+      clicks: session_clicks_ref.current
     })
     .catch((err) => console.error(err));
   }
@@ -85,8 +85,6 @@ const App: FC = () => {
 
   const updateUserClicks = (): Promise<any> => {
     //if (!session_clicks) return new Promise(() => {});
-    console.log('LET SESSION_CLICKS', session_clicks);
-    console.log(user_name);
     return axios.put('/user', {
       user_name: user_name_ref.current,
       clicks: session_clicks_ref.current,
