@@ -10,17 +10,16 @@ interface Props {
   users: User[];
 }
 
-const TopTenUsers: FC = ({ users }: Props) => {
-  return (
+const TopTenUsers: FC<Props> = ({ users }) => (
   <TopTenUsersDiv>
     <h3>Top Ten Players:</h3>
-    {users.map((user, index) => (
+    {users.map((user: User, index: number) => (
       <>
         <TopUser>{`${index + 1}) ${user. user_name}: ${user.user_clicks}`}</TopUser>
-        {user[index + 1] ? <hr/> : <></>}
+        {users[index + 1] ? <hr/> : <></>}
       </>
     ))}
   </TopTenUsersDiv>
-  );
-}
+);
+
 export default TopTenUsers;

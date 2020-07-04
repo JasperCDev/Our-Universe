@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { FormEvent, FC } from 'react';
 import { FormDiv, ScrollUpForm } from './styles';
 
 
 interface Props {
-  submitHandler: () => void;
-  toggleLogin: () => void;
+  submitHandler: (e: FormEvent) => void;
+  toggleLogin: (e: FormEvent) => void;
   login: boolean;
 }
 
-const UserForm = ({ submitHandler, toggleLogin, login }: Props) => (
+const UserForm: FC<Props> = ({ submitHandler, toggleLogin, login }) => (
   <>
     {
     login ?
@@ -18,7 +18,7 @@ const UserForm = ({ submitHandler, toggleLogin, login }: Props) => (
         <label>
           Username:
           <br />
-          <input type="text" placeholder="username" required/>
+          <input type="text" placeholder="username" required={true}/>
         </label>
         <br />
         <button type="submit" >Submit</button>

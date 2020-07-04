@@ -7,10 +7,7 @@ const getGlobalClicks = (req, res) => {
 
   client.query(query)
   .then((dbResponse) => res.send(dbResponse))
-  .catch((dbErr) => {
-    console.log(dbErr);
-    res.sendStatus(500);
-  });
+  .catch((dbErr) => res.sendStatus(500));
 }
 
 const updateGlobalClicks = (req, res) => {
@@ -25,7 +22,6 @@ const updateGlobalClicks = (req, res) => {
 }
 
 const getUser = (req, res) => {
-  console.log(req.query.u);
   const query = {
     text: 'SELECT * FROM users WHERE user_name=$1',
     values: [req.query.u]
