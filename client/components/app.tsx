@@ -59,12 +59,14 @@ const App: FC = () => {
 
   const registerUser = (user_name: string): Promise<any> => {
     return axios.post('/user', { user_name })
-    .then((response: AxiosResponse) => {
+      .then((response: AxiosResponse) => {
+        console.log(response);
       if (response.data === 'User already exists') {
         alert(response.data);
       } else {
         set_user_name(response.data.user_name);
         set_form_submitted(true);
+        getTopTenUsers();
       }
     })
     .catch((err) => console.error(err));
@@ -80,7 +82,7 @@ const App: FC = () => {
         set_user_clicks(response.data.user_clicks)
         set_form_submitted(true);
       }
-    },)
+    });
   }
 
   const updateUserClicks = (): Promise<any> => {
