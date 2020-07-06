@@ -1,12 +1,9 @@
 import React, { useState, useEffect, FC, FormEvent, useRef } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { GlobalStyle, Div, Counter, Greeting, Button } from './styles';
 
 import UserForm from './userForm';
 import TopTenUsers from './topTenUsers';
-
-
-import { Router, Route, Switch } from "react-router-dom";
 
 interface User {
   user_name: string;
@@ -60,7 +57,6 @@ const App: FC = () => {
   const registerUser = (user_name: string): Promise<any> => {
     return axios.post('/user', { user_name })
       .then((response: AxiosResponse) => {
-        console.log(response);
       if (response.data === 'User already exists') {
         alert(response.data);
       } else {
@@ -74,15 +70,16 @@ const App: FC = () => {
 
   const logInUser = (user_name: string): Promise<any> => {
     return axios.get(`/user?u=${user_name}`)
-    .then((response: AxiosResponse) => {
-      if (response.data === 'That user does not exist') {
-        alert(response.data);
-      } else {
-        set_user_name(response.data.user_name);
-        set_user_clicks(response.data.user_clicks)
-        set_form_submitted(true);
-      }
-    });
+      .then((response: AxiosResponse) => {
+        if (response.data === 'That user does not exist') {
+          alert(response.data);
+        } else {
+          set_user_name(response.data.user_name);
+          set_user_clicks(response.data.user_clicks)
+          set_form_submitted(true);
+        }
+      })
+      .catch((err: AxiosError) => console.error(err));
   }
 
   const updateUserClicks = (): Promise<any> => {
@@ -92,13 +89,13 @@ const App: FC = () => {
       clicks: session_clicks_ref.current,
     })
     .then((response: AxiosResponse) => set_session_clicks(0))
-    .catch((err) => console.error(err));
+    .catch((err: AxiosError) => console.error(err));
   }
 
   const getTopTenUsers = (): Promise<any> => {
     return axios.get('/users')
     .then((response: AxiosResponse) => set_top_ten_users(response.data))
-    .catch((err) => console.error(err));
+    .catch((err: AxiosError) => console.error(err));
   }
 
   const userFormSubmitHandler = (e: FormEvent): void => {

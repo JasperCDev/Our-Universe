@@ -1,6 +1,6 @@
 import { client } from './index';
 import { Request, Response } from 'express';
-import { QueryResult,  } from 'pg';
+import { QueryResult, QueryResultRow } from 'pg';
 
 export const getGlobalClicks = (req: Request, res: Response) => {
   const query = {
@@ -35,14 +35,22 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 export const createUser = (req: Request, res: Response) => {
-  const query = {
+  // const checkUsername = {
+  //   text: 'SELECT * FROM users WHERE user_name=$1',
+  //   values: [req.body.user_name]
+  // }
+
+  // client.query(checkUsername)
+  // .then((dbResponse: QueryResult) => res.send(dbResponse.rows[0] || 'That user does not exist'))
+
+  const create = {
     text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
     values: [req.body.user_name, 0]
   }
 
-  client.query(query)
+  client.query(create)
   .then(() => res.send({ user_name: req.body.user_name }))
-  .catch((dbErr) => {
+  .catch((dbErr: QueryResultRow) => {
     console.log('typeof dbErr', typeof dbErr);
   if (dbErr.routine === '_bt_check_unique') {
     res.status(400).send('User already exists');
@@ -58,8 +66,8 @@ export const updateUserClicks = (req: Request, res: Response) => {
   }
 
   client.query(query)
-  .then((dbResponse) => res.send('User clicks updated!'))
-  .catch((dbErr) => res.sendStatus(500));
+  .then(() => res.send('User clicks updated!'))
+  .catch(() => res.sendStatus(500));
 }
 
 export const getTopTenUsers = (req: Request, res: Response) => {
@@ -68,6 +76,6 @@ export const getTopTenUsers = (req: Request, res: Response) => {
   }
 
   client.query(query)
-  .then((dbResponse) => res.send(dbResponse.rows))
-  .catch((dbErr) => res.sendStatus(500));
+  .then((dbResponse: QueryResult) => res.send(dbResponse.rows))
+  .catch(() => res.sendStatus(500));
 }

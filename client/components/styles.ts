@@ -31,7 +31,7 @@ export const Div = styled.div`
 
 export const Counter = styled.h1`
   font-size: 7em;
-  color: aquamarine;
+  color: red;
   margin: 0;
 `;
 
