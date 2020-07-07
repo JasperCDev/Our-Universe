@@ -17,7 +17,7 @@ const App: FC = () => {
   const [form_submitted, set_form_submitted] = useState<boolean>(false);
   const [login, set_login] = useState<boolean>(true);
   const [top_ten_users, set_top_ten_users] = useState<User[]>([]);
-  const [session_clicks, set_session_clicks] = useState<number>(0);
+  let session_clicks: number = 0;
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -93,7 +93,7 @@ const App: FC = () => {
       user_name: user_name_ref.current,
       clicks: session_clicks_ref.current,
     })
-    .then((response: AxiosResponse) => set_session_clicks(0))
+    .then((response: AxiosResponse) => session_clicks = 0)
     .catch((err: AxiosError) => console.error(err));
   }
 
@@ -114,8 +114,8 @@ const App: FC = () => {
 
   const buttonClickHandler = (): void => {
     set_global_clicks(global_clicks + 1);
-    set_session_clicks(session_clicks + 1);
     set_user_clicks(user_clicks + 1);
+    session_clicks++;
   }
 
   const toggleLogin = (): void => set_login(!login);
