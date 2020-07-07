@@ -31,6 +31,11 @@ const App: FC = () => {
     setInterval(() => clicksLifeCycle(), 5000);
   }, []);
 
+
+  useEffect(() => {
+    document.title = global_clicks.toString();
+  }, [ global_clicks ])
+
   const clicksLifeCycle = (): void => {
     updateGlobalClicks()
     .then(getGlobalClicks)
@@ -129,7 +134,7 @@ const App: FC = () => {
     <>
       <Div>
         <GlobalStyle />
-        <Greeting>{`Hello, ${user_name}`}</Greeting>
+        {/* <Greeting>{`Hello, ${user_name}`}</Greeting> */}
         <Counter>{global_clicks}</Counter>
         <h3><b>{`${user_name}: ${user_clicks}`}</b></h3>
         <Button onClick={buttonClickHandler}>Click Me!</Button>

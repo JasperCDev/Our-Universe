@@ -7,6 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: sans-serif;
     background-color: light grey;
+    caret-color: red;
   }
 
   #app {

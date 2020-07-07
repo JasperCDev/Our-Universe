@@ -35,14 +35,6 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 export const createUser = (req: Request, res: Response) => {
-  // const checkUsername = {
-  //   text: 'SELECT * FROM users WHERE user_name=$1',
-  //   values: [req.body.user_name]
-  // }
-
-  // client.query(checkUsername)
-  // .then((dbResponse: QueryResult) => res.send(dbResponse.rows[0] || 'That user does not exist'))
-
   const create = {
     text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
     values: [req.body.user_name, 0]
