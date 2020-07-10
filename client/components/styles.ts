@@ -1,10 +1,15 @@
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-  body {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
     font-family: sans-serif;
     background-color: light grey;
     caret-color: red;
@@ -59,10 +64,10 @@ export const Button = styled.button`
   }
 `;
 
-export const ScrollUpForm = keyframes`
-  0% { background-color: lightgrey; }
-  100% { background-color: black; }
-`;
+// export const ScrollUpForm = keyframes`
+//   0% { background-color: lightgrey; }
+//   100% { background-color: black; }
+// `;
 
 export const FormDiv = styled.div`
   border: 2px solid darkgrey;
