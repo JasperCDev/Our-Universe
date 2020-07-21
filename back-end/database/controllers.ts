@@ -41,13 +41,12 @@ export const createUser = (req: Request, res: Response) => {
   }
 
   client.query(create)
-  .then(() => res.send({ user_name: req.body.user_name }))
+  .then(() => res.send({ user_name: req.body.user_name, message: `user ${req.body.user_name} created!` }))
   .catch((dbErr: QueryResultRow) => {
-    console.log('typeof dbErr', typeof dbErr);
-  if (dbErr.routine === '_bt_check_unique') {
-    res.status(400).send('User already exists');
-  }
-  res.sendStatus(500).send(dbErr.detail);
+    if (dbErr.routine === '_bt_check_unique') {
+      res.status(400).send('User already exists');
+    }
+    res.sendStatus(500).send(dbErr.detail);
   });
 }
 
@@ -62,9 +61,9 @@ export const updateUserClicks = (req: Request, res: Response) => {
   .catch(() => res.sendStatus(500));
 }
 
-export const getTopTenUsers = (req: Request, res: Response) => {
+export const getTopUsers = (req: Request, res: Response) => {
   const query = {
-    text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 10'
+    text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 100'
   }
 
   client.query(query)

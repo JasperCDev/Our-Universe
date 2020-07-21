@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TopTenUsersDiv, TopUser } from './styles';
+import { TopUsersDiv, TopUser } from './styles';
 
 interface User {
   user_name: string;
@@ -10,8 +10,8 @@ interface Props {
   users: User[];
 }
 
-const TopTenUsers: FC<Props> = ({ users }) => (
-  <TopTenUsersDiv>
+const TopUsers: FC<Props> = ({ users }) => (
+  <TopUsersDiv>
     <h3>Top Ten Players:</h3>
     {users.map((user: User, index: number) => (
       <>
@@ -19,7 +19,7 @@ const TopTenUsers: FC<Props> = ({ users }) => (
         {users[index + 1] ? <hr/> : <></>}
       </>
     ))}
-  </TopTenUsersDiv>
+  </TopUsersDiv>
 );
 
-export default TopTenUsers;
+export default TopUsers;

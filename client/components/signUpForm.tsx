@@ -9,7 +9,7 @@ interface Props {
 
 const signUpForm: FC<Props> = ({ submitHandler, handleChange }) => (
   <FormDiv>
-    <h2>Log in!</h2>
+    <h2>Sign up!</h2>
     <form onSubmit={submitHandler}>
       <label>
         Username:

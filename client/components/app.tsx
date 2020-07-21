@@ -1,16 +1,16 @@
 import React, { useState, useEffect, FC, FormEvent, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, Div, Counter, Greeting, Button } from './styles';
-
+import { GlobalStyle, All, Main, Counter, Greeting, Button, UserClicksSubheading } from './styles';
+import NavBar from './navBar';
 import LoginForm from './loginForm';
 import SignUpForm from './signUpForm'
-import TopTenUsers from './topTenUsers';
-import { HashRouter as Router, Switch, Route, useHistory, Link } from 'react-router-dom';
+import TopUsers from './topUsers';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 
 interface User {
-  user_name: string;
-  user_clicks: number;
+  readonly user_name: string;
+  readonly user_clicks: number;
 }
 
 let session_clicks: number = 0;
@@ -19,7 +19,7 @@ const App: FC = () => {
   const [global_clicks, set_global_clicks] = useState<number>(0);
   const [user_name, set_user_name] = useState<string>('anonymous');
   const [user_clicks, set_user_clicks] = useState<number>(0);
-  const [top_ten_users, set_top_ten_users] = useState<User[]>([]);
+  const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
 
 
   const user_name_ref = useRef<string>('');
@@ -32,7 +32,7 @@ const App: FC = () => {
 
   useEffect(() => {
     getGlobalClicks();
-    getTopTenUsers();
+    getTopUsers();
     const timer = setInterval(() => clicksLifeCycle(), 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -43,10 +43,11 @@ const App: FC = () => {
   }, [ global_clicks ]);
 
   const clicksLifeCycle = (): void => {
+    console.log(user_name_ref.current);
     updateGlobalClicks()
     .then(getGlobalClicks)
     .then(updateUserClicks)
-    .then(getTopTenUsers);
+    .then(getTopUsers);
   }
 
   const getGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
@@ -73,7 +74,7 @@ const App: FC = () => {
       } else {
         set_user_name(response.data.user_name);
         session_clicks = 0;
-        getTopTenUsers();
+        getTopUsers();
         history.push('/');
       }
     })
@@ -104,16 +105,15 @@ const App: FC = () => {
     .catch((err: AxiosError) => console.error(err));
   }
 
-  const getTopTenUsers = (): Promise<void> => {
+  const getTopUsers = (): Promise<void> => {
     return axios.get('/users')
-    .then((response: AxiosResponse) => set_top_ten_users(response.data))
+    .then((response: AxiosResponse) => set_top_users(response.data))
     .catch((err: AxiosError) => console.error(err));
   }
 
-  const loginSubmitHandler = (e: FormEvent): void => {
+  const loginSubmitHandler = (e: React.FormEvent): void => {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
-    console.log(target.children);
     logInUser(user_name);
   }
 
@@ -135,28 +135,33 @@ const App: FC = () => {
 
   return (
     <>
-      <Div>
-        <Router>
-          <Switch>
+      <GlobalStyle />
+
+      {/* Routes */}
+      <Switch>
           <Route path="/" exact/>
-          <Route path="/signUp" component={SignUpForm} />
-          <Route path="/login">
+          <Route path="/login" exact>
             <LoginForm submitHandler={loginSubmitHandler} handleChange={handleUserNameChange}/>
           </Route>
-          <Route path="/signup">
+          <Route path="/signup" exact>
               <SignUpForm submitHandler={signUpSubmitHandler} handleChange={handleUserNameChange}/>
           </Route>
-          </Switch>
-        </Router>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">SignUp</Link>
-        <GlobalStyle />
-        <Greeting>{`Hello, ${user_name}`}</Greeting>
-        <Counter>{global_clicks}</Counter>
-        <h3><b>{`${user_name}: ${user_clicks}`}</b></h3>
-        <Button onClick={buttonClickHandler}>Click Me!</Button>
-      </Div>
-      <TopTenUsers users={top_ten_users} />
+      </Switch>
+      {/* Routes */}
+
+
+      <NavBar user_name={user_name} user_clicks={user_clicks} />
+      <All>
+        <Main>
+          <Greeting>{`Hello, ${user_name}`}</Greeting>
+          <Counter>{global_clicks}</Counter>
+          <UserClicksSubheading>
+            {user_name}: {user_clicks}
+          </UserClicksSubheading>
+          <Button onClick={buttonClickHandler}>Click Me!</Button>
+        </Main>
+        <TopUsers users={top_users} />
+      </All>
     </>
   );
 }

@@ -3,7 +3,7 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 import '../database/index';
-import { getGlobalClicks, updateGlobalClicks, getTopTenUsers, getUser, updateUserClicks, createUser } from '../database/controllers';
+import { getGlobalClicks, updateGlobalClicks, getTopUsers, getUser, updateUserClicks, createUser } from '../database/controllers';
 import bodyParser from 'body-parser';
 import path from 'path';
 import compression from 'compression';
@@ -22,7 +22,7 @@ app.post('/user', (req: Request, res: Response) => createUser(req, res));
 
 app.put('/user', (req: Request, res: Response) => updateUserClicks(req, res));
 
-app.get('/users', (req: Request, res: Response) => getTopTenUsers(req, res));
+app.get('/users', (req: Request, res: Response) => getTopUsers(req, res));
 
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
