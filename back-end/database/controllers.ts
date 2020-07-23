@@ -63,7 +63,7 @@ export const updateUserClicks = (req: Request, res: Response) => {
 
 export const getTopUsers = (req: Request, res: Response) => {
   const query = {
-    text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 100'
+    text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 10'
   }
 
   client.query(query)

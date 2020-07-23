@@ -4,7 +4,7 @@ import { Header, UserProfile, Links } from './styles';
 
 interface Props {
   user_name: string;
-  user_clicks: number;
+  user_clicks: (string | number);
 }
 
 const NavBar: FC<Props> = ({ user_name, user_clicks }) => {

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { TopUsersDiv, TopUser } from './styles';
+import { TopUsersDiv } from './styles';
+import EachTopUser from './eachTopUser';
 
 interface User {
   user_name: string;
@@ -7,19 +8,21 @@ interface User {
 }
 
 interface Props {
-  users: User[];
+  users: ReadonlyArray<User>;
+  animateCount: (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>) => void;
+  formatNumbers: (x: number) => (string | number);
 }
 
-const TopUsers: FC<Props> = ({ users }) => (
+const TopUsers: FC<Props> = ({ users, animateCount, formatNumbers }) => {
+
+
+  return (
   <TopUsersDiv>
-    <h3>Top Ten Players:</h3>
-    {users.map((user: User, index: number) => (
-      <>
-        <TopUser>{`${index + 1}) ${user. user_name}: ${user.user_clicks}`}</TopUser>
-        {users[index + 1] ? <hr/> : <></>}
-      </>
+    <h3>Top 10 Users:</h3>
+      {users.map((user: User, index: number) => (
+        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} animateUserClicks={animateCount} place={index + 1} formatNumbers={formatNumbers}/>
     ))}
   </TopUsersDiv>
-);
+)};
 
 export default TopUsers;

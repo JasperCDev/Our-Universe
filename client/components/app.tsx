@@ -28,12 +28,15 @@ const App: FC = () => {
   const session_clicks_ref = useRef<number>(0);
   session_clicks_ref.current = session_clicks;
 
+  const global_clicks_ref = useRef<number>(0);
+  global_clicks_ref.current = global_clicks;
+
   let history = useHistory();
 
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
-    const timer = setInterval(() => clicksLifeCycle(), 5000);
+    const timer = setInterval(() => clicksLifeCycle(), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -43,7 +46,6 @@ const App: FC = () => {
   }, [ global_clicks ]);
 
   const clicksLifeCycle = (): void => {
-    console.log(user_name_ref.current);
     updateGlobalClicks()
     .then(getGlobalClicks)
     .then(updateUserClicks)
@@ -52,14 +54,16 @@ const App: FC = () => {
 
   const getGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
     return axios.get('/global_clicks')
-    .then((response: AxiosResponse) => {
-      set_global_clicks(response.data.rows[0].click_count);
-    })
-    .catch((err: AxiosError) => console.error(err));
+      .then((response: AxiosResponse) => {
+        console.log(global_clicks_ref.current);
+        if (response.data.rows[0].click_count > global_clicks_ref.current) {
+          animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, set_global_clicks);
+        }
+      })
+      .catch((err: AxiosError) => console.error(err));
   }
 
   const updateGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
-    //if (!session_clicks) return new Promise(() => {});
     return axios.put('/global_clicks', {
       clicks: session_clicks_ref.current
     })
@@ -95,8 +99,7 @@ const App: FC = () => {
     .catch((err: AxiosError) => console.error(err));
   }
 
-  const updateUserClicks = (): Promise<number | void> => {
-    //if (!session_clicks) return new Promise(() => {});
+  const updateUserClicks = (): Promise<void | number> => {
     return axios.put('/user', {
       user_name: user_name_ref.current,
       clicks: session_clicks_ref.current,
@@ -107,13 +110,12 @@ const App: FC = () => {
 
   const getTopUsers = (): Promise<void> => {
     return axios.get('/users')
-    .then((response: AxiosResponse) => set_top_users(response.data))
-    .catch((err: AxiosError) => console.error(err));
+      .then((response: AxiosResponse) => set_top_users(response.data))
+      .catch((err: AxiosError) => console.error(err));
   }
 
   const loginSubmitHandler = (e: React.FormEvent): void => {
     e.preventDefault();
-    const target = e.target as HTMLFormElement;
     logInUser(user_name);
   }
 
@@ -133,6 +135,25 @@ const App: FC = () => {
     session_clicks++;
   }
 
+  const formatNumbers = (x: number): (string | number) => {
+    if (x < 999) return x;
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  const animateCounter = (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
+    const range = end - start;
+    const startTime = new Date() as unknown as number;
+    const timer = setInterval(() => {
+        const timePassed = new Date() as unknown as number - startTime;
+        let progress = timePassed / duration;
+        if (progress > 1) progress = 1;
+        setter(start + Math.round(progress * range));
+        if (progress === 1) {
+          clearInterval(timer);
+        }
+    }, 10);
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -150,17 +171,21 @@ const App: FC = () => {
       {/* Routes */}
 
 
-      <NavBar user_name={user_name} user_clicks={user_clicks} />
+      <NavBar user_name={user_name} user_clicks={formatNumbers(user_clicks)} />
       <All>
         <Main>
           <Greeting>{`Hello, ${user_name}`}</Greeting>
-          <Counter>{global_clicks}</Counter>
+          <Counter>
+            <span style={{fontSize: '48px'}}>Global:</span>
+            <br />
+            {formatNumbers(global_clicks)}
+          </Counter>
           <UserClicksSubheading>
-            {user_name}: {user_clicks}
+            your clicks: {formatNumbers(user_clicks)}
           </UserClicksSubheading>
           <Button onClick={buttonClickHandler}>Click Me!</Button>
         </Main>
-        <TopUsers users={top_users} />
+        <TopUsers users={top_users} animateCount={animateCounter} formatNumbers={formatNumbers} />
       </All>
     </>
   );

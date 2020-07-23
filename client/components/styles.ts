@@ -126,15 +126,16 @@ export const FormDiv = styled.div`
 export const TopUsersDiv = styled.div`
   padding-top: 1em;
   border: 2px solid darkblue;
-  width: 15vw;
+  width: 30vw;
+  height: 100vh;
   overflow: scroll;
-  font-weigth: 400;
-  float: right;
+  font-weigth: bold;
+  font-size: 1.5em;
   top: 0;
 `;
 
 export const TopUser = styled.p`
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 10px;
-  font-weight: 500;
+  font-weight: bold;
 `;
