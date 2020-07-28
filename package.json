@@ -6,8 +6,12 @@
   "scripts": {
     "start": "node compiled/server",
     "start-dev": "nodemon compiled/server",
-    "build": "webpack --mode=production",
-    "build-dev": "webpack --watch"
+    "react-build": "webpack --mode=production",
+    "back-end-build": "npm run --prefix back-end back-end-build",
+    "back-end-build-dev": "npm run --prefix back-end back-end-build-dev",
+    "build-dev": "webpack --watch",
+    "seed": "node ./compiled/database/seed.js",
+    "build": "npm run react-build && npm run back-end-build && npm run seed"
   },
   "repository": {
     "type": "git",
@@ -23,6 +27,7 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.4",
     "@types/axios": "^0.14.0",
+    "@types/faker": "^4.1.12",
     "@types/pg": "^7.14.3",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
@@ -31,6 +36,7 @@
     "babel": "^6.23.0",
     "babel-loader": "^8.1.0",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "path": "^0.12.7",
     "pg": "^8.2.1",
     "react": "^16.13.1",

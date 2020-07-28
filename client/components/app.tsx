@@ -5,7 +5,10 @@ import NavBar from './navBar';
 import LoginForm from './loginForm';
 import SignUpForm from './signUpForm'
 import TopUsers from './topUsers';
-import { Switch, Route, useHistory } from 'react-router-dom';
+
+import Faker from 'faker';
+
+// import { Switch, Route, useHistory } from 'react-router-dom';
 
 
 interface User {
@@ -17,10 +20,10 @@ let session_clicks: number = 0;
 
 const App: FC = () => {
   const [global_clicks, set_global_clicks] = useState<number>(0);
-  const [user_name, set_user_name] = useState<string>('anonymous');
+  const [user_name, set_user_name] = useState<string>('');
   const [user_clicks, set_user_clicks] = useState<number>(0);
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
-
+  const [user_id, set_user_id] = useState<number>();
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -31,11 +34,17 @@ const App: FC = () => {
   const global_clicks_ref = useRef<number>(0);
   global_clicks_ref.current = global_clicks;
 
-  let history = useHistory();
-
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
+    console.log(localStorage.getItem('user_name'));
+    if (!localStorage.getItem('user_name')) {
+      localStorage.setItem('user_name', Faker.name.firstName());
+      registerUser(localStorage.getItem('user_name')!)
+        .then(() => logInUser(localStorage.getItem('user_name')!));
+    } else {
+      logInUser(localStorage.getItem('user_name')!);
+    }
     const timer = setInterval(() => clicksLifeCycle(), 3000);
     return () => clearTimeout(timer);
   }, []);
@@ -55,7 +64,7 @@ const App: FC = () => {
   const getGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
     return axios.get('/global_clicks')
       .then((response: AxiosResponse) => {
-        console.log(global_clicks_ref.current);
+        console.log(response);
         if (response.data.rows[0].click_count > global_clicks_ref.current) {
           animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, set_global_clicks);
         }
@@ -70,17 +79,13 @@ const App: FC = () => {
     .catch((err) => console.error(err));
   }
 
-  const registerUser = (user_name: string): void => {
-    axios.post('/user', { user_name })
+  const registerUser = (user_name: string): Promise<any> => {
+    return axios.post('/user', { user_name })
       .then((response: AxiosResponse) => {
-      if (response.data === 'User already exists') {
-        alert(response.data);
-      } else {
         set_user_name(response.data.user_name);
+        localStorage.setItem('user_id', response.data.id);
+        set_user_id(response.data.id);
         session_clicks = 0;
-        getTopUsers();
-        history.push('/');
-      }
     })
     .catch((err) => console.error(err));
   }
@@ -93,7 +98,6 @@ const App: FC = () => {
       } else {
         set_user_name(response.data.user_name);
         set_user_clicks(response.data.user_clicks);
-        history.push('/');
       }
     })
     .catch((err: AxiosError) => console.error(err));
@@ -114,20 +118,15 @@ const App: FC = () => {
       .catch((err: AxiosError) => console.error(err));
   }
 
-  const loginSubmitHandler = (e: React.FormEvent): void => {
-    e.preventDefault();
-    logInUser(user_name);
-  }
+  // const loginSubmitHandler = (e: React.FormEvent): void => {
+  //   e.preventDefault();
+  //   logInUser(user_name);
+  // }
 
-  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    e.preventDefault();
-    set_user_name(e.target.value);
-  }
-
-  const signUpSubmitHandler = (e: FormEvent): void => {
-    e.preventDefault();
-    registerUser(user_name);
-  }
+  // const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   e.preventDefault();
+  //   set_user_name(e.target.value);
+  // }
 
   const buttonClickHandler = (): void => {
     set_global_clicks(global_clicks + 1);
@@ -157,24 +156,10 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-
-      {/* Routes */}
-      <Switch>
-          <Route path="/" exact/>
-          <Route path="/login" exact>
-            <LoginForm submitHandler={loginSubmitHandler} handleChange={handleUserNameChange}/>
-          </Route>
-          <Route path="/signup" exact>
-              <SignUpForm submitHandler={signUpSubmitHandler} handleChange={handleUserNameChange}/>
-          </Route>
-      </Switch>
-      {/* Routes */}
-
-
       <NavBar user_name={user_name} user_clicks={formatNumbers(user_clicks)} />
       <All>
         <Main>
-          <Greeting>{`Hello, ${user_name}`}</Greeting>
+          {/* <Greeting>{`Hello, ${user_name}`}</Greeting> */}
           <Counter>
             <span style={{fontSize: '48px'}}>Global:</span>
             <br />

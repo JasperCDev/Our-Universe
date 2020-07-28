@@ -8,54 +8,60 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import compression from 'compression';
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 1000, user_name: 'Jasper' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 1000 } } as Request, { send: () => { } } as Response);
+
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 35, user_name: 'JasperBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 35 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 800, user_name: 'Jasper2' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 800 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 33, user_name: 'JosephBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 33 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 600, user_name: 'Jasper3' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 600 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 30, user_name: 'BethanyBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 30 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 400, user_name: 'Jasper4' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 400 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 27, user_name: 'DavidBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 27 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 200, user_name: 'Jasper5' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 200 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 24, user_name: 'KellieBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 24 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 100, user_name: 'Jasper6' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 100 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 20, user_name: 'JayBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 20 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 80, user_name: 'Jasper7' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 80 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 18, user_name: 'TimBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 18 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 60, user_name: 'Jasper8' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 60 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 16, user_name: 'JimenaBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 16 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 40, user_name: 'Jasper9' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 40 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 14, user_name: 'MarkBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 14 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
-setInterval( async () => {
-  await updateUserClicks({ body: { clicks: 20, user_name: 'Jasper10' } } as Request, { send: () => { } } as Response);
-  await updateGlobalClicks({ body: { clicks: 20 } } as Request, { send: () => { } } as Response);
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 10, user_name: 'AbbieBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 10 } } as Request, { send: () => { } } as Response);
+}, 2000);
+
+setInterval(() => {
+  updateUserClicks({ body: { clicks: 7, user_name: 'RileyBOT' } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 7 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
 app.use(compression());

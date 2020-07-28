@@ -139,3 +139,9 @@ export const TopUser = styled.p`
   padding: 10px;
   font-weight: bold;
 `;
+
+export const UserClicks = styled.p`
+  font-family: monospace;
+  font-weight: 300;
+  font-size: 0.9em;
+`;

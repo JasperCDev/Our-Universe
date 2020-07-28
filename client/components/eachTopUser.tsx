@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TopUser } from './styles';
+import { TopUser, UserClicks } from './styles';
 
 interface Props {
   user_name: string;
@@ -25,7 +25,9 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, animateUs
   return (
     <>
       <TopUser>
-        {place}{')'} {user_name}: {formatNumbers(user_clicks_state)}
+        {place}{')'} {user_name}
+        <br />
+        <UserClicks>clicks: {formatNumbers(user_clicks_state)}</UserClicks>
       </TopUser>
       <hr />
     </>
