@@ -17,7 +17,7 @@ const TopUsers: FC<Props> = ({ users, animateCount, formatNumbers }) => {
 
 
   return (
-  <TopUsersDiv>
+    <TopUsersDiv>
     <h3>Top 10 Users</h3>
       {users.map((user: User, index: number) => (
         <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} animateUserClicks={animateCount} place={index + 1} formatNumbers={formatNumbers}/>

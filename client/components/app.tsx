@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FC, FormEvent, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Counter, Greeting, Button, UserClicksSubheading } from './styles';
+import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton } from './styles';
 import NavBar from './navBar';
 import LoginForm from './loginForm';
 import SignUpForm from './signUpForm'
 import TopUsers from './topUsers';
+import { Button } from '@material-ui/core';
 
 import Faker from 'faker';
 
@@ -17,6 +18,7 @@ interface User {
 }
 
 let session_clicks: number = 0;
+
 
 const App: FC = () => {
   const [global_clicks, set_global_clicks] = useState<number>(0);
@@ -161,14 +163,19 @@ const App: FC = () => {
         <Main>
           {/* <Greeting>{`Hello, ${user_name}`}</Greeting> */}
           <Counter>
-            <span style={{fontSize: '48px'}}>Global:</span>
-            <br />
+            {/* <span style={{fontSize: '48px'}}>Global:</span> */}
+            {/* <br /> */}
             {formatNumbers(global_clicks)}
           </Counter>
           <UserClicksSubheading>
             your clicks: {formatNumbers(user_clicks)}
           </UserClicksSubheading>
+          {/* <ButtonDiv>
           <Button onClick={buttonClickHandler}>Click Me!</Button>
+          </ButtonDiv> */}
+          {/* <div style={{ 'position': 'absolute'}}> */}
+            <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
+          {/* </div> */}
         </Main>
         <TopUsers users={top_users} animateCount={animateCounter} formatNumbers={formatNumbers} />
       </All>
