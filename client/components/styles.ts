@@ -18,8 +18,9 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #d7ffd6;
+    background-color: #f2f2f2;
     font-family: Courier;
+    color: #5e5e5e;
   }
 `;
 
@@ -36,16 +37,17 @@ export const Main = styled.div`
 
 
 export const Header = styled.div`
-  background-color: #57d46a;
+  background-color: #5f7bc9;
   height: 8vh;
   border-bottom: 1px solid black;
   display: flex;
   font-size: 1.5em;
   font-weight: bold;
+  color: #1c1c1c;
 `;
 
 export const UserProfile = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 20vw;
 `;
 
@@ -67,6 +69,7 @@ export const Counter = styled.h1`
   text-align: center;
   margin-top: 0.5em;
   margin-bottom: 10vh;
+  color: #001a69;
 `;
 
 export const Greeting = styled.h2`
@@ -115,6 +118,7 @@ export const UserClicksSubheading = styled.h3`
 
 export const BigButton = styled(Button)`
   && {
+    color: white;
     font-size: 1.7em;
     border: 1px solid black;
     display: block;
@@ -123,12 +127,12 @@ export const BigButton = styled(Button)`
     height: 6em;
     width: 14em;
     position: relative;
-    background-color: #59e3ff;
+    background-color: #cc5050;
     &:focus {
       outline:0;
     }
     &:hover {
-      background-color: #59e3ff;
+      background-color: #cc5050;
     }
     &:active {
       border-style: outset;
@@ -173,12 +177,15 @@ export const TopUsersDiv = styled.div`
   font-weight: bold;
   font-size: 1.5em;
   top: 0;
+  color: black;
+  border-top: 0;
 `;
 
 export const TopUser = styled.p`
   font-size: 1em;
   padding: 10px;
   font-weight: bold;
+
 `;
 
 export const UserClicks = styled.p`
