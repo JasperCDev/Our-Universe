@@ -4,7 +4,7 @@ import { QueryResult, QueryResultRow } from 'pg';
 import { createUser } from './controllers';
 import fs from 'fs';
 
-var sql = fs.readFileSync('../../journey-to-one-million.psql').toString();
+const sql = fs.readFileSync('../../journey-to-one-million.pgsql').toString();
 
 client.query(sql)
   .then((dbResponse: QueryResult) => console.log(dbResponse))
