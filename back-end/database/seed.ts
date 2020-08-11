@@ -15,7 +15,15 @@ client.query(('INSERT INTO global_clicks(click_count) VALUES(0)'))
   .then((dbResponse: QueryResult) => console.log('is this where its breaking?', dbResponse))
   .catch((err: QueryResultRow) => console.error(err));
 
-createUser({ body: { user_name: 'JasperBOT' } } as Request, { send: () => { } } as Response);
+  const create = {
+    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
+    values: ['JasperBOT', 0]
+  }
+
+  client.query(create)
+  .then((dbResponse: QueryResult) => console.log('is this where its breaking?', dbResponse))
+    .catch((dbErr: QueryResultRow) => console.error(dbErr)
+  );
 
 // createUser({ body: { user_name: 'JosephBOT' } } as Request, { send: () => { } } as Response);
 
