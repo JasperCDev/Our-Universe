@@ -1,9 +1,3 @@
-DROP DATABASE IF EXISTS journey_to_one_million;
-
-CREATE DATABASE journey_to_one_million;
-
-/c journey_to_one_million;
-
 DROP TABLE IF EXISTS global_clicks;
 
 CREATE TABLE global_clicks (
