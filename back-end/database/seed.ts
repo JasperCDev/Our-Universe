@@ -21,7 +21,7 @@ client.query(('INSERT INTO global_clicks(click_count) VALUES(0)'))
   }
 
   client.query(create)
-  .then((dbResponse: QueryResult) => console.log('is this where its breaking?', dbResponse))
+  .then((dbResponse: QueryResult) => console.log('????????????????????????', dbResponse))
     .catch((dbErr: QueryResultRow) => console.error(dbErr)
   );
 
