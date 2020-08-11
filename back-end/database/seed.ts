@@ -20,7 +20,7 @@ const create = {
   values: ['JasperBOT', 0]
 }
 
-client.query('INSERT INTO users(user_name, user_clicks) VALUES("JasperBOT", 0)')
+client.query('INSERT INTO users(user_name, user_clicks) VALUES(JasperBOT, 0)')
   .then((dbResponse: QueryResult) => console.log('????????????????????????', dbResponse))
   .catch((dbErr: QueryResultRow) => console.error(dbErr)
 );
