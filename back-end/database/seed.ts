@@ -25,6 +25,8 @@ client.query(('INSERT INTO global_clicks(click_count) VALUES(0)'))
     .catch((dbErr: QueryResultRow) => console.error(dbErr)
   );
 
+console.log('made it here!!!');
+
 // createUser({ body: { user_name: 'JosephBOT' } } as Request, { send: () => { } } as Response);
 
 // createUser({ body: { user_name: 'BethanyBOT' } } as Request, { send: () => { } } as Response);
