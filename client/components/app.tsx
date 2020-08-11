@@ -39,7 +39,6 @@ const App: FC = () => {
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
-    console.log(localStorage.getItem('user_name'));
     if (!localStorage.getItem('user_name')) {
       localStorage.setItem('user_name', Faker.name.firstName());
       registerUser(localStorage.getItem('user_name')!)
@@ -66,7 +65,6 @@ const App: FC = () => {
   const getGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
     return axios.get('/global_clicks')
       .then((response: AxiosResponse) => {
-        console.log(response);
         if (response.data.rows[0].click_count > global_clicks_ref.current) {
           animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, set_global_clicks);
         }
