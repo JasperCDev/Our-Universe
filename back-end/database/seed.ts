@@ -12,7 +12,7 @@ client.query(sql)
   .catch((err: QueryResultRow) => console.error(err));
 
 client.query(('INSERT INTO global_clicks(click_count) VALUES(0)'))
-  .then((dbResponse: QueryResult) => console.log(dbResponse))
+  .then((dbResponse: QueryResult) => console.log('is this where its breaking?', dbResponse))
   .catch((err: QueryResultRow) => console.error(err));
 
 createUser({ body: { user_name: 'JasperBOT' } } as Request, { send: () => { } } as Response);
