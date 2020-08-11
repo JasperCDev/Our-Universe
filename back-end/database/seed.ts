@@ -3,9 +3,9 @@ import { Request, Response } from 'express';
 import { QueryResult, QueryResultRow } from 'pg';
 import { createUser } from './controllers';
 import fs from 'fs';
-import path, { dirname } from 'path';
 
-const sql = fs.readFileSync(path.join(__dirname, '../../journey-to-one-million.pqsql')).toString();
+
+const sql = fs.readFileSync('journey-to-one-million.pgsql').toString();
 
 client.query(sql)
   .then((dbResponse: QueryResult) => console.log(dbResponse))
