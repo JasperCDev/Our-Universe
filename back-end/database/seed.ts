@@ -6,7 +6,7 @@ import fs from 'fs';
 
 
 const sql = fs.readFileSync('journey-to-one-million.pgsql').toString();
-
+console.log(sql);
 client.query(sql)
   .then((dbResponse: QueryResult) => console.log(dbResponse))
   .catch((err: QueryResultRow) => console.error(err));
