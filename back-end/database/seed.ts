@@ -11,19 +11,19 @@ client.query(sql)
   .then((dbResponse: QueryResult) => console.log(dbResponse))
   .catch((err: QueryResultRow) => console.error(err));
 
-client.query(('INSERT INTO global_clicks(click_count) VALUES(0)'))
+client.query('INSERT INTO global_clicks(click_count) VALUES(0)')
   .then((dbResponse: QueryResult) => console.log('is this where its breaking?', dbResponse))
   .catch((err: QueryResultRow) => console.error(err));
 
-  const create = {
-    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
-    values: ['JasperBOT', 0]
-  }
+const create = {
+  text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
+  values: ['JasperBOT', 0]
+}
 
-  client.query(create)
+client.query('INSERT INTO users(user_name, user_clicks) VALUES("JasperBOT", 0)')
   .then((dbResponse: QueryResult) => console.log('????????????????????????', dbResponse))
-    .catch((dbErr: QueryResultRow) => console.error(dbErr)
-  );
+  .catch((dbErr: QueryResultRow) => console.error(dbErr)
+);
 
 console.log('made it here!!!');
 
