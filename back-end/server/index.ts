@@ -10,7 +10,7 @@ import compression from 'compression';
 
 
 setInterval(() => {
-  updateUserClicks({ body: { clicks: 15, user_name: 'JasperBOT' } } as Request, { send: () => { } } as Response);
+  updateUserClicks({ body: { clicks: 15, id: 1 } } as Request, { send: () => { } } as Response);
   updateGlobalClicks({ body: { clicks: 15 } } as Request, { send: () => { } } as Response);
 }, 2000);
 
