@@ -9,18 +9,14 @@ interface User {
 
 interface Props {
   users: ReadonlyArray<User>;
-  animateCount: (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>) => void;
-  formatNumbers: (x: number) => (string | number);
 }
 
-const TopUsers: FC<Props> = ({ users, animateCount, formatNumbers }) => {
-
-
+const TopUsers: FC<Props> = ({ users }) => {
   return (
     <TopUsersDiv>
     <h3>Top 10 Users</h3>
       {users.map((user: User, index: number) => (
-        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} animateUserClicks={animateCount} place={index + 1} formatNumbers={formatNumbers}/>
+        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} place={index + 1} />
     ))}
   </TopUsersDiv>
 )};

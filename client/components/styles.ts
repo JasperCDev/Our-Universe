@@ -57,12 +57,6 @@ export const Links = styled.div`
   align-items: center;
 `;
 
-// export const NavLinks = styled.p`
-
-// `;
-
-
-
 export const Counter = styled.h1`
   font-size: 8em;
   margin: 0;
@@ -76,6 +70,9 @@ export const Greeting = styled.h2`
   font-size: 2.5em;
   text-align: center;
   margin-top: 1em;
+  color: #5f7bc9;
+  font-weight: bold;
+  font-family: Helvetica, sans-serif;
 `;
 
 export const UserClicksSubheading = styled.h3`
@@ -83,37 +80,6 @@ export const UserClicksSubheading = styled.h3`
   text-align: center;
   font-size: 2em;
 `;
-
-// export const ButtonDiv = styled.div`
-//   border: 3px solid black;
-  // height: 6em;
-  // width: 14em;
-//   cursor: pointer;
-//   border-radius: 20%;
-//   background: transparent;
-//   margin: 0 auto;
-//   margin-top: 2em;
-// `;
-
-
-// export const Button = styled.button`
-//   font-size: 1.7em;
-//   width: 100%;
-//   height: 100%;
-//   border: 10px solid royalblue;
-//   border-radius: 20%;
-//   display: block;
-//   margin: 0 auto;
-//   background-color: royalblue;
-//   :focus {
-//     outline:0;
-//   }
-//   :active {
-//     border-style: outset;
-//     background-color: #7100a6;
-//     letter-spacing: 1;
-//   }
-// `;
 
 
 export const BigButton = styled(Button)`
@@ -144,16 +110,11 @@ export const BigButton = styled(Button)`
   }
 `;
 
-
 export const BigButtonAnimation = keyframes`
   0% { width: width: 14em; height: 6em; }
   50% { width: width: 17em; height: 7em; }
   100% { width: width: 14em; height: 6em; }
 `;
-// export const ScrollUpForm = keyframes`
-//   0% { background-color: lightgrey; }
-//   100% { background-color: black; }
-// `;
 
 export const FormDiv = styled.div`
   border: 2px solid darkgrey;

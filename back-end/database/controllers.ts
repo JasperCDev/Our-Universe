@@ -35,7 +35,6 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 export const createUser = (req: Request, res: Response) => {
-  console.log(req.body);
   const create = {
     text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
     values: [req.body.user_name, 0]

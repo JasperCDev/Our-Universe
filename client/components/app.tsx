@@ -2,10 +2,8 @@ import React, { useState, useEffect, FC, FormEvent, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton } from './styles';
 import NavBar from './navBar';
-import LoginForm from './loginForm';
-import SignUpForm from './signUpForm'
 import TopUsers from './topUsers';
-import { Button } from '@material-ui/core';
+import { animateCounter, numberToCommaSeperatedString } from './helpers';
 
 import Faker from 'faker';
 
@@ -24,7 +22,6 @@ const App: FC = () => {
   const [user_name, set_user_name] = useState<string>('');
   const [user_clicks, set_user_clicks] = useState<number>(0);
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
-  const [user_id, set_user_id] = useState<number>();
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -39,8 +36,7 @@ const App: FC = () => {
     getGlobalClicks();
     getTopUsers();
     if (!localStorage.getItem('user_name')) {
-      localStorage.setItem('user_name', Faker.name.firstName());
-      registerUser(localStorage.getItem('user_name')!)
+      registerUser()
         .then(() => logInUser(localStorage.getItem('user_name')!));
     } else {
       logInUser(localStorage.getItem('user_name')!);
@@ -78,12 +74,13 @@ const App: FC = () => {
     .catch((err) => console.error(err));
   }
 
-  const registerUser = (user_name: string): Promise<any> => {
+  const registerUser = (): Promise<any> => {
+    localStorage.clear();
+    localStorage.setItem('user_name', Faker.name.firstName());
     return axios.post('/user', { user_name })
       .then((response: AxiosResponse) => {
         set_user_name(response.data.user_name);
         localStorage.setItem('user_id', response.data.id);
-        set_user_id(response.data.id);
         session_clicks = 0;
     })
     .catch((err) => console.error(err));
@@ -93,9 +90,7 @@ const App: FC = () => {
     axios.get(`/user?u=${user_name}`)
     .then((response: AxiosResponse) => {
       if (response.data === 'That user does not exist') {
-        localStorage.clear();
-        localStorage.setItem('user_name', Faker.name.firstName());
-        registerUser(localStorage.getItem('user_name')!)
+        registerUser()
           .then(() => logInUser(localStorage.getItem('user_name')!));
       } else {
         set_user_name(response.data.user_name);
@@ -120,64 +115,31 @@ const App: FC = () => {
       .catch((err: AxiosError) => console.error(err));
   }
 
-  // const loginSubmitHandler = (e: React.FormEvent): void => {
-  //   e.preventDefault();
-  //   logInUser(user_name);
-  // }
-
-  // const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   e.preventDefault();
-  //   set_user_name(e.target.value);
-  // }
-
   const buttonClickHandler = (): void => {
     set_global_clicks(global_clicks + 1);
     set_user_clicks(user_clicks + 1);
     session_clicks++;
   }
 
-  const formatNumbers = (x: number): (string | number) => {
-    if (x < 999) return x;
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
-  const animateCounter = (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
-    const range = end - start;
-    const startTime = new Date() as unknown as number;
-    const timer = requestAnimationFrame(() => {
-        const timePassed = new Date() as unknown as number - startTime;
-        let progress = timePassed / duration;
-        if (progress > 1) progress = 1;
-        setter(start + Math.round(progress * range));
-        if (progress === 1) {
-          clearInterval(timer);
-        }
-    });
-  }
 
   return (
     <>
       <GlobalStyle />
-      <NavBar user_name={user_name} user_clicks={formatNumbers(user_clicks)} />
+      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} />
       <All>
         <Main>
-          {/* <Greeting>{`Hello, ${user_name}`}</Greeting> */}
+          <Greeting>{`Hello, ${user_name}`}</Greeting>
           <Counter>
-            {/* <span style={{fontSize: '48px'}}>Global:</span> */}
-            {/* <br /> */}
-            {formatNumbers(global_clicks)}
+            <span style={{fontSize: '48px'}}>Global:</span>
+            <br />
+            {numberToCommaSeperatedString(global_clicks)}
           </Counter>
           <UserClicksSubheading>
-            your clicks: {formatNumbers(user_clicks)}
+            your clicks: {numberToCommaSeperatedString(user_clicks)}
           </UserClicksSubheading>
-          {/* <ButtonDiv>
-          <Button onClick={buttonClickHandler}>Click Me!</Button>
-          </ButtonDiv> */}
-          {/* <div style={{ 'position': 'absolute'}}> */}
             <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
-          {/* </div> */}
         </Main>
-        <TopUsers users={top_users} animateCount={animateCounter} formatNumbers={formatNumbers} />
+        <TopUsers users={top_users} />
       </All>
     </>
   );
