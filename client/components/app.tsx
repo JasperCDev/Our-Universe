@@ -13,7 +13,8 @@ interface User {
   id: number;
 }
 
-let session_clicks: number = 0;
+let user_session_clicks: number = 0;
+let global_session_clicks: number = 0;
 
 const App: FC = () => {
   const [global_clicks, set_global_clicks] = useState<number>(0);
@@ -25,8 +26,11 @@ const App: FC = () => {
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
 
-  const session_clicks_ref = useRef<number>(0);
-  session_clicks_ref.current = session_clicks;
+  const user_session_clicks_ref = useRef<number>(0);
+  user_session_clicks_ref.current = user_session_clicks;
+
+  const global_session_clicks_ref = useRef<number>(0);
+  global_session_clicks_ref.current = global_session_clicks;
 
   const global_clicks_ref = useRef<number>(0);
   global_clicks_ref.current = global_clicks;
@@ -34,14 +38,17 @@ const App: FC = () => {
   const user_clicks_ref = useRef<number>(0);
   user_clicks_ref.current = user_clicks;
 
+  const user_id_ref = useRef<number>(0);
+  user_id_ref.current = user_id;
+
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
     if (!localStorage.getItem('user_id')) {
       registerUser()
-        .then(() => logInUser(localStorage.getItem('user_id')!));
+        .then(() => logInUser());
     } else {
-      logInUser(localStorage.getItem('user_id')!);
+      logInUser();
     }
     const timer = setInterval(() => clicksLifeCycle(), 3000);
     return () => clearTimeout(timer);
@@ -49,6 +56,7 @@ const App: FC = () => {
 
   useEffect(() => {
     document.title = global_clicks.toString();
+
   }, [ global_clicks ]);
 
   const clicksLifeCycle = (): void => {
@@ -69,11 +77,11 @@ const App: FC = () => {
   }
 
   const updateGlobalClicks = () => {
-    const clicks_to_update_global = session_clicks_ref.current;
+    const clicks_to_update_global = global_session_clicks_ref.current;
     return axios.put('/global_clicks', {
       clicks: clicks_to_update_global
     })
-    .then(() => session_clicks = session_clicks_ref.current - clicks_to_update_global)
+    .then(() => global_session_clicks = global_session_clicks_ref.current - clicks_to_update_global)
     .catch((err) => console.error(err));
   }
 
@@ -102,13 +110,15 @@ const App: FC = () => {
   }
 
   const updateUserClicks = () => {
-    const clicks_to_update_user_total = session_clicks_ref.current;
+    const clicks_to_update_user_total = user_session_clicks_ref.current;
     return axios.put('/user', {
-      user_name: user_name_ref.current,
+      id: user_id_ref.current,
       clicks: clicks_to_update_user_total,
     })
-    .then(() => session_clicks = session_clicks_ref.current - clicks_to_update_user_total)
-    .catch((err: AxiosError) => console.error(err));
+      .then(() => {
+        user_session_clicks = user_session_clicks_ref.current - clicks_to_update_user_total;
+      })
+      .catch((err: AxiosError) => console.error(err));
   }
 
   const getTopUsers = () => {
@@ -120,7 +130,8 @@ const App: FC = () => {
   const buttonClickHandler = (): void => {
     set_global_clicks(global_clicks + 1);
     set_user_clicks(user_clicks + 1);
-    session_clicks++;
+    user_session_clicks++;
+    global_session_clicks++;
   }
 
 

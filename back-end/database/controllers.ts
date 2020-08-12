@@ -49,8 +49,8 @@ export const createUser = (req: Request, res: Response) => {
 
 export const updateUserClicks = (req: Request, res: Response) => {
   const query = {
-    text: 'UPDATE users SET user_clicks = users.user_clicks + $1 WHERE user_name = $2',
-    values: [req.body.clicks, req.body.user_name]
+    text: 'UPDATE users SET user_clicks = users.user_clicks + $1 WHERE id = $2',
+    values: [req.body.clicks, req.body.id]
   }
 
   client.query(query)
