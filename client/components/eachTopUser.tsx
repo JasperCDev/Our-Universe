@@ -1,14 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { TopUser, UserClicks } from './styles';
-import { animateCounter, numberToCommaSeperatedString } from './helpers';
+import { animateCounter, numberToCommaSeperatedString, idToStringWithZeroes } from './helpers';
 
 interface Props {
   user_name: string;
   user_clicks: number;
   place: number;
+  user_id: number;
 }
 
-const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place }) => {
+const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id }) => {
   const [user_clicks_state, set_user_clicks_state] = useState<number>(user_clicks);
   const prev_user_clicks_ref = useRef<number>(0);
 
@@ -24,8 +25,10 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place }) => {
   return (
     <>
       <TopUser>
-        {place}{')'} {user_name}
-        <br />
+        <div>
+          {place}{')'} {user_name === localStorage.getItem('user_name') ? 'You' : user_name}
+          <p style={{ fontWeight: "normal", fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
+        </div>
         <UserClicks>clicks: {numberToCommaSeperatedString(user_clicks_state)}</UserClicks>
       </TopUser>
       <hr />

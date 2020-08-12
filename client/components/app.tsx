@@ -4,15 +4,13 @@ import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigBut
 import NavBar from './navBar';
 import TopUsers from './topUsers';
 import { animateCounter, numberToCommaSeperatedString } from './helpers';
-
 import Faker from 'faker';
-
-// import { Switch, Route, useHistory } from 'react-router-dom';
 
 
 interface User {
-  readonly user_name: string;
-  readonly user_clicks: number;
+  user_name: string;
+  user_clicks: number;
+  id: number;
 }
 
 let session_clicks: number = 0;
@@ -22,6 +20,7 @@ const App: FC = () => {
   const [user_name, set_user_name] = useState<string>('');
   const [user_clicks, set_user_clicks] = useState<number>(0);
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
+  const [user_id, set_user_id] = useState<number>(0);
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -32,19 +31,21 @@ const App: FC = () => {
   const global_clicks_ref = useRef<number>(0);
   global_clicks_ref.current = global_clicks;
 
+  const user_clicks_ref = useRef<number>(0);
+  user_clicks_ref.current = user_clicks;
+
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
-    if (!localStorage.getItem('user_name')) {
+    if (!localStorage.getItem('user_id')) {
       registerUser()
-        .then(() => logInUser(localStorage.getItem('user_name')!));
+        .then(() => logInUser(localStorage.getItem('user_id')!));
     } else {
-      logInUser(localStorage.getItem('user_name')!);
+      logInUser(localStorage.getItem('user_id')!);
     }
     const timer = setInterval(() => clicksLifeCycle(), 3000);
     return () => clearTimeout(timer);
   }, []);
-
 
   useEffect(() => {
     document.title = global_clicks.toString();
@@ -57,7 +58,7 @@ const App: FC = () => {
     .then(getTopUsers);
   }
 
-  const getGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
+  const getGlobalClicks = () => {
     return axios.get('/global_clicks')
       .then((response: AxiosResponse) => {
         if (response.data.rows[0].click_count > global_clicks_ref.current) {
@@ -67,49 +68,50 @@ const App: FC = () => {
       .catch((err: AxiosError) => console.error(err));
   }
 
-  const updateGlobalClicks = (): Promise<void | AxiosResponse<any>> => {
+  const updateGlobalClicks = () => {
+    const clicks_to_update_global = session_clicks_ref.current;
     return axios.put('/global_clicks', {
-      clicks: session_clicks_ref.current
+      clicks: clicks_to_update_global
     })
+    .then(() => session_clicks = session_clicks_ref.current - clicks_to_update_global)
     .catch((err) => console.error(err));
   }
 
-  const registerUser = (): Promise<any> => {
+  const registerUser = () => {
     localStorage.clear();
     localStorage.setItem('user_name', Faker.name.firstName());
-    return axios.post('/user', { user_name })
+    return axios.post('/user', { user_name: localStorage.getItem('user_name') })
+      .then((response: AxiosResponse) => localStorage.setItem('user_id', response.data.id))
+      .catch((err) => console.error(err));
+  }
+
+  const logInUser = (): void => {
+    axios.get(`/user?id=${localStorage.getItem('user_id')}`)
       .then((response: AxiosResponse) => {
-        set_user_name(response.data.user_name);
-        localStorage.setItem('user_id', response.data.id);
-        session_clicks = 0;
-    })
-    .catch((err) => console.error(err));
+        if (response.data === 'That user does not exist') {
+          registerUser()
+            .then(() => logInUser());
+        } else {
+          if (!localStorage.getItem('user_id')) localStorage.setItem('user_id', response.data.id);
+          set_user_name(response.data.user_name);
+          set_user_clicks(response.data.user_clicks);
+          set_user_id(response.data.id);
+        }
+      })
+      .catch((err: AxiosError) => console.error(err));
   }
 
-  const logInUser = (user_name: string): void => {
-    axios.get(`/user?u=${user_name}`)
-    .then((response: AxiosResponse) => {
-      if (response.data === 'That user does not exist') {
-        registerUser()
-          .then(() => logInUser(localStorage.getItem('user_name')!));
-      } else {
-        set_user_name(response.data.user_name);
-        set_user_clicks(response.data.user_clicks);
-      }
-    })
-    .catch((err: AxiosError) => console.error(err));
-  }
-
-  const updateUserClicks = (): Promise<void | number> => {
+  const updateUserClicks = () => {
+    const clicks_to_update_user_total = session_clicks_ref.current;
     return axios.put('/user', {
       user_name: user_name_ref.current,
-      clicks: session_clicks_ref.current,
+      clicks: clicks_to_update_user_total,
     })
-    .then(() => session_clicks = 0)
+    .then(() => session_clicks = session_clicks_ref.current - clicks_to_update_user_total)
     .catch((err: AxiosError) => console.error(err));
   }
 
-  const getTopUsers = (): Promise<void> => {
+  const getTopUsers = () => {
     return axios.get('/users')
       .then((response: AxiosResponse) => set_top_users(response.data))
       .catch((err: AxiosError) => console.error(err));
@@ -125,10 +127,10 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} />
+      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} user_id={user_id}/>
       <All>
         <Main>
-          <Greeting>{`Hello, ${user_name}`}</Greeting>
+          <Greeting>{`Hello, ${user_name}!`}</Greeting>
           <Counter>
             <span style={{fontSize: '48px'}}>Global:</span>
             <br />

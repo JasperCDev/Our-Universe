@@ -16,3 +16,11 @@ export const numberToCommaSeperatedString = (x: number): (string | number) => {
   if (x < 999) return x.toString();
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export const idToStringWithZeroes = (id: number): string => {
+  let idString = id.toString();
+  while (idString.length < 5) {
+    idString = '0' + idString;
+  }
+  return idString;
+}

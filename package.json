@@ -38,6 +38,7 @@
     "axios": "^0.19.2",
     "babel": "^6.23.0",
     "babel-loader": "^8.1.0",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "path": "^0.12.7",
@@ -46,8 +47,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.1",
-    "webpack": "^4.20.2",
-    "compression": "^1.7.4"
+    "webpack": "^4.20.2"
   },
   "devDependencies": {
     "@material-ui/core": "^4.11.0",

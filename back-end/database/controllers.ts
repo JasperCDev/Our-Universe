@@ -25,8 +25,8 @@ export const updateGlobalClicks = (req: Request, res: Response) => {
 
 export const getUser = (req: Request, res: Response) => {
   const query = {
-    text: 'SELECT * FROM users WHERE user_name=$1',
-    values: [req.query.u]
+    text: 'SELECT * FROM users WHERE id=$1',
+    values: [Number(req.query.id)]
   }
 
   client.query(query)
@@ -36,18 +36,14 @@ export const getUser = (req: Request, res: Response) => {
 
 export const createUser = (req: Request, res: Response) => {
   const create = {
-    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
+    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2) RETURNING id',
     values: [req.body.user_name, 0]
   }
 
   client.query(create)
-  .then(() => res.send({ user_name: req.body.user_name, message: `user ${req.body.user_name} created!` }))
+  .then((dbResponse: QueryResult) => res.send(dbResponse.rows[0]))
     .catch((dbErr: QueryResultRow) => {
-      res.send(dbErr);
-    if (dbErr.routine === '_bt_check_unique') {
-      res.status(400).send('User already exists');
-    }
-    res.sendStatus(500).send(dbErr.detail);
+      res.sendStatus(500).send(dbErr.detail);
   });
 }
 

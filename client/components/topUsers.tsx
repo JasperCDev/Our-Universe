@@ -5,6 +5,7 @@ import EachTopUser from './eachTopUser';
 interface User {
   user_name: string;
   user_clicks: number;
+  id: number
 }
 
 interface Props {
@@ -16,7 +17,7 @@ const TopUsers: FC<Props> = ({ users }) => {
     <TopUsersDiv>
     <h3>Top 10 Users</h3>
       {users.map((user: User, index: number) => (
-        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} place={index + 1} />
+        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} place={index + 1} user_id={user.id}/>
     ))}
   </TopUsersDiv>
 )};
