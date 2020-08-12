@@ -19,7 +19,6 @@ interface User {
 
 let session_clicks: number = 0;
 
-
 const App: FC = () => {
   const [global_clicks, set_global_clicks] = useState<number>(0);
   const [user_name, set_user_name] = useState<string>('');
@@ -145,7 +144,7 @@ const App: FC = () => {
   const animateCounter = (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
     const range = end - start;
     const startTime = new Date() as unknown as number;
-    const timer = setInterval(() => {
+    const timer = requestAnimationFrame(() => {
         const timePassed = new Date() as unknown as number - startTime;
         let progress = timePassed / duration;
         if (progress > 1) progress = 1;
@@ -153,7 +152,7 @@ const App: FC = () => {
         if (progress === 1) {
           clearInterval(timer);
         }
-    }, 10);
+    });
   }
 
   return (
