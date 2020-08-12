@@ -2,14 +2,16 @@ export const animateCounter = (start: number, end: number, duration: number, set
   const range = end - start;
   const startTime = new Date() as unknown as number;
   const timer = setInterval(() => {
-    const timePassed = new Date() as unknown as number - startTime;
-    let progress = timePassed / duration;
-    if (progress > 1) progress = 1;
-    setter(start + Math.round(progress * range));
-    if (progress === 1) {
-      clearInterval(timer);
-    }
-  }, 10);
+    requestAnimationFrame(() => {
+      const timePassed = new Date() as unknown as number - startTime;
+      let progress = timePassed / duration;
+      if (progress > 1) progress = 1;
+      setter(start + Math.round(progress * range));
+      if (progress === 1) {
+        clearInterval(timer);
+      }
+    });
+  }, 1000 / 60);
 }
 
 export const numberToCommaSeperatedString = (x: number): (string | number) => {
