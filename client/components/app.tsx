@@ -94,7 +94,10 @@ const App: FC = () => {
     axios.get(`/user?u=${user_name}`)
     .then((response: AxiosResponse) => {
       if (response.data === 'That user does not exist') {
-        alert(response.data);
+        localStorage.clear();
+        localStorage.setItem('user_name', Faker.name.firstName());
+        registerUser(localStorage.getItem('user_name')!)
+          .then(() => logInUser(localStorage.getItem('user_name')!));
       } else {
         set_user_name(response.data.user_name);
         set_user_clicks(response.data.user_clicks);
