@@ -14,7 +14,7 @@ export const animateCounter = (start: number, end: number, duration: number, set
   }, 1000 / 60);
 }
 
-export const numberToCommaSeperatedString = (x: number): (string | number) => {
+export const numberToCommaSeperatedString = (x: number): string => {
   if (x < 999) return x.toString();
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

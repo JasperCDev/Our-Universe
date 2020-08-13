@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Header, UserProfile, Links } from './styles';
+import { Header, UserProfile } from './navBar.styles';
 import { idToStringWithZeroes } from './helpers';
 
 interface Props {
@@ -12,11 +12,8 @@ const NavBar: FC<Props> = ({ user_name, user_clicks, user_id }) => {
   return (
     <Header>
       <UserProfile>
-        <div>
-          username: {user_name}
-          <p style={{ fontWeight: 550, fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
-        </div>
-
+        username: {user_name}
+        <p style={{ fontWeight: 550, fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
         <p>clicks: {user_clicks} </p>
       </UserProfile>
     </Header>

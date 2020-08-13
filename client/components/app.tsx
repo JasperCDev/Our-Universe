@@ -1,6 +1,6 @@
-import React, { useState, useEffect, FC, FormEvent, useRef} from 'react';
+import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton } from './styles';
+import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton } from './app.styles';
 import NavBar from './navBar';
 import TopUsers from './topUsers';
 import { animateCounter, numberToCommaSeperatedString } from './helpers';
@@ -141,7 +141,7 @@ const App: FC = () => {
       <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} user_id={user_id}/>
       <All>
         <Main>
-          <Greeting>{`Hello, ${user_name}!`}</Greeting>
+          <Greeting>Hello, <p contentEditable="true" style={{display: 'inline'}}>{`${user_name}`}</p>!</Greeting>
           <Counter>
             <span style={{fontSize: '48px'}}>Global:</span>
             <br />

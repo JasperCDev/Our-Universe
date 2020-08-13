@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TopUser, UserClicks } from './styles';
+import { TopUser, UserClicks } from './ topUsers.styles';
 import { animateCounter, numberToCommaSeperatedString, idToStringWithZeroes } from './helpers';
 
 interface Props {
