@@ -136,29 +136,35 @@ const App: FC = () => {
   }
 
 
-  const usernameChangehandler = (e: any) => {
-    validateNewUsername(e.target)
+  const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    if (validateNewUsername(e.target as HTMLElement, setter)) {
+
+    } else {
+
+    }
   }
 
-  const validateNewUsername = (etarget: any) => {
-    const new_user_name: string = etarget.innerHTML;
+  const validateNewUsername = (element: HTMLElement, setter: React.Dispatch<React.SetStateAction<boolean>>): boolean => {
+    const new_user_name: string = element.innerHTML;
     let regex = /^[a-zA-Z]{2,9}$/;
     if (regex.test(new_user_name)) {
-      etarget.valid = true;
+      setter(true);
+      return true;
     } else {
-      etarget.valid = false;
+      setter(false);
+      return false;
     }
   }
 
   return (
     <>
       <GlobalStyle />
-      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} user_id={user_id} changeHandler={usernameChangehandler} />
+      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} changeHandler={usernameChangehandler} user_id={user_id} />
       <All>
         <Main>
           <Greeting>Hello,
-            <UsernameForm user_name={user_name}
-              user_id={user_id}
+            <UsernameForm
+              user_name={user_name}
               changeHandler={usernameChangehandler}
             />!
           </Greeting>

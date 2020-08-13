@@ -1,35 +1,34 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 const Username = styled.p`
   display: inline-block;
-  background-color: ${(props) => props.valid && props.editing ? 'green' : 'red'};
+  background-color: ${(props) => props['data-valid'] ? 'green' : 'red'};
+  &:focus {
+    border: 1px solid black;
+  }
 `;
 
 interface Props {
-  user_id: number;
   user_name: string;
-  changeHandler: (list: any) => void;
+  changeHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
 }
 
-const UsernameForm: FC<Props> = ({ user_id, user_name, changeHandler }) => {
-  // const config = { attributes: true, childList: true, subtree: true };
-  // const observer = new MutationObserver(changeHandler);
-  // const user_name_el = useRef(null);
-  // // observer.observe(user_name_el.current! as Node, config);
-  // console.log(user_name_el.current);
+const UsernameForm: FC<Props> = ({ user_name, changeHandler }) => {
+  const [valid, set_valid] = useState(true);
+  const [editing, set_editing] = useState(false);
+
   return (
     <Username
-      // ref={user_name_el}
       contentEditable={true}
-      onInput={changeHandler}
-      valid={true}
-      editing={false}
-      onFocus={(e) => e.target.editing = !e.target.editing}
+      data-valid={valid}
+      data-editing={false}
+      onInput={(e) => changeHandler(e, set_valid)}
+      onFocus={(e) => set_editing(!editing)}
     >
       {user_name}
     </Username>
   )
 };
 
-export default React.memo(UsernameForm);
+export default UsernameForm;
