@@ -26,7 +26,7 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id }
     <>
       <TopUser>
         <div>
-          {place}{')'} {user_name === localStorage.getItem('user_name') ? 'You' : user_name}
+          {place}{')'} {user_id.toString() === localStorage.getItem('user_id') ? 'You' : user_name}
           <p style={{ fontWeight: "normal", fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
         </div>
         <UserClicks>clicks: {numberToCommaSeperatedString(user_clicks_state)}</UserClicks>

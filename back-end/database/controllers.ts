@@ -58,6 +58,16 @@ export const updateUserClicks = (req: Request, res: Response) => {
   .catch(() => res.sendStatus(500));
 }
 
+export const updateUsername = (req: Request, res: Response) => {
+  const query = {
+    text: 'UPDATE users SET user_name = $1 WHERE id = $2',
+    values: [req.body.new_user_name, req.body.id]
+  }
+  client.query(query)
+  .then(() => res.send('Username updated!'))
+  .catch(() => res.sendStatus(500));
+}
+
 export const getTopUsers = (req: Request, res: Response) => {
   const query = {
     text: 'SELECT * FROM users ORDER BY user_clicks DESC LIMIT 10'

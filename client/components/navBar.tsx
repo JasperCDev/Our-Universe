@@ -1,18 +1,20 @@
 import React, { FC } from 'react';
 import { Header, UserProfile } from './navBar.styles';
 import { idToStringWithZeroes } from './helpers';
+import UsernameForm from './usernameForm';
 
 interface Props {
   user_name: string;
   user_clicks: (string | number);
   user_id: number;
+  changeHandler: (list: any) => void;
 }
 
-const NavBar: FC<Props> = ({ user_name, user_clicks, user_id }) => {
+const NavBar: FC<Props> = ({ user_name, user_clicks, user_id, changeHandler }) => {
   return (
     <Header>
       <UserProfile>
-        username: {user_name}
+        username: <UsernameForm user_name={user_name} user_id={user_id} changeHandler={changeHandler} />
         <p style={{ fontWeight: 550, fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
         <p>clicks: {user_clicks} </p>
       </UserProfile>

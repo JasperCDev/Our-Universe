@@ -3,6 +3,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton } from './app.styles';
 import NavBar from './navBar';
 import TopUsers from './topUsers';
+import UsernameForm from './usernameForm';
 import { animateCounter, numberToCommaSeperatedString } from './helpers';
 import Faker from 'faker';
 
@@ -135,13 +136,32 @@ const App: FC = () => {
   }
 
 
+  const usernameChangehandler = (e: any) => {
+    validateNewUsername(e.target)
+  }
+
+  const validateNewUsername = (etarget: any) => {
+    const new_user_name: string = etarget.innerHTML;
+    let regex = /^[a-zA-Z]{2,9}$/;
+    if (regex.test(new_user_name)) {
+      etarget.valid = true;
+    } else {
+      etarget.valid = false;
+    }
+  }
+
   return (
     <>
       <GlobalStyle />
-      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} user_id={user_id}/>
+      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} user_id={user_id} changeHandler={usernameChangehandler} />
       <All>
         <Main>
-          <Greeting>Hello, <p contentEditable="true" style={{display: 'inline'}}>{`${user_name}`}</p>!</Greeting>
+          <Greeting>Hello,
+            <UsernameForm user_name={user_name}
+              user_id={user_id}
+              changeHandler={usernameChangehandler}
+            />!
+          </Greeting>
           <Counter>
             <span style={{fontSize: '48px'}}>Global:</span>
             <br />
