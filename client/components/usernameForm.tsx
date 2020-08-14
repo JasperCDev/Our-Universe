@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Username = styled.p`
   display: inline-block;
+  padding-left: 8px;
   &:focus {
     border: 3px solid ${(props) => props['data-valid'] ? '#00c750' : '#ff1500'};
     background-color: ${(props) => props['data-valid'] ? '#3afca8' : '#fc4a3a'};
@@ -30,7 +31,7 @@ const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) =>
         if (e.keyCode === 13) {
           e.preventDefault();
         }
-        if (text.length >= 20 || text.includes('&nbsp;')) {
+        if (text.length >= 20) {
           if (e.keyCode !== 8 && e.keyCode !== 46 && e.keyCode !== 37 && e.keyCode !== 39) {
             e.preventDefault();
           }

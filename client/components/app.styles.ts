@@ -66,7 +66,6 @@ export const UserClicksSubheading = styled.h3`
   font-size: 2em;
 `;
 
-
 export const BigButton = styled(Button)`
   && {
     color: white;

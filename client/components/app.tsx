@@ -151,7 +151,7 @@ const App: FC = () => {
       if (userInput.startsWith('&nbsp') || userInput.endsWith('&nbsp')) {
         set_user_name_form_message('username must not include spaces at the beginning or end');
       } else if (userInput.length > 9 || userInput.length < 3) {
-        set_user_name_form_message('Username must be between 2 and 9 characters');
+        set_user_name_form_message('Username must be between 2 and 10 characters');
       } else {
         set_user_name_form_message('Username must only contains number letters or spaces');
       }
@@ -160,8 +160,14 @@ const App: FC = () => {
 
   const usernameSubmitHandler = (e: any) => {
     const element = e.target as HTMLElement;
-    const new_user_name = (e.target as HTMLElement).innerHTML;
+    let new_user_name = (e.target as HTMLElement).innerHTML;
     if (new_user_name === user_name) return;
+    while (new_user_name.includes('&nbsp;')) {
+      new_user_name = new_user_name.replace('&nbsp;', '');
+      if (new_user_name.includes('&nbsp;')) {
+        new_user_name = new_user_name.trim();
+      }
+    }
     if (element.getAttribute('data-valid') === 'true') {
       set_user_name_form_message('saving...');
       axios.put('/username', { user_id, new_user_name })
@@ -177,7 +183,6 @@ const App: FC = () => {
       setTimeout(() => set_user_name_form_message(''), 3000);
     }
   }
-
 
   return (
     <>

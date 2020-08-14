@@ -26,7 +26,7 @@ export const idToStringWithZeroes = (id: number): string => {
 }
 
 export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>): (boolean | void) => {
-  let regex = /^[a-zA-Z\s0-9]{2,9}$/;
+  let regex = /^[a-zA-Z\s0-9]{2,10}$/;
   if (regex.test(text) && !text.includes('&nbsp')) {
     setter(true);
     return true;
