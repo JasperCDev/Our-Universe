@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Username = styled.p`
   display: inline-block;
   padding-left: 8px;
+  cursor: pointer;
   &:focus {
     border: 3px solid ${(props) => props['data-valid'] ? '#00c750' : '#ff1500'};
     background-color: ${(props) => props['data-valid'] ? '#3afca8' : '#fc4a3a'};

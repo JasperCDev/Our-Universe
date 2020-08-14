@@ -13,11 +13,11 @@ interface Props {
 const NavBar: FC<Props> = ({ user_id, user_name, user_clicks, changeHandler }) => {
   return (
     <Header>
-      <UserProfile>
+      {/* <UserProfile>
         username: <UsernameForm user_name={user_name} changeHandler={changeHandler} />
         <p style={{ fontWeight: 550, fontSize: '16px', display: 'inline-block', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</p>
         <p>clicks: {user_clicks} </p>
-      </UserProfile>
+      </UserProfile> */}
     </Header>
   );
 }
