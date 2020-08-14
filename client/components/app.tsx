@@ -138,15 +138,16 @@ const App: FC = () => {
 
   const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     if (validateNewUsername(e.target as HTMLElement, setter)) {
-
+      // set_user_name(e.target.innerHTML);
     } else {
-
+      // set_user_name(user_name);
     }
   }
 
-  const validateNewUsername = (element: HTMLElement, setter: React.Dispatch<React.SetStateAction<boolean>>): boolean => {
-    const new_user_name: string = element.innerHTML;
-    let regex = /^[a-zA-Z]{2,9}$/;
+  const validateNewUsername = (element: HTMLElement, setter: React.Dispatch<React.SetStateAction<boolean>>): (boolean | void) => {
+    let new_user_name: string = element.innerHTML.replace('&nbsp;', '').replace('&nbsp;', '').trim();
+    let regex = /^[a-zA-Z\s]{2,9}$/;
+    // console.log(new_user_name, new_user_name.length);
     if (regex.test(new_user_name)) {
       setter(true);
       return true;

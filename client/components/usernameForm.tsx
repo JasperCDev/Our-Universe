@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 const Username = styled.p`
   display: inline-block;
-  background-color: ${(props) => props['data-valid'] ? 'green' : 'red'};
   &:focus {
-    border: 1px solid black;
+    border: 3px solid ${(props) => props['data-valid'] ? '#00c750' : '#ff1500'};
+    background-color: ${(props) => props['data-valid'] ? '#3afca8' : '#fc4a3a'};
+    letter-spacing: 4;
   }
 `;
 
@@ -16,15 +17,26 @@ interface Props {
 
 const UsernameForm: FC<Props> = ({ user_name, changeHandler }) => {
   const [valid, set_valid] = useState(true);
-  const [editing, set_editing] = useState(false);
 
   return (
     <Username
       contentEditable={true}
       data-valid={valid}
-      data-editing={false}
+      max={30}
       onInput={(e) => changeHandler(e, set_valid)}
-      onFocus={(e) => set_editing(!editing)}
+      onKeyDown={(e: KeyboardEvent) => {
+        const text = (e!.target! as HTMLParagraphElement).innerHTML;
+        console.log(text, text.length);
+        if (e.keyCode === 13) {
+          e.preventDefault();
+        }
+        if (text.length >= 20) {
+          if (e.keyCode !== 8 && e.keyCode !== 46) {
+            e.preventDefault();
+          }
+        }
+      }}
+      spellcheck={false}
     >
       {user_name}
     </Username>
