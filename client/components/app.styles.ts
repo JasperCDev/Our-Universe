@@ -53,6 +53,13 @@ export const Greeting = styled.h2`
   font-family: Helvetica, sans-serif;
 `;
 
+export const UserNameFormMessage = styled.h4`
+  padding-top: 10px;
+  color: ${(props) => props['data-valid'] ? 'green' : 'red'};
+  font-weight: bold;
+  text-align: center;
+`;
+
 export const UserClicksSubheading = styled.h3`
   font-weight: bold;
   text-align: center;

@@ -61,7 +61,7 @@ export const updateUserClicks = (req: Request, res: Response) => {
 export const updateUsername = (req: Request, res: Response) => {
   const query = {
     text: 'UPDATE users SET user_name = $1 WHERE id = $2',
-    values: [req.body.new_user_name, req.body.id]
+    values: [req.body.new_user_name, req.body.user_id]
   }
   client.query(query)
   .then(() => res.send('Username updated!'))

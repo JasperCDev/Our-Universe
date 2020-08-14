@@ -13,9 +13,10 @@ const Username = styled.p`
 interface Props {
   user_name: string;
   changeHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
+  submitHandler: (e: FocusEvent) => void;
 }
 
-const UsernameForm: FC<Props> = ({ user_name, changeHandler }) => {
+const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) => {
   const [valid, set_valid] = useState(true);
 
   return (
@@ -25,17 +26,17 @@ const UsernameForm: FC<Props> = ({ user_name, changeHandler }) => {
       max={30}
       onInput={(e) => changeHandler(e, set_valid)}
       onKeyDown={(e: KeyboardEvent) => {
-        const text = (e!.target! as HTMLParagraphElement).innerHTML;
-        console.log(text, text.length);
+        const text = (e.target! as HTMLParagraphElement).innerHTML;
         if (e.keyCode === 13) {
           e.preventDefault();
         }
-        if (text.length >= 20) {
-          if (e.keyCode !== 8 && e.keyCode !== 46) {
+        if (text.length >= 20 || text.includes('&nbsp;')) {
+          if (e.keyCode !== 8 && e.keyCode !== 46 && e.keyCode !== 37 && e.keyCode !== 39) {
             e.preventDefault();
           }
         }
       }}
+      onBlur={(e: any) => submitHandler(e)}
       spellcheck={false}
     >
       {user_name}
