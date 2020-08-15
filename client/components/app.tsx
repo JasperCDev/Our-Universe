@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton, ErrorMessage, UserNameFormMessage } from './app.styles';
-import NavBar from './navBar';
+import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage } from './app.styles';
+// import NavBar from './navBar';
 import TopUsers from './topUsers';
 import UsernameForm from './usernameForm';
 import { animateCounter, numberToCommaSeperatedString, validateNewUsername } from './helpers';
@@ -187,9 +187,10 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-      <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} changeHandler={usernameChangehandler} user_id={user_id} />
+      {/* <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} changeHandler={usernameChangehandler} user_id={user_id} /> */}
       <All>
         <Main>
+          <Container>
           <Greeting>Hello,
             <UsernameForm
               user_name={user_name}
@@ -209,6 +210,7 @@ const App: FC = () => {
             your clicks: {numberToCommaSeperatedString(user_clicks)}
           </UserClicksSubheading>
             <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
+          </Container>
         </Main>
         <TopUsers users={top_users} />
       </All>

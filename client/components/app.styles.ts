@@ -27,25 +27,36 @@ export const GlobalStyle = createGlobalStyle`
 export const All = styled.div`
   display: grid;
   grid-template-columns: 4fr 1fr;
+  border: 5px solid #5f7bc9;
 `;
 
 export const Main = styled.div`
-  width: 85vw;
+  width: 75vw;
   height: 100%;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Container = styled.div`
+  margin: auto;
+  /* background-color: #bbeafa; */
+  min-width: 40em;
+  min-height: 50em;
 `;
 
 export const Counter = styled.h1`
-  font-size: 8em;
+  font-size: 6.5em;
   margin: 0;
   text-align: center;
   margin-top: 0.5em;
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
   color: #001a69;
 `;
 
 export const Greeting = styled.h2`
-  font-size: 2.5em;
+  font-size: 2em;
   text-align: center;
   margin-top: 1em;
   color: #5f7bc9;
@@ -73,7 +84,7 @@ export const BigButton = styled(Button)`
     border: 1px solid black;
     display: block;
     margin: 0 auto;
-    top: 20vh;
+    top: 5vh;
     height: 6em;
     width: 14em;
     position: relative;

@@ -15,7 +15,8 @@ interface Props {
 const TopUsers: FC<Props> = ({ users }) => {
   return (
     <TopUsersDiv>
-    <h3>Top 10 Users</h3>
+      <h2 style={{ textAlign: 'center' }}>Top 25 Users</h2>
+      <hr />
       {users.map((user: User, index: number) => (
         <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} place={index + 1} user_id={user.id}/>
     ))}
