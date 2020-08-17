@@ -4,7 +4,7 @@ import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigBut
 // import NavBar from './navBar';
 import TopUsers from './topUsers';
 import UsernameForm from './usernameForm';
-import { animateCounter, numberToCommaSeperatedString, validateNewUsername } from './helpers';
+import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString } from './helpers';
 import Faker from 'faker';
 
 
@@ -24,7 +24,7 @@ const App: FC = () => {
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
   const [user_name_form_message, set_user_name_form_message] = useState<string>('');
-  const [user_name_form_valid, set_user_name_form_valid] = useState<boolean>('true');
+  const [user_name_form_valid, set_user_name_form_valid] = useState < 'true' | 'false'>('true');
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -58,8 +58,7 @@ const App: FC = () => {
   }, []);
 
   useEffect(() => {
-    document.title = global_clicks.toString();
-
+    document.title = numberToCommaSeperatedString(global_clicks);
   }, [ global_clicks ]);
 
   const clicksLifeCycle = (): void => {
@@ -126,7 +125,9 @@ const App: FC = () => {
 
   const getTopUsers = () => {
     return axios.get('/users')
-      .then((response: AxiosResponse) => set_top_users(response.data))
+      .then((response: AxiosResponse) => {
+        set_top_users(response.data);
+      })
       .catch((err: AxiosError) => console.error(err));
   }
 
@@ -137,49 +138,49 @@ const App: FC = () => {
     global_session_clicks++;
   }
 
-
   const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    let userInput = (e.target as HTMLElement).innerHTML;
-    while (userInput.includes('&nbsp')) userInput = userInput.replace('&nbsp;', '');
-    userInput = userInput.trim();
-    console.log(validateNewUsername(userInput, setter));
+    const userInput = (e.target as HTMLElement).innerHTML;
     if (validateNewUsername(userInput, setter)) {
-      set_user_name_form_valid(true);
+      set_user_name_form_valid('true');
       set_user_name_form_message('');
     } else {
-      set_user_name_form_valid(false);
-      if (userInput.startsWith('&nbsp') || userInput.endsWith('&nbsp')) {
-        set_user_name_form_message('username must not include spaces at the beginning or end');
-      } else if (userInput.length > 9 || userInput.length < 3) {
+      set_user_name_form_valid('false');
+      if (userInput.includes(' ') || userInput.includes('&nbsp;')) {
+        set_user_name_form_message('username must not include spaces');
+      }else if (userInput.length > 9 || userInput.length < 3) {
         set_user_name_form_message('Username must be between 2 and 10 characters');
+      } else if ((userInput.match(/[a-zA-Z]/g)||[]).length < 2) {
+        set_user_name_form_message('Username must include at least 2 letters');
       } else {
-        set_user_name_form_message('Username must only contains number letters or spaces');
+        set_user_name_form_message('Username must only contains number or letters');
       }
     }
   }
 
-  const usernameSubmitHandler = (e: any) => {
+  const usernameSubmitHandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     const element = e.target as HTMLElement;
-    let new_user_name = (e.target as HTMLElement).innerHTML;
-    if (new_user_name === user_name) return;
-    while (new_user_name.includes('&nbsp;')) {
-      new_user_name = new_user_name.replace('&nbsp;', '');
-      if (new_user_name.includes('&nbsp;')) {
-        new_user_name = new_user_name.trim();
-      }
-    }
+    let userInput = element.innerHTML;
+    if (userInput === user_name) return;
+    userInput = removeSpecialCharactersFromString(userInput);
     if (element.getAttribute('data-valid') === 'true') {
       set_user_name_form_message('saving...');
-      axios.put('/username', { user_id, new_user_name })
-        .then((response: AxiosResponse) => {
+      axios.put('/username', { user_id, new_user_name: userInput })
+        .then(() => {
           set_user_name_form_message('Username updated');
-          set_user_name(new_user_name);
+          set_user_name(userInput);
           setTimeout(() => set_user_name_form_message(''), 3000);
         })
-        .catch((err: AxiosError) => console.error(err));
+        .catch((err: AxiosError) => {
+          set_user_name_form_valid('false');
+          set_user_name_form_message('There has been an error');
+          setTimeout(() => set_user_name_form_message(''), 3000);
+        });
     } else {
       set_user_name_form_message('That userName is not valid');
-      setTimeout(() => element.innerHTML = user_name, 1000);
+      setTimeout(() => {
+        element.innerHTML = user_name;
+        setter(true);
+      }, 1000);
       setTimeout(() => set_user_name_form_message(''), 3000);
     }
   }

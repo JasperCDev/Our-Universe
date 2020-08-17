@@ -1,15 +1,19 @@
 export const animateCounter = (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
   const range = end - start;
-  const startTime = new Date() as unknown as number;
-  const timer = setInterval(() => {
-    const timePassed = new Date() as unknown as number - startTime;
+  let startTime: number;
+  const callback = (currentTime: number) => {
+    if (startTime === undefined) {
+      startTime = currentTime;
+    }
+    const timePassed = currentTime - startTime;
     let progress = timePassed / duration;
     if (progress > 1) progress = 1;
     setter(start + Math.round(progress * range));
-    if (progress === 1) {
-      clearInterval(timer);
+    if (progress !== 1) {
+      requestAnimationFrame(callback);
     }
-  }, 10);
+  }
+  requestAnimationFrame(callback);
 }
 
 export const numberToCommaSeperatedString = (x: number): string => {
@@ -26,12 +30,22 @@ export const idToStringWithZeroes = (id: number): string => {
 }
 
 export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>): (boolean | void) => {
-  let regex = /^[a-zA-Z\s0-9]{2,10}$/;
-  if (regex.test(text) && !text.includes('&nbsp')) {
+  let regex = /^[a-zA-Z]{2,10}[0-9]{0,10}$/;
+  if (regex.test(text) && !text.includes('&nbsp;')) {
     setter(true);
     return true;
   } else {
     setter(false);
     return false;
   }
+}
+
+export const removeSpaceCharactersFromString = (str: string): string => {
+  while (str.includes('&nbsp')) str = str.replace('&nbsp;', '');
+  return str.trim();
+}
+
+export const removeSpecialCharactersFromString = (str: string): string => {
+  while (str.includes('&nbsp')) str = str.replace('&nbsp;', ' ');
+  return str.trim();
 }

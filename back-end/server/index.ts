@@ -10,9 +10,9 @@ import compression from 'compression';
 
 
 setInterval(() => {
-  updateUserClicks({ body: { clicks: 15, id: 1 } } as Request, { send: () => { } } as Response);
-  updateGlobalClicks({ body: { clicks: 15 } } as Request, { send: () => { } } as Response);
-}, 2000);
+  updateUserClicks({ body: { clicks: 2, id: 1 } } as Request, { send: () => { } } as Response);
+  updateGlobalClicks({ body: { clicks: 2 } } as Request, { send: () => { } } as Response);
+}, 1000);
 
 
 app.use(compression());

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import { removeSpaceCharactersFromString, removeSpecialCharactersFromString } from './helpers';
 
 const Username = styled.p`
   display: inline-block;
@@ -15,7 +16,7 @@ const Username = styled.p`
 interface Props {
   user_name: string;
   changeHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
-  submitHandler: (e: FocusEvent) => void;
+  submitHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
 }
 
 const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) => {
@@ -28,22 +29,25 @@ const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) =>
       max={30}
       onInput={(e) => changeHandler(e, set_valid)}
       onKeyDown={(e: KeyboardEvent) => {
-        const text = (e.target! as HTMLParagraphElement).innerHTML;
+        let text = removeSpecialCharactersFromString((e.target! as HTMLParagraphElement).innerHTML);
+        console.log(text, text.length);
         if (e.keyCode === 13) {
           e.preventDefault();
         }
         if (text.length >= 20) {
+          console.log('text.length >= 20')
           if (e.keyCode !== 8 && e.keyCode !== 46 && e.keyCode !== 37 && e.keyCode !== 39) {
             e.preventDefault();
           }
         }
       }}
-      onBlur={(e: any) => submitHandler(e)}
-      spellcheck={false}
+      onBlur={(e: any) => submitHandler(e, set_valid)}
+      spellCheck='false'
     >
       {user_name}
     </Username>
   )
 };
+
 
 export default UsernameForm;
