@@ -2,27 +2,27 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { removeSpecialCharactersFromString } from '../helpers';
 
-const Username = styled.p.attrs((props) => ({
-  'data-valid': true,
-}))`
+const Username = styled.p.attrs((props) => {
+  // console.log(props);
+})`
   display: inline-block;
   padding-left: 8px;
   cursor: pointer;
   &:focus {
-    border: 3px solid ${(props) => props['data-valid'] ? '#00c750' : '#ff1500'};
-    background-color: ${(props) => props['data-valid'] ? '#3afca8' : '#fc4a3a'};
+    border: 3px solid ${(props) => props['data-valid'] === 'true' ? '#00c750' : '#ff1500'};
+    background-color: ${(props) => props['data-valid'] === 'true' ? '#3afca8' : '#fc4a3a'};
     letter-spacing: 4;
   }
 `;
 
 interface Props {
   user_name: string;
-  changeHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
-  submitHandler: (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => void;
+  changeHandler: (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => void;
+  submitHandler: (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => void;
 }
 
 const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) => {
-  const [valid, set_valid] = useState(true);
+  const [valid, set_valid] = useState<'true' | 'false'>('true');
 
   return (
     <Username

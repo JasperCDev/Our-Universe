@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage } from './app.styles';
+import { GlobalStyle, All, Main, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage, GreetingContainer, BigButtonContainer } from './app.styles';
 import GlobalCounter from '../globalCounter/globalCounter';
 import PlayerStats from '../playerStats/playerStats';
 import TopUsers from '../topUsers/topUsers';
@@ -139,7 +139,7 @@ const App: FC = () => {
     global_session_clicks++;
   }
 
-  const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
     const userInput = (e.target as HTMLElement).innerHTML;
     if (validateNewUsername(userInput, setter)) {
       set_user_name_form_valid('true');
@@ -158,7 +158,7 @@ const App: FC = () => {
     }
   }
 
-  const usernameSubmitHandler = (e: any, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const usernameSubmitHandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
     const element = e.target as HTMLElement;
     let userInput = element.innerHTML;
     if (userInput === user_name) return;
@@ -169,20 +169,20 @@ const App: FC = () => {
         .then(() => {
           set_user_name_form_message('Username updated');
           set_user_name(userInput);
-          setTimeout(() => set_user_name_form_message(''), 3000);
+          setTimeout(() => set_user_name_form_message(''), 1500);
         })
         .catch((err: AxiosError) => {
           set_user_name_form_valid('false');
           set_user_name_form_message('There has been an error');
-          setTimeout(() => set_user_name_form_message(''), 3000);
+          setTimeout(() => set_user_name_form_message(''), 1500);
         });
     } else {
       set_user_name_form_message('That userName is not valid');
       setTimeout(() => {
         element.innerHTML = user_name;
-        setter(true);
+        setter('true');
       }, 1000);
-      setTimeout(() => set_user_name_form_message(''), 3000);
+      setTimeout(() => set_user_name_form_message(''), 1500);
     }
   }
 
@@ -190,24 +190,29 @@ const App: FC = () => {
     <>
       <GlobalStyle />
       <GlobalCounter global_clicks={global_clicks} />
+
       <All>
         <PlayerStats />
         <Main>
           <Container>
-          <Greeting>Hello,
-            <UsernameForm
-              user_name={user_name}
-              changeHandler={usernameChangehandler}
-              submitHandler={usernameSubmitHandler}
-            />!
-          </Greeting>
-          <UserNameFormMessage data-valid={user_name_form_valid}>
-            {user_name_form_message}
-          </UserNameFormMessage>
-          <UserClicksSubheading>
-            your clicks: {numberToCommaSeperatedString(user_clicks)}
-          </UserClicksSubheading>
-            <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
+            <GreetingContainer>
+              <Greeting>
+              <UsernameForm
+                user_name={user_name}
+                changeHandler={usernameChangehandler}
+                submitHandler={usernameSubmitHandler}
+              />
+              </Greeting>
+              <UserNameFormMessage data-valid={user_name_form_valid}>
+                {user_name_form_message}
+              </UserNameFormMessage>
+            </GreetingContainer>
+            <BigButtonContainer>
+              <UserClicksSubheading>
+                your clicks: {numberToCommaSeperatedString(user_clicks)}
+              </UserClicksSubheading>
+              <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
+            </BigButtonContainer>
           </Container>
         </Main>
 

@@ -29,13 +29,13 @@ export const idToStringWithZeroes = (id: number): string => {
   return idString;
 }
 
-export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>): (boolean | void) => {
+export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>): ( boolean | void) => {
   let regex = /^[a-zA-Z]{2,10}[0-9]{0,10}$/;
   if (regex.test(text) && !text.includes('&nbsp;')) {
-    setter(true);
+    setter('true');
     return true;
   } else {
-    setter(false);
+    setter('false');
     return false;
   }
 }

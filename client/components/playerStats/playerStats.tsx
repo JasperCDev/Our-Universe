@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const PlayerStatsDiv = styled.div`
   padding-top: 1em;
-  border: 1px solid black;
+  border: 3px solid navy;
   width: 25vw;
   height: 100vh;
   overflow: scroll;
@@ -12,12 +12,31 @@ export const PlayerStatsDiv = styled.div`
   top: 0;
   color: black;
   border-top: 0;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const PlayerStats: React.FC = () => {
   return (
     <PlayerStatsDiv>
-      <p>test</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+      <p>a;sdlkfgjgklasdjf;lkdasjfkl;dsajl</p>
+
     </PlayerStatsDiv>
   );
 }
