@@ -26,12 +26,12 @@ export const GlobalStyle = createGlobalStyle`
 
 export const All = styled.div`
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   border: 5px solid #5f7bc9;
 `;
 
 export const Main = styled.div`
-  width: 75vw;
+  width: 50vw;
   height: 100%;
   position: relative;
   display: flex;
@@ -46,15 +46,6 @@ export const Container = styled.div`
   min-height: 50em;
 `;
 
-export const Counter = styled.h1`
-  font-size: 6.5em;
-  margin: 0;
-  text-align: center;
-  margin-top: 0.5em;
-  margin-bottom: 5vh;
-  color: #001a69;
-`;
-
 export const Greeting = styled.h2`
   font-size: 2em;
   text-align: center;
@@ -64,7 +55,9 @@ export const Greeting = styled.h2`
   font-family: Helvetica, sans-serif;
 `;
 
-export const UserNameFormMessage = styled.h4`
+export const UserNameFormMessage = styled.h4.attrs((props) => ({
+  'data-valid': 'true',
+}))`
   padding-top: 10px;
   color: ${(props) => props['data-valid'] ? 'green' : 'red'};
   font-weight: bold;
@@ -103,10 +96,4 @@ export const BigButton = styled(Button)`
       animation-iteration-count: 1;
     }
   }
-`;
-
-export const BigButtonAnimation = keyframes`
-  0% { width: width: 14em; height: 6em; }
-  50% { width: width: 17em; height: 7em; }
-  100% { width: width: 14em; height: 6em; }
 `;

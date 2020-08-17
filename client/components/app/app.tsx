@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Counter, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage } from './app.styles';
-// import NavBar from './navBar';
-import TopUsers from './topUsers';
-import UsernameForm from './usernameForm';
-import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString } from './helpers';
+import { GlobalStyle, All, Main, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage } from './app.styles';
+import GlobalCounter from '../globalCounter/globalCounter';
+import PlayerStats from '../playerStats/playerStats';
+import TopUsers from '../topUsers/topUsers';
+import UsernameForm from '../usernameForm/usernameForm';
+import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString } from '../helpers';
 import Faker from 'faker';
 
 
@@ -188,8 +189,9 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-      {/* <NavBar user_name={user_name} user_clicks={numberToCommaSeperatedString(user_clicks)} changeHandler={usernameChangehandler} user_id={user_id} /> */}
+      <GlobalCounter global_clicks={global_clicks} />
       <All>
+        <PlayerStats />
         <Main>
           <Container>
           <Greeting>Hello,
@@ -202,17 +204,13 @@ const App: FC = () => {
           <UserNameFormMessage data-valid={user_name_form_valid}>
             {user_name_form_message}
           </UserNameFormMessage>
-          <Counter>
-            <span style={{fontSize: '48px'}}>Global:</span>
-            <br />
-            {numberToCommaSeperatedString(global_clicks)}
-          </Counter>
           <UserClicksSubheading>
             your clicks: {numberToCommaSeperatedString(user_clicks)}
           </UserClicksSubheading>
             <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
           </Container>
         </Main>
+
         <TopUsers users={top_users} />
       </All>
     </>

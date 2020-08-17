@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { removeSpaceCharactersFromString, removeSpecialCharactersFromString } from './helpers';
+import { removeSpecialCharactersFromString } from '../helpers';
 
-const Username = styled.p`
+const Username = styled.p.attrs((props) => ({
+  'data-valid': true,
+}))`
   display: inline-block;
   padding-left: 8px;
   cursor: pointer;

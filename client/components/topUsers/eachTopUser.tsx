@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { TopUser, UserClicks } from './ topUsers.styles';
-import { animateCounter, numberToCommaSeperatedString, idToStringWithZeroes } from './helpers';
+import { animateCounter, numberToCommaSeperatedString, idToStringWithZeroes } from '../helpers';
 
 interface Props {
   user_name: string;
