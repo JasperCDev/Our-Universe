@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const TopUsersDiv = styled.div`
   padding-top: 1em;
-  border: 3px solid navy;
+  border: 3px solid #0e007a;
   width: 25vw;
   height: 100vh;
   overflow: scroll;

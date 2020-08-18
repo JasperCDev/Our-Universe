@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { removeSpecialCharactersFromString } from '../helpers';
+import { removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
 
 const Username = styled.p.attrs((props) => {
   // console.log(props);
@@ -8,6 +8,10 @@ const Username = styled.p.attrs((props) => {
   display: inline-block;
   padding-left: 8px;
   cursor: pointer;
+  &:hover {
+    letter-spacing: 4;
+    border: 3px solid #0e007a;
+  }
   &:focus {
     border: 3px solid ${(props) => props['data-valid'] === 'true' ? '#00c750' : '#ff1500'};
     background-color: ${(props) => props['data-valid'] === 'true' ? '#3afca8' : '#fc4a3a'};
@@ -29,9 +33,9 @@ const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler }) =>
       contentEditable={true}
       data-valid={valid}
       max={30}
-      onInput={(e) => changeHandler(e, set_valid)}
+      onInput={(e: InputEvent) => changeHandler(e, set_valid)}
       onKeyDown={(e: KeyboardEvent) => {
-        let text = removeSpecialCharactersFromString((e.target! as HTMLParagraphElement).innerHTML);
+        let text = removeTagFromString(removeSpecialCharactersFromString((e.target! as HTMLParagraphElement).innerHTML));
         console.log(text, text.length);
         if (e.keyCode === 13) {
           e.preventDefault();

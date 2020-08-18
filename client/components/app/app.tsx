@@ -5,7 +5,7 @@ import GlobalCounter from '../globalCounter/globalCounter';
 import PlayerStats from '../playerStats/playerStats';
 import TopUsers from '../topUsers/topUsers';
 import UsernameForm from '../usernameForm/usernameForm';
-import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString } from '../helpers';
+import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
 import Faker from 'faker';
 
 
@@ -140,7 +140,7 @@ const App: FC = () => {
   }
 
   const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
-    const userInput = (e.target as HTMLElement).innerHTML;
+    const userInput = removeTagFromString((e.target as HTMLElement).innerHTML);
     if (validateNewUsername(userInput, setter)) {
       set_user_name_form_valid('true');
       set_user_name_form_message('');
@@ -148,10 +148,8 @@ const App: FC = () => {
       set_user_name_form_valid('false');
       if (userInput.includes(' ') || userInput.includes('&nbsp;')) {
         set_user_name_form_message('username must not include spaces');
-      }else if (userInput.length > 9 || userInput.length < 3) {
+      }else if (userInput.length > 9 || userInput.length < 2) {
         set_user_name_form_message('Username must be between 2 and 10 characters');
-      } else if ((userInput.match(/[a-zA-Z]/g)||[]).length < 2) {
-        set_user_name_form_message('Username must include at least 2 letters');
       } else {
         set_user_name_form_message('Username must only contains number or letters');
       }
@@ -160,7 +158,7 @@ const App: FC = () => {
 
   const usernameSubmitHandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
     const element = e.target as HTMLElement;
-    let userInput = element.innerHTML;
+    let userInput = removeTagFromString(element.innerHTML);
     if (userInput === user_name) return;
     userInput = removeSpecialCharactersFromString(userInput);
     if (element.getAttribute('data-valid') === 'true') {
@@ -192,11 +190,12 @@ const App: FC = () => {
       <GlobalCounter global_clicks={global_clicks} />
 
       <All>
-        <PlayerStats />
+        <PlayerStats user_id={user_id} user_name={user_name} user_clicks={user_clicks} global_clicks={global_clicks} />
         <Main>
           <Container>
             <GreetingContainer>
               <Greeting>
+                Welcome,
               <UsernameForm
                 user_name={user_name}
                 changeHandler={usernameChangehandler}

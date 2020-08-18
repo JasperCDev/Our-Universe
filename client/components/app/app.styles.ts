@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { Button } from "@material-ui/core";
 
-const textColor = 'navy';
+const textColor = '#0e007a';
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #f2f2f2;
+    background-color: rgb(217, 228, 245);
     font-family: Courier;
     color: ${textColor};
   }
@@ -51,6 +51,7 @@ export const Container = styled.div`
 export const GreetingContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  min-height: 3em;
 `;
 
 export const Greeting = styled.h2`
@@ -59,6 +60,7 @@ export const Greeting = styled.h2`
   /* color: #5f7bc9; */
   font-weight: bold;
   font-family: Helvetica, sans-serif;
+  padding-right: 10px;
 `;
 
 export const UserNameFormMessage = styled.h4`

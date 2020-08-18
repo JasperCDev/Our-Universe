@@ -6,14 +6,14 @@ export const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
-  border-bottom: 3px solid black;
+  background-color: #7aadff;
+  border-bottom: 3px solid #0e007a;
 `;
 
 export const Counter = styled.h1`
   font-size: 4em;
   text-align: center;
   margin: auto;
-  color: navy;
+  color: #0e007a;
 `;
 

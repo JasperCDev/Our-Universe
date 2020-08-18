@@ -30,7 +30,8 @@ export const idToStringWithZeroes = (id: number): string => {
 }
 
 export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>): ( boolean | void) => {
-  let regex = /^[a-zA-Z]{2,10}[0-9]{0,10}$/;
+  let regex = /^[\w]{2,10}$/;
+  console.log(text);
   if (regex.test(text) && !text.includes('&nbsp;')) {
     setter('true');
     return true;
@@ -42,10 +43,17 @@ export const validateNewUsername = (text: string, setter: React.Dispatch<React.S
 
 export const removeSpaceCharactersFromString = (str: string): string => {
   while (str.includes('&nbsp')) str = str.replace('&nbsp;', '');
+  while (str.includes('<br>')) str = str.replace('<br>', '');
   return str.trim();
 }
 
 export const removeSpecialCharactersFromString = (str: string): string => {
   while (str.includes('&nbsp')) str = str.replace('&nbsp;', ' ');
+
   return str.trim();
+}
+
+export const removeTagFromString = (str: string): string => {
+  while (str.includes('<br>')) str = str.replace('<br>', '');
+  return str;
 }
