@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgb(217, 228, 245);
+    background-color: #edf4ff;
     font-family: Courier;
     color: ${textColor};
   }
@@ -63,7 +63,7 @@ export const Greeting = styled.h2`
   padding-right: 10px;
 `;
 
-export const UserNameFormMessage = styled.h4`
+export const UserNameFormMessage = styled.h2`
   padding-top: 10px;
   color: ${(props) => props['data-valid'] === 'true' ? 'green' : 'red'};
   font-weight: bold;
@@ -89,8 +89,8 @@ export const BigButton = styled(Button)`
     border: 3px solid ${textColor};
     display: block;
     margin: 0 auto;
-    height: 5em;
-    width: 12em;
+    height: 4em;
+    width: 10em;
     position: relative;
     animation-duration: 1s;
       animation-name: BigButtonAnimation;

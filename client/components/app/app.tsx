@@ -207,8 +207,9 @@ const App: FC = () => {
               </UserNameFormMessage>
             </GreetingContainer>
             <BigButtonContainer>
+
               <UserClicksSubheading>
-                your clicks: {numberToCommaSeperatedString(user_clicks)}
+                <h1>{numberToCommaSeperatedString(user_clicks)}</h1>
               </UserClicksSubheading>
               <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
             </BigButtonContainer>

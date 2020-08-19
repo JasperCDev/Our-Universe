@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { idToStringWithZeroes } from '../helpers';
+import { idToStringWithZeroes, numberToCommaSeperatedString } from '../helpers';
 
 export const PlayerStatsDiv = styled.div`
   padding-top: 1em;
   border: 3px solid #0e007a;
   border-top: 0;
   width: 25vw;
-  height: 100vh;
+  height: 88vh;
   font-weight: bold;
   font-size: 1.5em;
   top: 0;
@@ -51,7 +51,7 @@ const PlayerStats: React.FC<Props> = ({ user_name, user_clicks, user_id, global_
       <hr />
       <Stat>user id: <p style={{display: 'inline-block'}}>#{idToStringWithZeroes(user_id)}</p></Stat>
       <hr />
-      <Stat>clicks: {user_clicks}</Stat>
+      <Stat>clicks: {numberToCommaSeperatedString(user_clicks)}</Stat>
       <hr />
       <Stat>Level: 0</Stat>
       <hr />
