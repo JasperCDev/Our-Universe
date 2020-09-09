@@ -31,7 +31,7 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id }
         </div>
         <UserClicks>clicks: {numberToCommaSeperatedString(user_clicks_state)}</UserClicks>
       </TopUser>
-      <hr />
+      {/* <hr /> */}
     </>
   )
 }

@@ -9,6 +9,7 @@ export const animateCounter = (start: number, end: number, duration: number, set
     let progress = timePassed / duration;
     if (progress > 1) progress = 1;
     setter(start + Math.round(progress * range));
+
     if (progress !== 1) {
       requestAnimationFrame(callback);
     }

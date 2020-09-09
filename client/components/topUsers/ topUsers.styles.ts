@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const TopUsersDiv = styled.div`
   padding-top: 1em;
-  border: 3px solid #0e007a;
+  /* border: 3px solid black; */
   width: 25vw;
   height: 88vh;
   overflow: scroll;
@@ -11,7 +11,9 @@ export const TopUsersDiv = styled.div`
   font-size: 1.5em;
   top: 0;
   color: black;
-  border-top: 0;
+  /* border-top: 0;
+  border-bottom: 0; */
+  overflow-x: hidden;
 `;
 
 export const TopUser = styled.p`
@@ -20,10 +22,12 @@ export const TopUser = styled.p`
   font-weight: bold;
   position: relative;
   display: block;
+
   &:hover {
     transform: scale(1.2);
-    padding-left: 70px;
-
+    padding-left: 50px;
+    transition: all .3s ease-in-out;
+    background-color: lightgreen;
   }
 `;
 

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Greeting, UserClicksSubheading, BigButton, Container, UserNameFormMessage, GreetingContainer, BigButtonContainer } from './app.styles';
+import { GlobalStyle, All, Main, Greeting, Container, UserNameFormMessage, GreetingContainer } from './app.styles';
 import GlobalCounter from '../globalCounter/globalCounter';
 import PlayerStats from '../playerStats/playerStats';
+import UserDeity from '../userDeityCarousel/userDeity';
 import TopUsers from '../topUsers/topUsers';
 import UsernameForm from '../usernameForm/usernameForm';
-import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpaceCharactersFromString, removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
+import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
 import Faker from 'faker';
+import { UserContext } from './userContext';
 
 
 interface User {
@@ -25,7 +27,7 @@ const App: FC = () => {
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
   const [user_name_form_message, set_user_name_form_message] = useState<string>('');
-  const [user_name_form_valid, set_user_name_form_valid] = useState < 'true' | 'false'>('true');
+  const [user_name_form_valid, set_user_name_form_valid] = useState <'true' | 'false'>('true');
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -187,37 +189,43 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-      <GlobalCounter global_clicks={global_clicks} />
+      {/* <GlobalCounter global_clicks={global_clicks} /> */}
 
-      <All>
-        <PlayerStats user_id={user_id} user_name={user_name} user_clicks={user_clicks} global_clicks={global_clicks} />
+      {/* <All> */}
+      {/* <PlayerStats user_id={user_id} user_name={user_name} user_clicks={user_clicks} global_clicks={global_clicks} /> */}
+      <UserContext.Provider value='test'>
+        <Greeting>
+            Welcome,
+          <UsernameForm
+            user_name={user_name}
+            changeHandler={usernameChangehandler}
+            submitHandler={usernameSubmitHandler}
+          />
+        </Greeting>
         <Main>
-          <Container>
+          {/* <Container> */}
             <GreetingContainer>
-              <Greeting>
+              {/* <Greeting>
                 Welcome,
               <UsernameForm
                 user_name={user_name}
                 changeHandler={usernameChangehandler}
                 submitHandler={usernameSubmitHandler}
               />
-              </Greeting>
+              </Greeting> */}
               <UserNameFormMessage data-valid={user_name_form_valid}>
                 {user_name_form_message}
               </UserNameFormMessage>
             </GreetingContainer>
-            <BigButtonContainer>
-
-              <UserClicksSubheading>
-                <h1>{numberToCommaSeperatedString(user_clicks)}</h1>
-              </UserClicksSubheading>
-              <BigButton variant="outlined" onClick={buttonClickHandler}>Click Me!</BigButton>
-            </BigButtonContainer>
-          </Container>
+            <GlobalCounter global_clicks={global_clicks} />
+          <UserDeity user_name={user_name} buttonClickHandler={buttonClickHandler} user_clicks={user_clicks} />
+          {/* </Container> */}
         </Main>
+      </UserContext.Provider>
 
-        <TopUsers users={top_users} />
-      </All>
+
+        {/* <TopUsers users={top_users} /> */}
+      {/* </All> */}
     </>
   );
 }

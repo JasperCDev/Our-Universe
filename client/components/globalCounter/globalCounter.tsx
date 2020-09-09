@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Header, Counter } from './globalCounter.styles';
+import { Counter, MainDeityContainer, MainDeityDiv, UniverseName } from './globalCounter.styles';
 import { numberToCommaSeperatedString } from '../helpers';
 
 interface Props {
@@ -8,11 +8,17 @@ interface Props {
 
 const GlobalCounter: FC<Props> = ({ global_clicks }) => {
   return (
-    <Header>
+    // <Header>
+    <MainDeityContainer>
+      <UniverseName>The Universe</UniverseName>
+      <MainDeityDiv></MainDeityDiv>
+
       <Counter>
         {numberToCommaSeperatedString(global_clicks)}
       </Counter>
-    </Header>
+    </MainDeityContainer>
+
+    // </Header>
   );
 }
 

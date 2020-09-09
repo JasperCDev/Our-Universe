@@ -4,8 +4,9 @@ import { idToStringWithZeroes, numberToCommaSeperatedString } from '../helpers';
 
 export const PlayerStatsDiv = styled.div`
   padding-top: 1em;
-  border: 3px solid #0e007a;
+  /* border: 3px solid black;
   border-top: 0;
+  border-bottom: 0; */
   width: 25vw;
   height: 88vh;
   font-weight: bold;
@@ -48,15 +49,15 @@ const PlayerStats: React.FC<Props> = ({ user_name, user_clicks, user_id, global_
       <Heading>Your Stats</Heading>
       <hr />
       <Stat>username: {user_name}</Stat>
-      <hr />
+      {/* <hr /> */}
       <Stat>user id: <p style={{display: 'inline-block'}}>#{idToStringWithZeroes(user_id)}</p></Stat>
-      <hr />
+      {/* <hr /> */}
       <Stat>clicks: {numberToCommaSeperatedString(user_clicks)}</Stat>
-      <hr />
+      {/* <hr /> */}
       <Stat>Level: 0</Stat>
-      <hr />
+      {/* <hr /> */}
       <Stat>global contribution: {globalContribution}%</Stat>
-      <hr />
+      {/* <hr /> */}
     </PlayerStatsDiv>
   );
 }
