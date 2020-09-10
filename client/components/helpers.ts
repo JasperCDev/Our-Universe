@@ -1,6 +1,9 @@
-export const animateCounter = (start: number, end: number, duration: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
+
+
+export const animateCounter = (start: number, end: number, duration: number, stateValue: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
   const range = end - start;
   let startTime: number;
+  // console.log('NEW ANIMATION', range);
   const callback = (currentTime: number) => {
     if (startTime === undefined) {
       startTime = currentTime;
@@ -8,13 +11,21 @@ export const animateCounter = (start: number, end: number, duration: number, set
     const timePassed = currentTime - startTime;
     let progress = timePassed / duration;
     if (progress > 1) progress = 1;
+    // console.log(stateValue);
     setter(start + Math.round(progress * range));
-
+    console.log(progress);
     if (progress !== 1) {
+      // console.log('animation not finished!');
       requestAnimationFrame(callback);
+
+    } else {
+      if (id) {
+        cancelAnimationFrame(id);
+      }
     }
+
   }
-  requestAnimationFrame(callback);
+  const id = requestAnimationFrame(callback);
 }
 
 export const numberToCommaSeperatedString = (x: number): string => {

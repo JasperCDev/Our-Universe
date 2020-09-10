@@ -17,7 +17,7 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id }
     prev_user_clicks_ref.current = user_clicks;
     const start = prev_user_clicks;
     const end = user_clicks;
-    animateCounter(start, end, 3000, set_user_clicks_state);
+    animateCounter(start, end, 3000, user_clicks, set_user_clicks_state);
   }, [ user_clicks ]);
 
   const prev_user_clicks = prev_user_clicks_ref.current;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { GlobalStyle, All, Main, Greeting, Container, UserNameFormMessage, GreetingContainer } from './app.styles';
+import Header from '../header';
 import GlobalCounter from '../globalCounter/globalCounter';
 import PlayerStats from '../playerStats/playerStats';
 import UserDeity from '../userDeityCarousel/userDeity';
@@ -26,8 +27,6 @@ const App: FC = () => {
   const [user_clicks, set_user_clicks] = useState<number>(0);
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
-  const [user_name_form_message, set_user_name_form_message] = useState<string>('');
-  const [user_name_form_valid, set_user_name_form_valid] = useState <'true' | 'false'>('true');
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -75,7 +74,7 @@ const App: FC = () => {
     return axios.get('/global_clicks')
       .then((response: AxiosResponse) => {
         if (response.data.rows[0].click_count > global_clicks_ref.current) {
-          animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, set_global_clicks);
+          animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, global_clicks_ref.current, set_global_clicks);
         }
       })
       .catch((err: AxiosError) => console.error(err));
@@ -141,91 +140,19 @@ const App: FC = () => {
     global_session_clicks++;
   }
 
-  const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
-    const userInput = removeTagFromString((e.target as HTMLElement).innerHTML);
-    if (validateNewUsername(userInput, setter)) {
-      set_user_name_form_valid('true');
-      set_user_name_form_message('');
-    } else {
-      set_user_name_form_valid('false');
-      if (userInput.includes(' ') || userInput.includes('&nbsp;')) {
-        set_user_name_form_message('username must not include spaces');
-      }else if (userInput.length > 9 || userInput.length < 2) {
-        set_user_name_form_message('Username must be between 2 and 10 characters');
-      } else {
-        set_user_name_form_message('Username must only contains number or letters');
-      }
-    }
-  }
 
-  const usernameSubmitHandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
-    const element = e.target as HTMLElement;
-    let userInput = removeTagFromString(element.innerHTML);
-    if (userInput === user_name) return;
-    userInput = removeSpecialCharactersFromString(userInput);
-    if (element.getAttribute('data-valid') === 'true') {
-      set_user_name_form_message('saving...');
-      axios.put('/username', { user_id, new_user_name: userInput })
-        .then(() => {
-          set_user_name_form_message('Username updated');
-          set_user_name(userInput);
-          setTimeout(() => set_user_name_form_message(''), 1500);
-        })
-        .catch((err: AxiosError) => {
-          set_user_name_form_valid('false');
-          set_user_name_form_message('There has been an error');
-          setTimeout(() => set_user_name_form_message(''), 1500);
-        });
-    } else {
-      set_user_name_form_message('That userName is not valid');
-      setTimeout(() => {
-        element.innerHTML = user_name;
-        setter('true');
-      }, 1000);
-      setTimeout(() => set_user_name_form_message(''), 1500);
-    }
-  }
 
   return (
     <>
       <GlobalStyle />
-      {/* <GlobalCounter global_clicks={global_clicks} /> */}
-
-      {/* <All> */}
-      {/* <PlayerStats user_id={user_id} user_name={user_name} user_clicks={user_clicks} global_clicks={global_clicks} /> */}
       <UserContext.Provider value='test'>
-        <Greeting>
-            Welcome,
-          <UsernameForm
-            user_name={user_name}
-            changeHandler={usernameChangehandler}
-            submitHandler={usernameSubmitHandler}
-          />
-        </Greeting>
+        <Header />
         <Main>
-          {/* <Container> */}
-            <GreetingContainer>
-              {/* <Greeting>
-                Welcome,
-              <UsernameForm
-                user_name={user_name}
-                changeHandler={usernameChangehandler}
-                submitHandler={usernameSubmitHandler}
-              />
-              </Greeting> */}
-              <UserNameFormMessage data-valid={user_name_form_valid}>
-                {user_name_form_message}
-              </UserNameFormMessage>
-            </GreetingContainer>
-            <GlobalCounter global_clicks={global_clicks} />
-          <UserDeity user_name={user_name} buttonClickHandler={buttonClickHandler} user_clicks={user_clicks} />
-          {/* </Container> */}
+          <GlobalCounter global_clicks={global_clicks} />
+          <UserDeity user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} user_clicks={user_clicks} />
         </Main>
+        {/* <TopUsers users={top_users}/> */}
       </UserContext.Provider>
-
-
-        {/* <TopUsers users={top_users} /> */}
-      {/* </All> */}
     </>
   );
 }

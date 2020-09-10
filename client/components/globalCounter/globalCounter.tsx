@@ -11,11 +11,12 @@ const GlobalCounter: FC<Props> = ({ global_clicks }) => {
     // <Header>
     <MainDeityContainer>
       <UniverseName>The Universe</UniverseName>
-      <MainDeityDiv></MainDeityDiv>
-
       <Counter>
         {numberToCommaSeperatedString(global_clicks)}
       </Counter>
+      <MainDeityDiv></MainDeityDiv>
+
+
     </MainDeityContainer>
 
     // </Header>

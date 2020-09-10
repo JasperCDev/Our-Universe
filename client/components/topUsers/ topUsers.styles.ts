@@ -3,17 +3,15 @@ import styled from 'styled-components';
 
 export const TopUsersDiv = styled.div`
   padding-top: 1em;
-  /* border: 3px solid black; */
+  border-left: 0.0625rem solid white;
   width: 25vw;
-  height: 88vh;
+  height: 90vh;
   overflow: scroll;
   font-weight: bold;
   font-size: 1.5em;
   top: 0;
-  color: black;
-  /* border-top: 0;
-  border-bottom: 0; */
-  overflow-x: hidden;
+  color: white;
+  overflow: hidden;
 `;
 
 export const TopUser = styled.p`
@@ -22,7 +20,6 @@ export const TopUser = styled.p`
   font-weight: bold;
   position: relative;
   display: block;
-
   &:hover {
     transform: scale(1.2);
     padding-left: 50px;

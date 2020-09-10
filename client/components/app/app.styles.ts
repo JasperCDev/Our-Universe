@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: sans-serif;
     background-color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
   }
 
   #app {
@@ -24,6 +25,8 @@ export const GlobalStyle = createGlobalStyle`
 
     font-family: Courier;
     color: white;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -37,7 +40,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Main = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   position: relative;
   display: flex;
   /* justify-content: center; */
@@ -75,9 +78,4 @@ export const Greeting = styled.div`
   justify-content: center;
 `;
 
-export const UserNameFormMessage = styled.h2`
-  padding-top: 10px;
-  color: ${(props) => props['data-valid'] === 'true' ? 'green' : 'red'};
-  font-weight: bold;
-  text-align: center;
-`;
+

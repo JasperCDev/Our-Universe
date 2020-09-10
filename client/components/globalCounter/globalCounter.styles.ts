@@ -12,17 +12,14 @@ import styled, { keyframes } from 'styled-components';
 const pulse = keyframes`
 	0% {
 		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
 	}
 
 	60% {
 		transform: scale(1.2);
-		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
 	}
 
 	100% {
 		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 	}
 `;
 
@@ -32,7 +29,7 @@ export const MainDeityContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 20rem;
-  width: 20rem;
+  width: 30rem;
 `;
 
 export const MainDeityDiv = styled.div`
@@ -43,16 +40,20 @@ export const MainDeityDiv = styled.div`
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
   transform: scale(1);
   animation: ${pulse} 2s infinite;
+  transition: transform 1s ease-in-out;
+  &:active {
+    transform: scale(1.5);
+  }
 `;
 
 export const UniverseName = styled.h1`
-  margin-bottom: 2rem;
-  font-size: 3rem;
+  /* margin-bottom: 2rem; */
+  font-size: 2rem;
 `;
 
 export const Counter = styled.h1`
-  margin-top: 2rem;
-  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   text-align: center;
   color: #f0f0f0;
 `;
