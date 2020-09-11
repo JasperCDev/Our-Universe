@@ -7,6 +7,7 @@ const Username = styled.h2.attrs((props) => {})`
   cursor: pointer;
   width: 90%;
   margin: 0 auto;
+  text-align: center;
   /* transition: letter-spacing color 1s ease-in-out; */
   transition: all 1s ease-in-out;
   border: 0.2rem solid black;

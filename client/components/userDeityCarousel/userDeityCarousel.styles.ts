@@ -34,21 +34,25 @@ const pulseAndSpin = keyframes`
 export const UserDeityContainer = styled.div`
   height: 20rem;
   width: 25rem;
-  flex-direction: column;
+  /* position: absolute; */
+  /* flex-direction: column; */
   margin: 3rem 0 0 0;
   grid-row-start: 1;
   grid-row-end: 3;
+  /* top: ${(props) => props.positionY + 'px'};
+  left: ${(props) => props.positionX + 'px'}; */
   /* border: 1px solid lightblue; */
 `;
 
 export const UserDeityDiv = styled.div`
   border-radius: 50%;
-  background: rgb(0,61,255);
-  background: linear-gradient(90deg, rgba(0,61,255,1) 0%, rgba(81,0,255,1) 0%, rgba(65,76,168,1) 0%, rgba(135,247,251,1) 69%, rgba(0,212,255,1) 100%);
+  background: rgb(255,170,0);
+  background: linear-gradient(90deg, rgba(255,170,0,1) 0%, rgba(241,255,0,1) 91%, rgba(254,255,189,1) 100%, rgba(252,252,252,1) 100%);
   height: 5vh;
   width: 5vh;
   margin: 2rem auto;
   animation: ${pulseAndSpin} 5s linear infinite;
+  border: 3px solid lightblue;
 `;
 
 export const UserNameFormMessage = styled.p`
@@ -79,7 +83,7 @@ export const UserDeityButton = styled(Button)`
     width: 10rem;
     position: relative;
     background-color: #ff6161;
-    transition: all .2s ease-in-out;
+    transition: all 1s ease-in-out;
     &:hover {
       background-color: darkred;
       color: white;
@@ -89,10 +93,10 @@ export const UserDeityButton = styled(Button)`
 
     }
 
-    &:active ${UserDeityDiv} {
+    /* &:active ${UserDeityDiv} {
       transform: scale(1.5);
       transition: transform 0.3s ease-in-out;
-    }
+    } */
   }
 `;
 

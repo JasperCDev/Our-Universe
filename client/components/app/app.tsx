@@ -147,8 +147,8 @@ const App: FC = () => {
       <GlobalStyle />
       <UserContext.Provider value='test'>
         <Header />
-        <Main>
-          <GlobalCounter global_clicks={global_clicks} />
+        <Main >
+          <GlobalCounter user_clicks={user_clicks} />
           <UserDeity user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} user_clicks={user_clicks} />
         </Main>
         {/* <TopUsers users={top_users}/> */}

@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { numberToCommaSeperatedString, removeTagFromString, validateNewUsername, removeSpecialCharactersFromString } from '../helpers';
 import { UserDeityContainer, UserClicksSubheading, UserDeityButton, UserDeityDiv } from './userDeityCarousel.styles';
 import { UserContext } from '../app/userContext';
 import UsernameForm from '../usernameForm/usernameForm';
 import axios, { AxiosError } from 'axios';
 import { UserNameFormMessage } from './userDeityCarousel.styles';
+import e from 'express';
 
 interface Props {
   buttonClickHandler: () => void;
@@ -24,6 +25,26 @@ const UserDeity: React.FC<Props> = ({
   const [user_name_form_message, set_user_name_form_message] = useState<string>('click username to change');
   const [user_name_form_valid, set_user_name_form_valid] = useState<'true' | 'false'>('true');
   const [user_name_form_color, set_user_name_form_color] = useState<'grey' | 'green' | 'red'>('grey');
+  const [deity_size, set_deity_size] = useState<number>(user_clicks / 1000 + 1);
+  // const [x_position, set_x_position] = useState<number>(0);
+  // const [y_position, set_y_position] = useState<number>(0);
+
+  // useEffect(() => {
+  //   function followCursor() {
+  //     const startTime = Date.now();
+  //     return (e: MouseEvent) => {
+  //       const currentTime = Date.now();
+  //       if (currentTime - startTime <= 10) {
+  //         set_x_position(e.clientX);
+  //         set_y_position(e.clientY);
+  //       }
+  //     }
+  //   }
+
+  //   document.onmousemove = (e) => followCursor()(e);
+  // }, []);
+
+
 
   const usernameChangehandler = (e: any, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>) => {
     const userInput = removeTagFromString((e.target as HTMLElement).innerHTML);
@@ -92,13 +113,14 @@ const UserDeity: React.FC<Props> = ({
   return (
     <UserDeityContainer>
       <UserDeityDiv></UserDeityDiv>
-      <UserClicksSubheading>
+
         <UsernameForm handleUsernameFormFocus={handleUsernameFormFocus} submitHandler={usernameSubmitHandler} user_name={user_name} changeHandler={usernameChangehandler} />
         <UserNameFormMessage data-color={user_name_form_color} data-valid={user_name_form_valid}>
                 {user_name_form_message}
-        </UserNameFormMessage>
+      </UserNameFormMessage>
+      {/* <UserClicksSubheading>
         <h1>{numberToCommaSeperatedString(user_clicks)}</h1>
-      </UserClicksSubheading>
+      </UserClicksSubheading> */}
       <UserDeityButton onClick={buttonClickHandler}>Click Me!</UserDeityButton>
     </UserDeityContainer>
   );

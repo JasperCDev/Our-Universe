@@ -13,7 +13,7 @@ export const animateCounter = (start: number, end: number, duration: number, sta
     if (progress > 1) progress = 1;
     // console.log(stateValue);
     setter(start + Math.round(progress * range));
-    console.log(progress);
+    // console.log(progress);
     if (progress !== 1) {
       // console.log('animation not finished!');
       requestAnimationFrame(callback);

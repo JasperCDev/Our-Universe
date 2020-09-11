@@ -3,16 +3,16 @@ import { Counter, MainDeityContainer, MainDeityDiv, UniverseName } from './globa
 import { numberToCommaSeperatedString } from '../helpers';
 
 interface Props {
-  global_clicks: number;
+  user_clicks: number;
 }
 
-const GlobalCounter: FC<Props> = ({ global_clicks }) => {
+const GlobalCounter: FC<Props> = ({ user_clicks }) => {
   return (
     // <Header>
     <MainDeityContainer>
-      <UniverseName>The Universe</UniverseName>
+      <UniverseName>Your Planet</UniverseName>
       <Counter>
-        {numberToCommaSeperatedString(global_clicks)}
+        {numberToCommaSeperatedString(user_clicks)} atoms
       </Counter>
       <MainDeityDiv></MainDeityDiv>
 
