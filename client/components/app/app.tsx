@@ -1,13 +1,13 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { GlobalStyle, All, Main, Greeting, Container, UserNameFormMessage, GreetingContainer } from './app.styles';
-import Header from '../header';
-import GlobalCounter from '../globalCounter/globalCounter';
-import PlayerStats from '../playerStats/playerStats';
-import UserDeity from '../userDeityCarousel/userDeity';
-import TopUsers from '../topUsers/topUsers';
-import UsernameForm from '../usernameForm/usernameForm';
-import { animateCounter, numberToCommaSeperatedString, validateNewUsername, removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
+import { GlobalStyle, Main } from './app.styles';
+// import Header from '../header';
+import GlobalCounter from './userStar/userStar';
+import PlayerStats from './playerStats/playerStats';
+import UserDeity from './userDeity/userDeity';
+import TopUsers from './topUsers/topUsers';
+// import UsernameForm from '../usernameForm/usernameForm';
+import { numberToCommaSeperatedString } from '../helpers';
 import Faker from 'faker';
 import { UserContext } from './userContext';
 
@@ -63,74 +63,82 @@ const App: FC = () => {
     document.title = numberToCommaSeperatedString(global_clicks);
   }, [ global_clicks ]);
 
-  const clicksLifeCycle = (): void => {
-    updateGlobalClicks()
-    .then(getGlobalClicks)
-    .then(updateUserClicks)
-    .then(getTopUsers);
+  const clicksLifeCycle = async () => {
+    await updateGlobalClicks();
+    await getGlobalClicks();
+    await updateUserClicks();
+    await getTopUsers();
   }
 
-  const getGlobalClicks = () => {
-    return axios.get('/global_clicks')
-      .then((response: AxiosResponse) => {
-        if (response.data.rows[0].click_count > global_clicks_ref.current) {
-          animateCounter(global_clicks_ref.current, response.data.rows[0].click_count, 3000, global_clicks_ref.current, set_global_clicks);
-        }
-      })
-      .catch((err: AxiosError) => console.error(err));
+  const getGlobalClicks = async () => {
+    const response = await axios.get('/global_clicks');
+    const newClicks = response.data.rows[0].click_count;
+    if (newClicks > global_clicks_ref.current) {
+      // animateCounter(global_clicks_ref.current, newClicks, 3000, global_clicks_ref.current, set_global_clicks);
+    }
   }
 
-  const updateGlobalClicks = () => {
+  const updateGlobalClicks = async () => {
     const clicks_to_update_global = global_session_clicks_ref.current;
-    return axios.put('/global_clicks', {
-      clicks: clicks_to_update_global
-    })
-    .then(() => global_session_clicks = global_session_clicks_ref.current - clicks_to_update_global)
-    .catch((err) => console.error(err));
+    try {
+      const response = await axios.put('/global_clicks', {
+        clicks: clicks_to_update_global
+      });
+      global_session_clicks = global_session_clicks_ref.current - clicks_to_update_global;
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  const registerUser = () => {
+  const registerUser = async () => {
     localStorage.clear();
     localStorage.setItem('user_name', Faker.name.firstName());
-    return axios.post('/user', { user_name: localStorage.getItem('user_name') })
-      .then((response: AxiosResponse) => localStorage.setItem('user_id', response.data.id))
-      .catch((err) => console.error(err));
+    try {
+      const response = await axios.post('/user', { user_name: localStorage.getItem('user_name') });
+      localStorage.setItem('user_id', response.data.id);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  const logInUser = (): void => {
-    axios.get(`/user?id=${localStorage.getItem('user_id')}`)
-      .then((response: AxiosResponse) => {
-        if (response.data === 'That user does not exist') {
-          registerUser()
-            .then(() => logInUser());
-        } else {
-          if (!localStorage.getItem('user_id')) localStorage.setItem('user_id', response.data.id);
-          set_user_name(response.data.user_name);
-          set_user_clicks(response.data.user_clicks);
-          set_user_id(response.data.id);
-        }
-      })
-      .catch((err: AxiosError) => console.error(err));
+  const logInUser = async () => {
+    try {
+      const response = await axios.get(`/user?id=${localStorage.getItem('user_id')}`);
+      if (response.data === 'That user does not exist') {
+        registerUser()
+          .then(() => logInUser());
+      } else {
+        if (!localStorage.getItem('user_id')) localStorage.setItem('user_id', response.data.id);
+        set_user_name(response.data.user_name);
+        set_user_clicks(response.data.user_clicks);
+        set_user_id(response.data.id);
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  const updateUserClicks = () => {
+  const updateUserClicks = async () => {
     const clicks_to_update_user_total = user_session_clicks_ref.current;
-    return axios.put('/user', {
-      id: user_id_ref.current,
-      clicks: clicks_to_update_user_total,
-    })
-      .then(() => {
-        user_session_clicks = user_session_clicks_ref.current - clicks_to_update_user_total;
-      })
-      .catch((err: AxiosError) => console.error(err));
+    try {
+      await axios.put('/user', {
+        id: user_id_ref.current,
+        clicks: clicks_to_update_user_total,
+      });
+      user_session_clicks = user_session_clicks_ref.current - clicks_to_update_user_total;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  const getTopUsers = () => {
-    return axios.get('/users')
-      .then((response: AxiosResponse) => {
-        set_top_users(response.data);
-      })
-      .catch((err: AxiosError) => console.error(err));
+  const getTopUsers = async () => {
+    try {
+      const response = await axios.get('/users');
+      set_top_users(response.data);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   const buttonClickHandler = (): void => {
@@ -146,12 +154,13 @@ const App: FC = () => {
     <>
       <GlobalStyle />
       <UserContext.Provider value='test'>
-        <Header />
+        {/* <Header /> */}
         <Main >
           <GlobalCounter user_clicks={user_clicks} />
-          <UserDeity user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} user_clicks={user_clicks} />
+          <UserDeity user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} />
         </Main>
-        {/* <TopUsers users={top_users}/> */}
+        <TopUsers users={top_users}/>
+
       </UserContext.Provider>
     </>
   );

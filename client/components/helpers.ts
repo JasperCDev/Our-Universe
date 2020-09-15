@@ -3,7 +3,6 @@
 export const animateCounter = (start: number, end: number, duration: number, stateValue: number, setter: React.Dispatch<React.SetStateAction<number>>): void => {
   const range = end - start;
   let startTime: number;
-  // console.log('NEW ANIMATION', range);
   const callback = (currentTime: number) => {
     if (startTime === undefined) {
       startTime = currentTime;
@@ -11,11 +10,8 @@ export const animateCounter = (start: number, end: number, duration: number, sta
     const timePassed = currentTime - startTime;
     let progress = timePassed / duration;
     if (progress > 1) progress = 1;
-    // console.log(stateValue);
     setter(start + Math.round(progress * range));
-    // console.log(progress);
     if (progress !== 1) {
-      // console.log('animation not finished!');
       requestAnimationFrame(callback);
 
     } else {
@@ -41,14 +37,14 @@ export const idToStringWithZeroes = (id: number): string => {
   return idString;
 }
 
-export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<'true' | 'false'>>): ( boolean | void) => {
+export const validateNewUsername = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>): ( boolean | void) => {
   let regex = /^[\w]{2,10}$/;
   console.log(text);
   if (regex.test(text) && !text.includes('&nbsp;')) {
-    setter('true');
+    setter(true);
     return true;
   } else {
-    setter('false');
+    setter(true);
     return false;
   }
 }

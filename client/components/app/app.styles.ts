@@ -25,8 +25,8 @@ export const GlobalStyle = createGlobalStyle`
 
     font-family: Courier;
     color: white;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
   }
 `;
 
@@ -40,12 +40,14 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Main = styled.div`
   width: 100%;
-  height: 90%;
+  height: 100%;
   position: relative;
   display: flex;
+  /* margin-top: 10%; */
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+  /* justify-content: flex-end; */
 `;
 
 // export const Container = styled.div`

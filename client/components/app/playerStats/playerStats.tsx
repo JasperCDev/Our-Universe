@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { idToStringWithZeroes, numberToCommaSeperatedString } from '../helpers';
+import { idToStringWithZeroes, numberToCommaSeperatedString } from '../../helpers';
 
 export const PlayerStatsDiv = styled.div`
   padding-top: 1em;

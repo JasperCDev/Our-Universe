@@ -8,14 +8,14 @@ export const TopUsersDiv = styled.div`
   height: 90vh;
   overflow: scroll;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1rem;
   top: 0;
   color: white;
   overflow: hidden;
 `;
 
 export const TopUser = styled.p`
-  font-size: 1em;
+  font-size: 1rem;
   padding: 10px;
   font-weight: bold;
   position: relative;

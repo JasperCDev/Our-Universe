@@ -52,7 +52,7 @@ const UsernameForm: FC<Props> = ({ user_name, changeHandler, submitHandler, hand
           }
         }
       }}
-      onBlur={(e: any) => submitHandler(e, set_valid)}
+      onBlur={(e: Event) => submitHandler(e, set_valid)}
       spellCheck='false'
     >
       {user_name}
