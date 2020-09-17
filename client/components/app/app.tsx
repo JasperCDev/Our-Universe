@@ -2,14 +2,14 @@ import React, { useState, useEffect, FC, useRef} from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { GlobalStyle, Main } from './app.styles';
 // import Header from '../header';
-import GlobalCounter from './userStar/userStar';
 import PlayerStats from './playerStats/playerStats';
 import UserDeity from './userDeity/userDeity';
 import TopUsers from './topUsers/topUsers';
 // import UsernameForm from '../usernameForm/usernameForm';
-import { numberToCommaSeperatedString } from '../helpers';
+import { animateCounter, numberToCommaSeperatedString } from '../helpers';
 import Faker from 'faker';
 import { UserContext } from './userContext';
+import UserStar from './userStar/userStar';
 
 
 interface User {
@@ -27,6 +27,7 @@ const App: FC = () => {
   const [user_clicks, set_user_clicks] = useState<number>(0);
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
+  const [user_star_rect, set_user_star_rect] = useState<DOMRect>();
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -115,7 +116,7 @@ const App: FC = () => {
         set_user_id(response.data.id);
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
@@ -156,8 +157,8 @@ const App: FC = () => {
       <UserContext.Provider value='test'>
         {/* <Header /> */}
         <Main >
-          <GlobalCounter user_clicks={user_clicks} />
-          <UserDeity user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} />
+          <UserStar user_star_rect={user_star_rect} user_clicks={user_clicks} set_user_star_rect={set_user_star_rect}/>
+          <UserDeity user_star_rect={user_star_rect} user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} />
         </Main>
         <TopUsers users={top_users}/>
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TopUsersDiv } from './ topUsers.styles';
+import { TopUsersDiv } from './topUsers.styles';
 import EachTopUser from './eachTopUser';
 
 interface User {

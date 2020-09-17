@@ -1,9 +1,15 @@
 import styled, { keyframes } from 'styled-components';
 import { Button } from '@material-ui/core';
 
+const generateRandomColor = () => {
+  const randomHex = Math.floor(Math.random() * 16777215).toString(16);
+  return '#' + randomHex;
+}
+
 
 const pulse = keyframes`
   0% {
+
     transform: scale(1);
   }
   50% {
@@ -26,23 +32,37 @@ export const UserDeityContainer = styled.div`
 
 export const UserDeityDiv = styled.div`
   border-radius: 50%;
-  background: rgb(255,170,0);
-  background: linear-gradient(90deg, rgba(255,170,0,1) 0%, rgba(241,255,0,1) 91%, rgba(254,255,189,1) 100%, rgba(252,252,252,1) 100%);
+  background-color: lightblue;
   height: 5vh;
   width: 5vh;
   margin: 2rem auto;
-  animation: ${pulse} 5s linear infinite;
+  /* animation: ${pulse} 5s linear infinite; */
   border: 0.07rem solid lightblue;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 `;
 
-export const UserDeityEnergyBall = styled.div`
-  background: rgb(255,170,0);
-  background: linear-gradient(90deg, rgba(255,170,0,1) 0%, rgba(241,255,0,1) 91%, rgba(254,255,189,1) 100%, rgba(252,252,252,1) 100%);
+
+const animateUp = (translateDistance: number) => keyframes`
+    0% {
+      transform: translateY(0px);
+    }
+    100% {
+      transform: translateY(${translateDistance}px);
+    }
+`;
+
+export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number, color: string }>`
+  background-color: ${({ color }) => '#' + color};
   height: 1vh;
   width: 1vh;
   border-radius: 50%;
-  margin: auto;
-  display: none;
+  margin: 0 auto;
+  position: absolute;
+  border: 1px solid white;
+  /* top: 0; */
+  animation: ${({ translateDistance }) => animateUp(translateDistance)} 2s linear;
 `;
 
 export const UserNameFormMessage = styled.p<{ color: string }>`

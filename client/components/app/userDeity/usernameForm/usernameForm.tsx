@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { removeSpecialCharactersFromString, removeTagFromString } from '../helpers';
+import { removeSpecialCharactersFromString, removeTagFromString } from '../../../helpers';
 
 const Username = styled.h2.attrs((props) => {})`
   padding-left: 8px;

@@ -18,10 +18,11 @@ export const MainDeityContainer = styled.div`
 
 export const MainDeityDiv = styled.div<{ starSize: number }>`
   border-radius: 50%;
-  background: linear-gradient(to right, white, darkgrey);
-  height: ${({ starSize }) => starSize + 'vh'};
-  width: ${({ starSize }) => starSize + 'vh'};
+  background: linear-gradient(to right, red, blue);
+  height: ${({ starSize }) => starSize + 'rem'};
+  width: ${({ starSize }) => starSize + 'rem'};
   animation: ${rotate} 5s linear infinite;
+  z-index: 100;
 `;
 
 export const UniverseName = styled.h1`
