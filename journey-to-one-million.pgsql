@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS global_clicks;
 
 CREATE TABLE global_clicks (
-  click_count INTEGER NOT NULL DEFAULT 0
+  click_count INTEGER NOT NULL DEFAULT 0,
 );
 
 DROP TABLE IF EXISTS users;

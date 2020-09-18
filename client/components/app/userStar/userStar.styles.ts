@@ -30,8 +30,8 @@ export const UniverseName = styled.h1`
 `;
 
 export const Counter = styled.h1`
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  margin-bottom: 1.3rem;
+  font-size: 1.3rem;
   text-align: center;
   color: #f0f0f0;
 `;

@@ -33,13 +33,15 @@ export const UserDeityContainer = styled.div`
 export const UserDeityDiv = styled.div`
   border-radius: 50%;
   background-color: lightblue;
-  height: 5vh;
-  width: 5vh;
+  height: 5rem;
+  width: 5rem;
   margin: 2rem auto;
+  position: relative;
   /* animation: ${pulse} 5s linear infinite; */
   border: 0.07rem solid lightblue;
   display: flex;
   justify-content: center;
+  z-index: 1000;
   /* align-items: center; */
 `;
 
@@ -55,12 +57,13 @@ const animateUp = (translateDistance: number) => keyframes`
 
 export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number, color: string }>`
   background-color: ${({ color }) => '#' + color};
-  height: 1vh;
-  width: 1vh;
+  height: 1rem;
+  width: 1rem;
   border-radius: 50%;
   margin: 0 auto;
   position: absolute;
   border: 1px solid white;
+  top: -1rem;
   /* top: 0; */
   animation: ${({ translateDistance }) => animateUp(translateDistance)} 2s linear;
 `;

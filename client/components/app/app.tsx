@@ -10,6 +10,7 @@ import { animateCounter, numberToCommaSeperatedString } from '../helpers';
 import Faker from 'faker';
 import { UserContext } from './userContext';
 import UserStar from './userStar/userStar';
+import Header from '../header';
 
 
 interface User {
@@ -155,7 +156,7 @@ const App: FC = () => {
     <>
       <GlobalStyle />
       <UserContext.Provider value='test'>
-        {/* <Header /> */}
+        <Header />
         <Main >
           <UserStar user_star_rect={user_star_rect} user_clicks={user_clicks} set_user_star_rect={set_user_star_rect}/>
           <UserDeity user_star_rect={user_star_rect} user_id={user_id} set_user_name={set_user_name} user_name={user_name} buttonClickHandler={buttonClickHandler} />
