@@ -26,6 +26,7 @@ export const UserDeityContainer = styled.div <{ hue: number; saturation: number;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  transition: border 1s ease-in-out;
 `;
 
 export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightness: number; }>`
@@ -37,7 +38,7 @@ export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightn
   position: relative;
   display: flex;
   justify-content: center;
-  transition: border 1s ease-in-out;
+  transition: background-color 1s ease-in-out;
 `;
 
 

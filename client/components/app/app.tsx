@@ -27,7 +27,7 @@ const App: FC = () => {
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
   const [user_star_rect, set_user_star_rect] = useState<DOMRect>();
-  const [energy_color, set_energy_color] = useState<[number, number, number]>([180, 50, 90]);
+  const [energy_color, set_energy_color] = useState<[number, number, number]>([180, 100, 80]);
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
