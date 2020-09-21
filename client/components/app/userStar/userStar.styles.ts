@@ -13,16 +13,21 @@ export const MainDeityContainer = styled.div`
   align-items: center;
   height: 20rem;
   width: 30rem;
-  margin-top: 10vh;
+  margin-top: 1rem;
+`;
+
+export const MainDeityDivContainer = styled.div<{ starSize: number }>`
+  height: ${({ starSize }) => starSize + 'rem'};
+  width: ${({ starSize }) => starSize + 'rem'};
 `;
 
 export const MainDeityDiv = styled.div<{ starSize: number }>`
   border-radius: 50%;
-  background: linear-gradient(to right, red, blue);
+  background: linear-gradient(to right, pink, blue);
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
   animation: ${rotate} 5s linear infinite;
-  z-index: 100;
+  z-index: 20;
 `;
 
 export const UniverseName = styled.h1`

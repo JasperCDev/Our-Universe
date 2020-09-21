@@ -21,10 +21,11 @@ export const TopUser = styled.p`
   position: relative;
   display: block;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     padding-left: 50px;
     transition: all .3s ease-in-out;
-    background-color: lightgreen;
+    background-color: lightblue;
+    color: black;
   }
 `;
 

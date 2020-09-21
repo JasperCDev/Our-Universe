@@ -1,15 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 import { Button } from '@material-ui/core';
 
-const generateRandomColor = () => {
-  const randomHex = Math.floor(Math.random() * 16777215).toString(16);
-  return '#' + randomHex;
-}
-
 
 const pulse = keyframes`
   0% {
-
     transform: scale(1);
   }
   50% {
@@ -20,29 +14,30 @@ const pulse = keyframes`
   }
 `;
 
-export const UserDeityContainer = styled.div`
+export const UserDeityContainer = styled.div <{ hue: number; saturation: number; lightness: number; }>`
   height: 20rem;
   width: 25rem;
-  margin: 3rem 0 0 0;
+  margin: 7rem 0 0 0;
   grid-row-start: 1;
   grid-row-end: 3;
   justify-self: bottom;
-  border: 1px solid lightblue;
-`;
-
-export const UserDeityDiv = styled.div`
-  border-radius: 50%;
-  background-color: lightblue;
-  height: 5rem;
-  width: 5rem;
-  margin: 2rem auto;
-  position: relative;
-  /* animation: ${pulse} 5s linear infinite; */
-  border: 0.07rem solid lightblue;
+  border: 0.07rem solid ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
+  padding: 2rem;
   display: flex;
   justify-content: center;
-  z-index: 1000;
-  /* align-items: center; */
+  flex-direction: column;
+`;
+
+export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightness: number; }>`
+  border-radius: 50%;
+  background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
+  height: 5rem;
+  width: 5rem;
+  margin: 0 auto 2rem auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  transition: border 1s ease-in-out;
 `;
 
 
@@ -55,17 +50,15 @@ const animateUp = (translateDistance: number) => keyframes`
     }
 `;
 
-export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number, color: string }>`
-  background-color: ${({ color }) => '#' + color};
+export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hue: number; saturation: number; lightness: number; }>`
+  background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
-  margin: 0 auto;
   position: absolute;
-  border: 1px solid white;
-  top: -1rem;
-  /* top: 0; */
-  animation: ${({ translateDistance }) => animateUp(translateDistance)} 2s linear;
+  top: -4rem;
+  border: 0.07rem solid white;
+  animation: ${({ translateDistance }) => animateUp(translateDistance)} ${({ translateDistance }) => Math.floor(Math.abs(translateDistance) / 100).toString()}s linear;
 `;
 
 export const UserNameFormMessage = styled.p<{ color: string }>`
@@ -96,7 +89,7 @@ export const UserDeityButton = styled(Button)`
     width: 10rem;
     position: relative;
     background-color: #ff6161;
-    transition: all 1s ease-in-out;
+    transition: all 0.2s ease-in-out;
     &:hover {
       background-color: darkred;
       color: white;
@@ -106,5 +99,4 @@ export const UserDeityButton = styled(Button)`
     }
   }
 `;
-
 

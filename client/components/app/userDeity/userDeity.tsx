@@ -1,58 +1,45 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { numberToCommaSeperatedString, removeTagFromString, validateNewUsername, removeSpecialCharactersFromString } from '../../helpers';
 import { UserDeityContainer, UserClicksSubheading, UserDeityButton, UserDeityDiv } from './userDeity.styles';
-import { UserContext } from '../userContext';
 import UserEnergyBall from './userEnergyBall';
 import UsernameForm from './usernameForm/usernameForm';
-import axios, { AxiosError } from 'axios';
-import { UserNameFormMessage } from './userDeity.styles';
-import { StyledComponent } from 'styled-components';
+import { EnergyColorContext, UserContext } from '../contexts';
 
 interface Props {
   buttonClickHandler: () => void;
-  user_name: string;
-  user_id: number;
-  set_user_name: React.Dispatch<React.SetStateAction<string>>;
   user_star_rect: (DOMRect | undefined);
 }
 
 const UserDeity: React.FC<Props> = ({
   buttonClickHandler,
-  user_name,
-  user_id,
-  set_user_name,
   user_star_rect
 }) => {
-  const [user_name_form_message, set_user_name_form_message] = useState<string>('click username to change');
-  const [user_name_form_valid, set_user_name_form_valid] = useState<boolean>(true);
-  const [user_name_form_color, set_user_name_form_color] = useState<'grey' | 'green' | 'red'>('grey');
   const [energy_balls_count, set_energy_balls_count] = useState<number>(0);
   const [energy_balls, set_energy_balls] = useState<Array<number>>([]);
   const [energy_ball_translate_distance, set_energy_ball_translate_distance] = useState<number>(0);
 
-  const userDeityDivRef = useRef<HTMLDivElement>(null);
-  let userDeityRect: DOMRect;
-  // let userDeityMiddle: number;
+  const UserDeityContainerRef = useRef<HTMLDivElement>(null);
+  let UserDeityContainerRect: DOMRect;
+
+  const energyColor = useContext(EnergyColorContext);
+  const { set_energy_color } = energyColor;
+  const [hue, saturation, lightness] = energyColor!.energy_color;
+
+
+  const user = useContext(UserContext);
+  const { user_name, user_id, set_user_name } = user;
 
   useEffect(() => {
-    if (!userDeityRect) {
-      userDeityRect = userDeityDivRef!.current!.getBoundingClientRect();
-      // userDeityMiddle = userDeityRect. - (userDeityRect.height / 2);
+    if (!UserDeityContainerRect) {
+      UserDeityContainerRect = UserDeityContainerRef!.current!.getBoundingClientRect();
     }
-    if (userDeityRect && user_star_rect) {
-      const userStarBottomValue = user_star_rect.bottom;
-      const travelDistance = userDeityRect.top - userStarBottomValue;
+    if (UserDeityContainerRect && user_star_rect) {
+      const travelDistance = UserDeityContainerRect.top - user_star_rect.bottom;
       set_energy_ball_translate_distance(-travelDistance);
     }
   }, [user_star_rect]);
 
 
   useEffect(() => {
-    if (energy_balls[0] > energy_balls[1]) {
-      const copy = energy_balls.slice(0);
-      copy.shift();
-      set_energy_balls(copy);
-    }
     if (energy_balls_count) set_energy_balls([...energy_balls, energy_balls_count]);
   }, [energy_balls_count]);
 
@@ -66,19 +53,24 @@ const UserDeity: React.FC<Props> = ({
 
 
   return (
-    <UserDeityContainer>
-      <UserDeityDiv ref={userDeityDivRef!}>
+    <UserDeityContainer ref={UserDeityContainerRef} hue={hue} saturation={saturation} lightness={lightness}>
+      <UserDeityDiv hue={hue} saturation={saturation} lightness={lightness}>
         {energy_balls.map((id) => (
           <UserEnergyBall
             animationEndHandler={handleAnimationEnd}
             translateDistance={energy_ball_translate_distance}
             key={id}
+            energy_hue={hue}
+            energy_saturation={saturation}
+            energy_lightness={lightness}
           >
           </UserEnergyBall>
         ))}
       </UserDeityDiv>
       <UsernameForm user_name={user_name} user_id={user_id} set_user_name={set_user_name} />
-      <UserDeityButton onClick={() => set_energy_balls_count(energy_balls_count + 1) }>
+      <UserDeityButton onClick={() => {
+        set_energy_balls_count(energy_balls_count + 1);
+      }}>
         Click Me!
       </UserDeityButton>
     </UserDeityContainer>

@@ -30,35 +30,14 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-// export const All = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   flex-direction: column;
-//   height: 100%;
-// `;
-
 export const Main = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
   display: flex;
-  /* margin-top: 10%; */
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  /* justify-content: flex-end; */
 `;
-
-// export const Container = styled.div`
-//   margin: auto;
-//   min-width: 90%;
-//   min-height: 90%;
-//   display: flex;
-//   align-items: center;
-//   /* justify-content: center; */
-//   flex-direction: column;
-// `;
 
 export const GreetingContainer = styled.div`
   display: grid;
