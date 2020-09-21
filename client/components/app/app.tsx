@@ -1,13 +1,12 @@
 import React, { useState, useEffect, FC, useRef} from 'react';
 import axios from 'axios';
-import { GlobalStyle, Main } from './app.styles';
+import { GlobalStyle } from './app.styles';
+import Main from './main/main';
 import PlayerStats from './playerStats/playerStats';
-import UserDeity from './userDeity/userDeity';
 import TopUsers from './topUsers/topUsers';
 import { animateCounter, numberToCommaSeperatedString } from '../helpers';
 import Faker from 'faker';
 import { EnergyColorContext, UserContext } from './contexts';
-import UserStar from './userStar/userStar';
 import Header from '../header';
 
 
@@ -28,6 +27,7 @@ const App: FC = () => {
   const [user_id, set_user_id] = useState<number>(0);
   const [user_star_rect, set_user_star_rect] = useState<DOMRect>();
   const [energy_color, set_energy_color] = useState<[number, number, number]>([180, 100, 80]);
+  const [user_power, set_user_power] = useState<number>(1);
 
   const user_name_ref = useRef<string>('');
   user_name_ref.current = user_name;
@@ -107,8 +107,8 @@ const App: FC = () => {
     try {
       const response = await axios.get(`/user?id=${localStorage.getItem('user_id')}`);
       if (response.data === 'That user does not exist') {
-        registerUser()
-          .then(() => logInUser());
+        await registerUser()
+        await logInUser();
       } else {
         if (!localStorage.getItem('user_id')) localStorage.setItem('user_id', response.data.id);
         set_user_name(response.data.user_name);
@@ -143,10 +143,10 @@ const App: FC = () => {
   }
 
   const buttonClickHandler = (): void => {
-    set_global_clicks(global_clicks + 1);
-    set_user_clicks(user_clicks + 1);
-    user_session_clicks++;
-    global_session_clicks++;
+    set_global_clicks(global_clicks + user_power);
+    set_user_clicks(user_clicks + user_power);
+    user_session_clicks += user_power;
+    global_session_clicks += user_power;
   }
 
 
@@ -155,12 +155,9 @@ const App: FC = () => {
     <>
       <GlobalStyle />
       <EnergyColorContext.Provider value={{ energy_color, set_energy_color }}>
-      <UserContext.Provider value={{ user_clicks, user_name, user_id, set_user_name }}>
+      <UserContext.Provider value={{ user_clicks, user_name, user_id, set_user_name, user_lvl: 1, user_power, set_user_power }}>
         <Header />
-        <Main >
-          <UserStar user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect}/>
-          <UserDeity user_star_rect={user_star_rect} buttonClickHandler={buttonClickHandler} />
-        </Main>
+          <Main user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect} buttonClickHandler={buttonClickHandler} />
         <TopUsers users={top_users}/>
       </UserContext.Provider>
       </EnergyColorContext.Provider>

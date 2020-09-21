@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { Counter, MainDeityContainer, MainDeityDiv, MainDeityDivContainer, UniverseName } from './userStar.styles';
-import { numberToCommaSeperatedString } from '../../helpers';
-import { UserContext } from '../contexts';
+import { numberToCommaSeperatedString } from '../../../helpers';
+import { UserContext } from '../../contexts';
 
 interface Props {
   set_user_star_rect: React.Dispatch<React.SetStateAction<DOMRect | undefined>>;
@@ -21,7 +21,7 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
 
 
   useEffect(() => {
-    set_star_size((user_clicks / 300) + 1);
+    set_star_size((user_clicks / 10000) + 1);
   }, [user_clicks]);
 
   return (

@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { removeSpecialCharactersFromString, removeTagFromString, validateNewUsername } from '../../../helpers';
+import { removeSpecialCharactersFromString, removeTagFromString, validateNewUsername } from '../../../../helpers';
 import axios from 'axios';
 import { UserNameFormMessage } from '../userDeity.styles';
 

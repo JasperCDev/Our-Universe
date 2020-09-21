@@ -15,12 +15,13 @@ const pulse = keyframes`
 `;
 
 export const UserDeityContainer = styled.div <{ hue: number; saturation: number; lightness: number; }>`
-  height: 20rem;
+  height: 25rem;
   width: 25rem;
   margin: 7rem 0 0 0;
   grid-row-start: 1;
   grid-row-end: 3;
   justify-self: bottom;
+  border-radius: 50%;
   border: 0.07rem solid ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
   padding: 2rem;
   display: flex;
@@ -34,7 +35,7 @@ export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightn
   background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
   height: 5rem;
   width: 5rem;
-  margin: 0 auto 2rem auto;
+  margin: 4rem auto 0 auto;
   position: relative;
   display: flex;
   justify-content: center;
@@ -42,24 +43,30 @@ export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightn
 `;
 
 
-const animateUp = (translateDistance: number) => keyframes`
+const animateUp = (translateDistance: number, size: number) => keyframes`
     0% {
       transform: translateY(0px);
     }
     100% {
-      transform: translateY(${translateDistance}px);
+      transform: translateY(calc(${translateDistance}px - ${size / 4}rem));
     }
 `;
 
-export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hue: number; saturation: number; lightness: number; }>`
+export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hue: number; saturation: number; lightness: number; size: number}>`
   background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
-  height: 1rem;
-  width: 1rem;
+  height: ${({ size }) => size + 'rem'};
+  width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: -4rem;
+  top: ${({ size }) => (-8.5 - size) + 'rem'};
   border: 0.07rem solid white;
-  animation: ${({ translateDistance }) => animateUp(translateDistance)} ${({ translateDistance }) => Math.floor(Math.abs(translateDistance) / 100).toString()}s linear;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: ${({ size }) => (size * 8) + 'px'};
+  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 4 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
 `;
 
 export const UserNameFormMessage = styled.p<{ color: string }>`
