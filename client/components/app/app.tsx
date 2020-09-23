@@ -4,7 +4,7 @@ import { GlobalStyle } from './app.styles';
 import Main from './main/main';
 import PlayerStats from './playerStats/playerStats';
 import TopUsers from './topUsers/topUsers';
-import { animateCounter, numberToCommaSeperatedString } from '../helpers';
+import { numberToCommaSeperatedString } from '../helpers';
 import Faker from 'faker';
 import { EnergyColorContext, UserContext } from './contexts';
 import Header from '../header';
@@ -14,6 +14,7 @@ interface User {
   user_name: string;
   user_clicks: number;
   id: number;
+  is_online: boolean;
 }
 
 let user_session_clicks: number = 0;
@@ -47,17 +48,28 @@ const App: FC = () => {
   const user_id_ref = useRef<number>(0);
   user_id_ref.current = user_id;
 
+  const [previous_global_clicks, set_previous_global_clicks]= useState<number>(0);
+
+
   useEffect(() => {
     getGlobalClicks();
     getTopUsers();
     if (!localStorage.getItem('user_id')) {
-      registerUser()
-        .then(() => logInUser());
+      registerUser().then(() => logInUser());
     } else {
       logInUser();
     }
     const timer = setInterval(() => clicksLifeCycle(), 3000);
-    return () => clearTimeout(timer);
+
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault();
+      return axios.put('/online', { user_id: user_id, is_online: false });
+    });
+
+    return () => {
+      clearTimeout(timer);
+
+    };
   }, []);
 
   useEffect(() => {
@@ -73,10 +85,9 @@ const App: FC = () => {
 
   const getGlobalClicks = async () => {
     const response = await axios.get('/global_clicks');
-    const newClicks = response.data.rows[0].click_count;
-    if (newClicks > global_clicks_ref.current) {
-      // animateCounter(global_clicks_ref.current, newClicks, 3000, global_clicks_ref.current, set_global_clicks);
-    }
+    const newClicks: number = response.data.rows[0].click_count;
+    set_previous_global_clicks(global_clicks_ref.current);
+    set_global_clicks(newClicks);
   }
 
   const updateGlobalClicks = async () => {
@@ -96,7 +107,7 @@ const App: FC = () => {
     localStorage.clear();
     localStorage.setItem('user_name', Faker.name.firstName());
     try {
-      const response = await axios.post('/user', { user_name: localStorage.getItem('user_name') });
+      const response = await axios.post('/user', { user_name: localStorage.getItem('user_name'), is_online: true });
       localStorage.setItem('user_id', response.data.id);
     } catch (err) {
       console.error(err);
@@ -150,14 +161,13 @@ const App: FC = () => {
   }
 
 
-
   return (
     <>
       <GlobalStyle />
       <EnergyColorContext.Provider value={{ energy_color, set_energy_color }}>
       <UserContext.Provider value={{ user_clicks, user_name, user_id, set_user_name, user_lvl: 1, user_power, set_user_power }}>
-        <Header />
-          <Main user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect} buttonClickHandler={buttonClickHandler} />
+          <Header previous_global_clicks={previous_global_clicks} global_clicks={global_clicks}/>
+        <Main user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect} buttonClickHandler={buttonClickHandler} />
         <TopUsers users={top_users}/>
       </UserContext.Provider>
       </EnergyColorContext.Provider>

@@ -19,7 +19,7 @@ export const updateGlobalClicks = (req: Request, res: Response) => {
   }
 
   client.query(query)
-  .then((dbResponse: QueryResult) => res.send('Global clicks updated!'))
+  .then(() => res.send('Global clicks updated!'))
   .catch(() => res.sendStatus(500));
 }
 
@@ -34,10 +34,30 @@ export const getUser = (req: Request, res: Response) => {
   .catch(() => res.sendStatus(500));
 }
 
+
+export const logOutUser = (req: Request, res: Response) => {
+  const { user_id, is_online } = req.body;
+  const query = {
+    text: 'UPDATE users SET is_online = $1 WHERE id = $2',
+    values: [is_online, user_id]
+  }
+
+  client.query(query)
+    .then((dbResponse: QueryResult) => {
+      console.log(dbResponse);
+      res.send('online status updated');
+    })
+    .catch((err: QueryResultRow) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+
+}
+
 export const createUser = (req: Request, res: Response) => {
   const create = {
-    text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2) RETURNING id',
-    values: [req.body.user_name, 0]
+    text: 'INSERT INTO users(user_name, user_clicks, is_online) VALUES($1, $2, $3) RETURNING id',
+    values: [req.body.user_name, 0, req.body.is_online]
   }
 
   client.query(create)

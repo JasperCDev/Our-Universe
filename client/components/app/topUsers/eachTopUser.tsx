@@ -1,40 +1,54 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TopUser, UserClicks } from './topUsers.styles';
-import { animateCounter, numberToCommaSeperatedString, idToStringWithZeroes } from '../../helpers';
+import { TopUser, UserClicks, UserId, UsernameContainer } from './topUsers.styles';
+import { idToStringWithZeroes } from '../../helpers';
+import { useCountUp } from 'use-count-up';
+import { INSPECT_MAX_BYTES } from 'buffer';
 
 interface Props {
   user_name: string;
   user_clicks: number;
   place: number;
   user_id: number;
+  is_online: boolean;
 }
 
-const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id }) => {
-  const [user_clicks_state, set_user_clicks_state] = useState<number>(user_clicks);
-  const prev_user_clicks_ref = useRef<number>(0);
+let start = 0;
+
+const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, is_online }) => {
+  const [user_clicks_state, set_user_clicks_state] = useState<number>(0);
+  const previous_user_clicks_ref = useRef(0);
 
   useEffect(() => {
-    prev_user_clicks_ref.current = user_clicks;
-    const start = prev_user_clicks;
-    const end = user_clicks;
+    previous_user_clicks_ref.current = user_clicks_state;
+    set_user_clicks_state(user_clicks);
+  }, [user_clicks]);
 
-    // animateCounter(start, end, 3000, user_clicks, set_user_clicks_state);
-  }, [ user_clicks ]);
+  const previous_user_clicks = previous_user_clicks_ref.current;
 
-  const prev_user_clicks = prev_user_clicks_ref.current;
+  const { value } = useCountUp({
+    start: previous_user_clicks,
+    end: user_clicks,
+    duration: 3,
+    isCounting: true,
+    autoResetKey: previous_user_clicks,
+    thousandsSeparator: ',',
+    easing: 'linear'
+  });
+
+  console.log(is_online);
 
   return (
     <>
       <TopUser>
-        <div>
-          {place}{')'} {user_name}
-          <span style={{ fontWeight: "normal", fontSize: '0.75rem', paddingLeft: '5px' }}>#{idToStringWithZeroes(user_id)}</span>
-        </div>
-        <UserClicks>clicks: {numberToCommaSeperatedString(user_clicks_state)}</UserClicks>
+        <UsernameContainer online={is_online}>
+          {place}{')'} {user_name} {is_online.toString()}
+          <UserId>#{idToStringWithZeroes(user_id)}</UserId>
+        </UsernameContainer>
+        <UserClicks>clicks: {value}</UserClicks>
       </TopUser>
-      {/* <hr /> */}
+      <hr />
     </>
   )
 }
 
-export default EachTopUser;
+export default React.memo(EachTopUser);

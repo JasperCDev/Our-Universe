@@ -32,6 +32,7 @@
     "@types/axios": "^0.14.0",
     "@types/faker": "^4.1.12",
     "@types/pg": "^7.14.3",
+    "@types/react-countup": "^4.3.0",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
@@ -44,9 +45,11 @@
     "path": "^0.12.7",
     "pg": "^8.2.1",
     "react": "^16.13.1",
+    "react-countup": "^4.3.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.1",
+    "use-count-up": "^2.2.5",
     "webpack": "^4.20.2"
   },
   "devDependencies": {

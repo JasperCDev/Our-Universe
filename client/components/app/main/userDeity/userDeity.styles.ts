@@ -58,7 +58,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hu
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: ${({ size }) => (-8.5 - size) + 'rem'};
+  top: ${({ size }) => (-8 - size) + 'rem'};
   border: 0.07rem solid white;
   color: black;
   display: flex;
@@ -66,7 +66,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hu
   align-items: center;
   font-weight: bold;
   font-size: ${({ size }) => (size * 8) + 'px'};
-  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 4 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
+  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 6 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
 `;
 
 export const UserNameFormMessage = styled.p<{ color: string }>`

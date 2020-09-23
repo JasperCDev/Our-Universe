@@ -21,7 +21,7 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
 
 
   useEffect(() => {
-    set_star_size((user_clicks / 10000) + 1);
+    set_star_size((user_clicks / 10000) + 2);
   }, [user_clicks]);
 
   return (

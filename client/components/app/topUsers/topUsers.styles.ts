@@ -15,7 +15,7 @@ export const TopUsersDiv = styled.div`
 `;
 
 export const TopUser = styled.p`
-  font-size: 1rem;
+  font-size: 1.5rem;
   padding: 10px;
   font-weight: bold;
   position: relative;
@@ -27,6 +27,17 @@ export const TopUser = styled.p`
     background-color: lightblue;
     color: black;
   }
+`;
+
+export const UsernameContainer = styled.div<{ online: boolean }>`
+  color: ${({ online }) => online ? 'green': 'inherit'};
+`;
+
+export const UserId = styled.span`
+  color: inherit;
+  font-weight: normal;
+  font-size: 1rem;
+  padding-left: 0.2rem;
 `;
 
 export const UserClicks = styled.p`

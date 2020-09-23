@@ -14,9 +14,10 @@ client.query('INSERT INTO global_clicks(click_count) VALUES(0)')
   .catch((err: QueryResultRow) => console.error(err));
 
 const create = {
-  text: 'INSERT INTO users(user_name, user_clicks) VALUES($1, $2)',
-  values: ['JasperBOT', 0]
+  text: 'INSERT INTO users(user_name, user_clicks, is_online) VALUES($1, $2, $3)',
+  values: ['JasperBOT', 0, true] as [string, number, boolean]
 }
+
 
 client.query(create)
   .then((dbResponse: QueryResult) => console.log('create JasperBOT', dbResponse))
