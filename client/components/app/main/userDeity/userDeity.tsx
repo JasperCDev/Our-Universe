@@ -11,7 +11,6 @@ interface Props {
 
 let sessionClicks = 0;
 let lastClickTime = Date.now();
-let count = 0;
 
 const UserDeity: React.FC<Props> = ({
   buttonClickHandler,
@@ -54,15 +53,13 @@ const UserDeity: React.FC<Props> = ({
     }
   }, [user_star_rect]);
 
-  useEffect(() => {
-    if (energy_balls_count) set_energy_balls([...energy_balls, energy_balls_count]);
-  }, [energy_balls_count]);
+  // useEffect(() => {
+  //   if (energy_balls_count) set_energy_balls([...energy_balls, energy_balls_count]);
+  // }, [energy_balls_count]);
 
 
 
   const handleAnimationEnd = () => {
-    count++;
-    console.log(count);
     const copy = energy_balls.slice(0);
     copy.shift();
     set_energy_balls(copy);
@@ -111,7 +108,6 @@ const UserDeity: React.FC<Props> = ({
       case 400:
         set_energy_size(10);
         set_user_power(1000);
-
     }
   };
 
@@ -137,6 +133,7 @@ const UserDeity: React.FC<Props> = ({
       <UsernameForm user_name={user_name} user_id={user_id} set_user_name={set_user_name} />
       <UserDeityButton onClick={() => {
         set_energy_balls_count(energy_balls_count + 1);
+        set_energy_balls([...energy_balls, energy_balls_count]);
         assessMultipleClicks();
       }}>
         Click Me!

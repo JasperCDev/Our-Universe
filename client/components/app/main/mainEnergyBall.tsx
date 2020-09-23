@@ -3,7 +3,9 @@ import styled, { keyframes } from 'styled-components';
 
 
 const animateUp = (distanceX: number, distanceY: number) => keyframes`
-  100% { transform: translate(${distanceX}px, ${distanceY}px)}
+  100% {
+    transform: translate(${distanceX}px, ${distanceY}px);
+  }
 `;
 
 const EnergyBall = styled.div <{ x: number; y: number, distanceX: number; distanceY: number; }>`
@@ -16,7 +18,7 @@ const EnergyBall = styled.div <{ x: number; y: number, distanceX: number; distan
   border-radius: 50%;
   background-color: red;
   opacity: 0.5;
-  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 3s linear;
+  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 5s linear;
 `;
 
 interface Props {

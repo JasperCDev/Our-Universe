@@ -14,6 +14,7 @@ export const MainDeityContainer = styled.div`
   height: 20rem;
   width: 30rem;
   margin-top: 1rem;
+  /* border: 1px solid maroon; */
 `;
 
 export const MainDeityDivContainer = styled.div<{ starSize: number }>`
