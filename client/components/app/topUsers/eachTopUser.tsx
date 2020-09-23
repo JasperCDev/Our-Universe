@@ -35,7 +35,6 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, 
     easing: 'linear'
   });
 
-  console.log(is_online);
 
   return (
     <>

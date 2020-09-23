@@ -58,18 +58,19 @@ const App: FC = () => {
       registerUser().then(() => logInUser());
     } else {
       logInUser();
+
     }
-    const timer = setInterval(() => clicksLifeCycle(), 3000);
-
-    window.addEventListener('beforeunload', (e) => {
+    const beforeunload = (e: BeforeUnloadEvent) => {
+      axios.put('/online', { user_id: user_id_ref.current, is_online: false });
       e.preventDefault();
-      return axios.put('/online', { user_id: user_id, is_online: false });
-    });
+      e.returnValue = null;
+      return null;
+    }
 
-    return () => {
-      clearTimeout(timer);
+    window.onbeforeunload = beforeunload;
 
-    };
+    const timer = setInterval(() => clicksLifeCycle(), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -121,10 +122,16 @@ const App: FC = () => {
         await registerUser()
         await logInUser();
       } else {
-        if (!localStorage.getItem('user_id')) localStorage.setItem('user_id', response.data.id);
         set_user_name(response.data.user_name);
         set_user_clicks(response.data.user_clicks);
         set_user_id(response.data.id);
+        if (!localStorage.getItem('user_id')) {
+          localStorage.setItem('user_id', response.data.id);
+        } else {
+          axios.put('/online', { user_id: user_id_ref.current, is_online: true });
+        }
+
+
       }
     } catch (err) {
       console.error(err);

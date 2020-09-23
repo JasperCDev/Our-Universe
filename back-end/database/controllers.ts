@@ -35,8 +35,9 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 
-export const logOutUser = (req: Request, res: Response) => {
+export const updateOnlineStatus = (req: Request, res: Response) => {
   const { user_id, is_online } = req.body;
+  console.log(user_id, is_online);
   const query = {
     text: 'UPDATE users SET is_online = $1 WHERE id = $2',
     values: [is_online, user_id]

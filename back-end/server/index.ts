@@ -3,7 +3,7 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 import '../database/index';
-import { getGlobalClicks, updateGlobalClicks, getTopUsers, getUser, updateUserClicks, createUser, updateUsername, logOutUser } from '../database/controllers';
+import { getGlobalClicks, updateGlobalClicks, getTopUsers, getUser, updateUserClicks, createUser, updateUsername, updateOnlineStatus } from '../database/controllers';
 import bodyParser from 'body-parser';
 import path from 'path';
 import compression from 'compression';
@@ -33,7 +33,7 @@ app.get('/users', (req: Request, res: Response) => getTopUsers(req, res));
 
 app.put('/username', (req: Request, res: Response) => updateUsername(req, res));
 
-app.put('/online', (req: Request, res: Response) => logOutUser(req, res));
+app.put('/online', (req: Request, res: Response) => updateOnlineStatus(req, res));
 
 
 

@@ -4,12 +4,12 @@ import { numberToCommaSeperatedString } from './helpers';
 import { useCountUp } from 'use-count-up';
 
 const HeaderTag = styled.header`
-  height: 10vh;
+  height: 5rem;
   background-color: #1d2636;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
   grid-column-start: 1;
   grid-column-end: 3;
@@ -34,7 +34,7 @@ const Header: React.FC<Props> = ({ global_clicks, previous_global_clicks }) => {
 
   return (
     <HeaderTag>
-      <h4>Journey to Create the Universe</h4>
+      <h5>Journey to Create the Universe</h5>
       <h6>{value}</h6>
     </HeaderTag>
   );

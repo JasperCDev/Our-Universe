@@ -11,6 +11,7 @@ interface Props {
 
 let sessionClicks = 0;
 let lastClickTime = Date.now();
+let count = 0;
 
 const UserDeity: React.FC<Props> = ({
   buttonClickHandler,
@@ -60,6 +61,8 @@ const UserDeity: React.FC<Props> = ({
 
 
   const handleAnimationEnd = () => {
+    count++;
+    console.log(count);
     const copy = energy_balls.slice(0);
     copy.shift();
     set_energy_balls(copy);
@@ -100,6 +103,15 @@ const UserDeity: React.FC<Props> = ({
         set_energy_size(2.2);
         set_user_power(64);
         break;
+      case 200:
+        set_energy_color([0, 0, 100]);
+        set_energy_size(3);
+        set_user_power(200);
+        break;
+      case 400:
+        set_energy_size(10);
+        set_user_power(1000);
+
     }
   };
 
