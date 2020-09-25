@@ -40,7 +40,7 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, 
     <>
       <TopUser>
         <UsernameContainer online={is_online}>
-          {place}{')'} {user_name} {is_online.toString()}
+          {place}{')'} {user_name}
           <UserId>#{idToStringWithZeroes(user_id)}</UserId>
         </UsernameContainer>
         <UserClicks>clicks: {value}</UserClicks>

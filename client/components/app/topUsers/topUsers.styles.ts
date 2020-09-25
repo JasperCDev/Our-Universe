@@ -30,7 +30,7 @@ export const TopUser = styled.p`
 `;
 
 export const UsernameContainer = styled.div<{ online: boolean }>`
-  color: ${({ online }) => online ? 'green': 'inherit'};
+  color: ${({ online }) => online ? 'lightgreen': 'inherit'};
 `;
 
 export const UserId = styled.span`

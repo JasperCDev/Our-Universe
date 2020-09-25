@@ -5,9 +5,9 @@ import { UserDeityEnergyBallDiv } from './userDeity.styles';
 interface Props {
   translateDistance: number;
   animationEndHandler: () => void;
-  energy_hue: number;
-  energy_saturation: number;
-  energy_lightness: number;
+  energy_red: number;
+  energy_green: number;
+  energy_blue: number;
   energy_size: number;
   user_power: number;
 }
@@ -15,26 +15,26 @@ interface Props {
 const UserEnergyBall: FC<Props> = ({
   translateDistance,
   animationEndHandler,
-  energy_hue,
-  energy_lightness,
-  energy_saturation,
+  energy_red,
+  energy_blue,
+  energy_green,
   energy_size,
   user_power
 }) => {
   const [translate_distance, set_translate_distance] = useState<number>(0);
-  const [hue, set_hue] = useState<number>(0);
-  const [saturation, set_saturation] = useState<number>(0);
-  const [lightness, set_lightness] = useState<number>(0);
+  const [red, set_red] = useState<number>(0);
+  const [green, set_green] = useState<number>(0);
+  const [blue, set_blue] = useState<number>(0);
   const [size, set_size] = useState<number>(energy_size);
   const [power, set_power] = useState<number>(user_power);
 
   useEffect(() => {
-    if (hue === 0) {
-      set_hue(energy_hue);
-      set_saturation(energy_saturation);
-      set_lightness(energy_lightness);
+    if (red === 0) {
+      set_red(energy_red);
+      set_green(energy_green);
+      set_blue(energy_blue);
     }
-  }, [hue, saturation, lightness]);
+  }, [red, green, blue]);
 
   useEffect(() => {
     if (translate_distance === 0 && translateDistance !== 0) set_translate_distance(translateDistance);
@@ -44,9 +44,9 @@ const UserEnergyBall: FC<Props> = ({
   return (
     <UserDeityEnergyBallDiv
       size={size}
-      hue={hue}
-      saturation={saturation}
-      lightness={lightness}
+      red={red}
+      green={green}
+      blue={blue}
       onAnimationEnd={animationEndHandler}
       translateDistance={translate_distance}
     >

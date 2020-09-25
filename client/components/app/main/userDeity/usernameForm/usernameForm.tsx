@@ -2,16 +2,15 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { removeSpecialCharactersFromString, removeTagFromString, validateNewUsername } from '../../../../helpers';
 import axios from 'axios';
-import { UserNameFormMessage } from '../userDeity.styles';
 
 const Username = styled.h2.attrs((props) => {})`
   padding-left: 8px;
   cursor: pointer;
   width: 90%;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
   text-align: center;
   transition: all 1s ease-in-out;
-  border: 0.2rem solid black;
+  border: 0.2rem solid transparent;
   &:hover {
     letter-spacing: 4;
     background-color: white;
@@ -23,6 +22,14 @@ const Username = styled.h2.attrs((props) => {})`
     letter-spacing: 4;
     color: black;
   }
+`;
+const UserNameFormMessage = styled.p<{ color: string }>`
+  color: ${({ color }) => color};
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.8rem;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 1rem;
 `;
 
 interface Props {

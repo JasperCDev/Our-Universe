@@ -14,7 +14,7 @@ const pulse = keyframes`
   }
 `;
 
-export const UserDeityContainer = styled.div <{ hue: number; saturation: number; lightness: number; }>`
+export const UserDeityContainer = styled.div <{ red: number; green: number; blue: number; }>`
   height: 25rem;
   width: 25rem;
   margin: 7rem 0 0 0;
@@ -22,17 +22,18 @@ export const UserDeityContainer = styled.div <{ hue: number; saturation: number;
   grid-row-end: 3;
   justify-self: bottom;
   border-radius: 50%;
-  border: 0.07rem solid ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
+  border: 0.07rem solid ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
+  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.15)`};
   padding: 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  transition: border 1s ease-in-out;
+  transition: all 1s ease-in-out;
 `;
 
-export const UserDeityDiv = styled.div<{ hue: number; saturation: number; lightness: number; }>`
+export const UserDeityDiv = styled.div<{ red: number; green: number; blue: number; }>`
   border-radius: 50%;
-  background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
+  background-color: ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
   height: 5rem;
   width: 5rem;
   margin: 4rem auto 0 auto;
@@ -52,31 +53,24 @@ const animateUp = (translateDistance: number, size: number) => keyframes`
     }
 `;
 
-export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; hue: number; saturation: number; lightness: number; size: number}>`
-  background-color: ${({ hue, saturation, lightness }) => `hsl(${hue}, ${saturation}%, ${lightness}%)`};
+export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; red: number; green: number; blue: number; size: number}>`
+  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.5)`};
   height: ${({ size }) => size + 'rem'};
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: ${({ size }) => (-8 - size) + 'rem'};
-  border: 0.07rem solid white;
+  top: ${({ size }) => (-7.5 - size) + 'rem'};
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  z-index: -1;
   font-size: ${({ size }) => (size * 8) + 'px'};
-  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 6 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
+  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 4 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
 `;
 
-export const UserNameFormMessage = styled.p<{ color: string }>`
-  color: ${({ color }) => color};
-  font-weight: bold;
-  text-align: center;
-  font-size: 0.8rem;
-  transition: all 0.2s ease-in-out;
-  margin-bottom: 1rem;
-`;
+
 
 export const UserClicksSubheading = styled.h3`
   font-weight: bold;
@@ -90,7 +84,7 @@ export const UserDeityButton = styled(Button)`
   && {
     color: black;
     font-size: 1rem;
-    border: 0.3rem solid black;
+    border: none;
     display: block;
     margin: 0 auto;
     height: 3rem;

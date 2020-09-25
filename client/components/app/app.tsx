@@ -27,7 +27,7 @@ const App: FC = () => {
   const [top_users, set_top_users] = useState<ReadonlyArray<User>>([]);
   const [user_id, set_user_id] = useState<number>(0);
   const [user_star_rect, set_user_star_rect] = useState<DOMRect>();
-  const [energy_color, set_energy_color] = useState<[number, number, number]>([180, 100, 80]);
+  const [energy_color, set_energy_color] = useState<[number, number, number]>([64, 191, 255]);
   const [user_power, set_user_power] = useState<number>(1);
 
   const user_name_ref = useRef<string>('');
@@ -58,7 +58,6 @@ const App: FC = () => {
       registerUser().then(() => logInUser());
     } else {
       logInUser();
-
     }
     const beforeunload = (e: BeforeUnloadEvent) => {
       axios.put('/online', { user_id: user_id_ref.current, is_online: false });

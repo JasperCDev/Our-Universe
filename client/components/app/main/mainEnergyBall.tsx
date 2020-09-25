@@ -9,7 +9,6 @@ const animateUp = (distanceX: number, distanceY: number) => keyframes`
 `;
 
 const EnergyBall = styled.div <{ x: number; y: number, distanceX: number; distanceY: number; }>`
-  color: red;
   position: absolute;
   top: ${({ y }) => `calc(${y}px - 5rem - 0.5rem)`};
   left: ${({ x }) => `calc(${x}px - 0.5rem)`};
@@ -46,7 +45,6 @@ const MainEnergyBall: React.FC<Props> = ({
     if (x_state === 0) {
       set_x_state(x);
       set_y_state(y);
-
     }
   }, [x, y]);
 

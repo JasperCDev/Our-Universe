@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import UserStar from './userStar/userStar';
 import UserDeity from './userDeity/userDeity';
 import MainEnergyBall from './mainEnergyBall';
+import { PlanetEnergyColorContext } from './mainContexts';
+import { EnergyColorContext } from '../contexts';
 
 const MainDiv = styled.div`
   width: 100%;
@@ -14,8 +16,6 @@ const MainDiv = styled.div`
   user-select: none;
 `;
 
-let count = 0;
-
 interface Props {
   user_star_rect: (DOMRect | undefined);
   set_user_star_rect: React.Dispatch<React.SetStateAction<DOMRect | undefined>>;
@@ -26,6 +26,23 @@ const Main: React.FC<Props> = ({ user_star_rect, set_user_star_rect, buttonClick
   const [energy_balls, set_energy_balls] = useState<Array<[number, number, number]>>([]);
   const [user_star_position, set_user_star_position] = useState<[number, number]>([0, 0]);
   const [energy_balls_count, set_energy_balls_count] = useState<number>(0);
+  const [planet_energy_color, set_planet_energy_color] = useState<[number, number, number]>([64, 191, 255]);
+
+  const planet_energy_color_ref = useRef([64, 191, 255]);
+  planet_energy_color_ref.current = planet_energy_color;
+
+
+  useEffect(() => {
+    const localStoragePlanetEnergyColor = localStorage.getItem('planet_energy_color');
+    if (!localStoragePlanetEnergyColor) {
+      localStorage.setItem('planet_energy_color', JSON.stringify(planet_energy_color));
+    }
+    set_planet_energy_color(JSON.parse(localStoragePlanetEnergyColor!));
+
+    setInterval(() => {
+      localStorage.setItem('planet_energy_color', JSON.stringify(planet_energy_color_ref.current));
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     if (user_star_rect && user_star_rect.height) {
@@ -49,26 +66,29 @@ const Main: React.FC<Props> = ({ user_star_rect, set_user_star_rect, buttonClick
     copy.shift();
     set_energy_balls(copy);
     buttonClickHandler();
+    set_planet_energy_color([planet_energy_color[0] + 5, planet_energy_color[1] - 5, planet_energy_color[2] - 5]);
   }
 
 
   return (
-    <MainDiv onClick={mainClickHandler}>
-      {energy_balls.map((ball) => (
-        <MainEnergyBall
-          x={ball[0]}
-          y={ball[1]}
-          distanceX={user_star_position[0] - ball[0]}
-          distanceY={user_star_position[1] - ball[1]}
-          animationEndHandler={animationEndHandler}
-          key={ball[2]}
-        >
+    <PlanetEnergyColorContext.Provider value={{planet_energy_color, set_planet_energy_color}}>
+      <MainDiv onClick={mainClickHandler}>
+        {energy_balls.map((ball) => (
+          <MainEnergyBall
+            x={ball[0]}
+            y={ball[1]}
+            distanceX={user_star_position[0] - ball[0]}
+            distanceY={user_star_position[1] - ball[1]}
+            animationEndHandler={animationEndHandler}
+            key={ball[2]}
+          >
+          </MainEnergyBall>
+        ))}
+        <UserStar user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect}/>
+        <UserDeity user_star_rect={user_star_rect} buttonClickHandler={buttonClickHandler} />
+      </MainDiv>
+    </PlanetEnergyColorContext.Provider>
 
-        </MainEnergyBall>
-      ))}
-      <UserStar user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect}/>
-      <UserDeity user_star_rect={user_star_rect} buttonClickHandler={buttonClickHandler} />
-    </MainDiv>
   );
 }
 

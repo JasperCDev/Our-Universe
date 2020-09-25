@@ -22,9 +22,10 @@ export const MainDeityDivContainer = styled.div<{ starSize: number }>`
   width: ${({ starSize }) => starSize + 'rem'};
 `;
 
-export const MainDeityDiv = styled.div<{ starSize: number }>`
+
+export const MainDeityDiv = styled.div<{ starSize: number; red: number; green: number; blue: number; }>`
   border-radius: 50%;
-  background: linear-gradient(to right, pink, blue);
+  background: ${({ red, green, blue }) => `linear-gradient(to right, rgb(${red}, ${green}, ${blue}), rgba(${red}, ${green - 50}, ${blue - 50}, 0.1))`};
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
   animation: ${rotate} 5s linear infinite;

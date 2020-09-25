@@ -3,6 +3,7 @@ import { UserDeityContainer, UserClicksSubheading, UserDeityButton, UserDeityDiv
 import UserEnergyBall from './userEnergyBall';
 import UsernameForm from './usernameForm/usernameForm';
 import { EnergyColorContext, UserContext } from '../../contexts';
+import { PlanetEnergyColorContext } from '../mainContexts';
 
 interface Props {
   buttonClickHandler: () => void;
@@ -26,16 +27,17 @@ const UserDeity: React.FC<Props> = ({
 
   const energyColor = useContext(EnergyColorContext);
   const { set_energy_color } = energyColor;
-  const [hue, saturation, lightness] = energyColor!.energy_color;
+  const [red, green, blue] = energyColor!.energy_color;
 
   const user = useContext(UserContext);
   const { user_name, user_id, set_user_name, user_power, set_user_power } = user;
 
+  const { planet_energy_color, set_planet_energy_color } = useContext(PlanetEnergyColorContext);
 
   useEffect(() => {
     setInterval(() => {
       if (Date.now() - lastClickTime >= 2000) {
-        set_energy_color([180, 100, 80]);
+        set_energy_color([64, 191, 255]);
         sessionClicks = 0;
         set_user_power(1);
         set_energy_size(1);
@@ -53,77 +55,79 @@ const UserDeity: React.FC<Props> = ({
     }
   }, [user_star_rect]);
 
-  // useEffect(() => {
-  //   if (energy_balls_count) set_energy_balls([...energy_balls, energy_balls_count]);
-  // }, [energy_balls_count]);
-
-
-
   const handleAnimationEnd = () => {
     const copy = energy_balls.slice(0);
     copy.shift();
     set_energy_balls(copy);
     buttonClickHandler();
+    changePlanetColor();
+
+  }
+
+  const changePlanetColor = () => {
+    const redDifference = red - planet_energy_color[0];
+    const greenDifference = green - planet_energy_color[1];
+    const blueDifference = blue - planet_energy_color[2];
+    const newRed = planet_energy_color[0] + Math.floor(redDifference / 10);
+    const newGreen = planet_energy_color[1] + Math.floor(greenDifference / 10);
+    const newBlue = planet_energy_color[2] + Math.floor(blueDifference / 10);
+    set_planet_energy_color([ newRed, newGreen, newBlue]);
   }
 
   const assessMultipleClicks = () => {
     sessionClicks++;
     lastClickTime = Date.now();
     switch (sessionClicks) {
-      case 20:
-        set_energy_color([200, 80, 70]);
+      case 10:
+        set_energy_color([127, 255, 127]);
         set_energy_size(1.2);
         set_user_power(2);
         break;
-      case 40:
-        set_energy_color([250, 100, 30]);
-        set_energy_size(1.4);
-        set_user_power(4);
-        break;
-      case 60:
-        set_energy_color([0, 60, 25]);
-        set_energy_size(1.6);
-        set_user_power(8);
-        break;
-      case 80:
-        set_energy_color([0, 90, 40]);
+      case 20:
+        set_energy_color([255, 127, 255]);
         set_energy_size(1.8);
         set_user_power(16);
         break;
-      case 90:
-        set_energy_color([50, 100, 40]);
+      case 30:
+        set_energy_color([255, 0, 255]);
         set_energy_size(2);
         set_user_power(32);
         break;
-      case 120:
-        set_energy_color([60, 100, 50]);
+      case 40:
+        set_energy_color([255, 255, 127]);
         set_energy_size(2.2);
+        set_user_power(32);
+        break;
+      case 50:
+        set_energy_color([255, 255, 0]);
+        set_energy_size(2.4);
         set_user_power(64);
         break;
-      case 200:
-        set_energy_color([0, 0, 100]);
+      case 60:
+        set_energy_color([255, 0, 0]);
+        set_energy_size(2.6);
+        set_user_power(128);
+      case 70:
+        set_energy_color([127, 127, 127]);
         set_energy_size(3);
-        set_user_power(200);
-        break;
-      case 400:
-        set_energy_size(10);
-        set_user_power(1000);
+        set_user_power(500);
+
     }
   };
 
 
 
   return (
-    <UserDeityContainer ref={UserDeityContainerRef} hue={hue} saturation={saturation} lightness={lightness}>
-      <UserDeityDiv hue={hue} saturation={saturation} lightness={lightness}>
+    <UserDeityContainer ref={UserDeityContainerRef} red={red} green={green} blue={blue}>
+      <UserDeityDiv red={red} green={green} blue={blue}>
         {energy_balls.map((id) => (
           <UserEnergyBall
             animationEndHandler={handleAnimationEnd}
             translateDistance={energy_ball_translate_distance}
             key={id}
-            energy_hue={hue}
-            energy_saturation={saturation}
-            energy_lightness={lightness}
+            energy_red={red}
+            energy_green={green}
+            energy_blue={blue}
             energy_size={energy_size}
             user_power={user_power}
           >

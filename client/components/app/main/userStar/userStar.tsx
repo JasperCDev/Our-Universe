@@ -1,7 +1,8 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { Counter, MainDeityContainer, MainDeityDiv, MainDeityDivContainer, UniverseName } from './userStar.styles';
 import { numberToCommaSeperatedString } from '../../../helpers';
-import { UserContext } from '../../contexts';
+import { UserContext, EnergyColorContext } from '../../contexts';
+import { PlanetEnergyColorContext } from '../mainContexts';
 
 interface Props {
   set_user_star_rect: React.Dispatch<React.SetStateAction<DOMRect | undefined>>;
@@ -13,6 +14,8 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
   const MainDeityDivRef = useRef<HTMLDivElement>(null);
 
   const { user_clicks } = useContext(UserContext);
+
+  const [red, green, blue] = useContext(PlanetEnergyColorContext).planet_energy_color;
 
   useEffect(() => {
     const new_user_star_rect = MainDeityDivRef.current!.getBoundingClientRect();
@@ -31,7 +34,13 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
         {numberToCommaSeperatedString(user_clicks)} atoms
       </Counter>
       <MainDeityDivContainer starSize={star_size} ref={MainDeityDivRef} >
-        <MainDeityDiv starSize={star_size} ></MainDeityDiv>
+        <MainDeityDiv
+          starSize={star_size}
+          red={red}
+          green={green}
+          blue={blue}
+        >
+        </MainDeityDiv>
       </MainDeityDivContainer>
     </MainDeityContainer>
   );
