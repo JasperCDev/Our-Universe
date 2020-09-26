@@ -10,5 +10,6 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   user_name VARCHAR(15) NOT NULL,
   user_clicks INTEGER NOT NULL,
-  is_online BOOLEAN NOT NULL
+  is_online BOOLEAN NOT NULL,
+  planet_color VARCHAR(20) NOT NULL
 );

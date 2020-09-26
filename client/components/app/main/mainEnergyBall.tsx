@@ -25,7 +25,7 @@ interface Props {
   y: number;
   distanceX: number;
   distanceY: number;
-  animationEndHandler: () => void;
+  animationEndHandler: (e: React.AnimationEvent<HTMLDivElement>) => void;
 }
 
 
@@ -62,6 +62,7 @@ const MainEnergyBall: React.FC<Props> = ({
       distanceX={distance_x}
       distanceY={distance_y}
       onAnimationEnd={animationEndHandler}
+      data-color={'[255, 0, 0]'}
     >
     </EnergyBall>
   );

@@ -61,12 +61,22 @@ const Main: React.FC<Props> = ({ user_star_rect, set_user_star_rect, buttonClick
     set_energy_balls(copy);
   }
 
-  const animationEndHandler = () => {
+  const animationEndHandler = (e: React.AnimationEvent<HTMLDivElement>) => {
     const copy = energy_balls.slice(0);
     copy.shift();
     set_energy_balls(copy);
     buttonClickHandler();
-    set_planet_energy_color([planet_energy_color[0] + 5, planet_energy_color[1] - 5, planet_energy_color[2] - 5]);
+    changePlanetColor(JSON.parse((e.target as HTMLDivElement).getAttribute('data-color')!));
+  }
+
+  const changePlanetColor = (energyBallColor: [number, number, number]) => {
+    const redDifference = energyBallColor[0] - planet_energy_color[0];
+    const greenDifference = energyBallColor[1] - planet_energy_color[1];
+    const blueDifference = energyBallColor[2] - planet_energy_color[2];
+    const newRed = planet_energy_color[0] + Math.floor(redDifference / 20);
+    const newGreen = planet_energy_color[1] + Math.floor(greenDifference / 20);
+    const newBlue = planet_energy_color[2] + Math.floor(blueDifference / 20);
+    set_planet_energy_color([ newRed, newGreen, newBlue]);
   }
 
 

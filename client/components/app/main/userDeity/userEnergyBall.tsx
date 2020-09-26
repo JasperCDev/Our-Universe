@@ -4,7 +4,7 @@ import { UserDeityEnergyBallDiv } from './userDeity.styles';
 
 interface Props {
   translateDistance: number;
-  animationEndHandler: () => void;
+  animationEndHandler: (e: React.AnimationEvent<HTMLDivElement>) => void;
   energy_red: number;
   energy_green: number;
   energy_blue: number;
@@ -49,6 +49,7 @@ const UserEnergyBall: FC<Props> = ({
       blue={blue}
       onAnimationEnd={animationEndHandler}
       translateDistance={translate_distance}
+      data-color={JSON.stringify([red, green, blue])}
     >
       {power}
     </UserDeityEnergyBallDiv>

@@ -54,7 +54,7 @@ const animateUp = (translateDistance: number, size: number) => keyframes`
 `;
 
 export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; red: number; green: number; blue: number; size: number}>`
-  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.5)`};
+  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 1)`};
   height: ${({ size }) => size + 'rem'};
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
@@ -67,7 +67,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; re
   font-weight: bold;
   z-index: -1;
   font-size: ${({ size }) => (size * 8) + 'px'};
-  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 4 - Math.floor(Math.abs(translateDistance) / 100)}s linear;
+  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 2 + Math.floor(Math.abs(translateDistance) / 100)}s linear;
 `;
 
 

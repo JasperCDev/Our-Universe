@@ -14,21 +14,22 @@ export const MainDeityContainer = styled.div`
   height: 20rem;
   width: 30rem;
   margin-top: 1rem;
-  /* border: 1px solid maroon; */
 `;
 
 export const MainDeityDivContainer = styled.div<{ starSize: number }>`
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
+  background-color: black;
+  opacity: 1;
 `;
 
 
 export const MainDeityDiv = styled.div<{ starSize: number; red: number; green: number; blue: number; }>`
   border-radius: 50%;
-  background: ${({ red, green, blue }) => `linear-gradient(to right, rgb(${red}, ${green}, ${blue}), rgba(${red}, ${green - 50}, ${blue - 50}, 0.1))`};
+  background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green - 50}, ${blue - 50}, 0.1))`};
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
-  animation: ${rotate} 5s linear infinite;
+  animation: ${rotate} 8s linear infinite;
   z-index: 20;
 `;
 

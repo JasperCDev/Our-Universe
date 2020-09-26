@@ -12,8 +12,6 @@ interface Props {
   is_online: boolean;
 }
 
-let start = 0;
-
 const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, is_online }) => {
   const [user_clicks_state, set_user_clicks_state] = useState<number>(0);
   const previous_user_clicks_ref = useRef(0);

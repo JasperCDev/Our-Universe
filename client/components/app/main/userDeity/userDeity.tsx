@@ -42,7 +42,7 @@ const UserDeity: React.FC<Props> = ({
         set_user_power(1);
         set_energy_size(1);
       }
-    }, 1000)
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -55,22 +55,22 @@ const UserDeity: React.FC<Props> = ({
     }
   }, [user_star_rect]);
 
-  const handleAnimationEnd = () => {
+  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     const copy = energy_balls.slice(0);
     copy.shift();
     set_energy_balls(copy);
     buttonClickHandler();
-    changePlanetColor();
+    changePlanetColor(JSON.parse((e.target as HTMLDivElement).getAttribute('data-color')!));
 
   }
 
-  const changePlanetColor = () => {
-    const redDifference = red - planet_energy_color[0];
-    const greenDifference = green - planet_energy_color[1];
-    const blueDifference = blue - planet_energy_color[2];
-    const newRed = planet_energy_color[0] + Math.floor(redDifference / 10);
-    const newGreen = planet_energy_color[1] + Math.floor(greenDifference / 10);
-    const newBlue = planet_energy_color[2] + Math.floor(blueDifference / 10);
+  const changePlanetColor = (energyBallColor: [number, number, number]) => {
+    const redDifference = energyBallColor[0] - planet_energy_color[0];
+    const greenDifference = energyBallColor[1] - planet_energy_color[1];
+    const blueDifference = energyBallColor[2] - planet_energy_color[2];
+    const newRed = planet_energy_color[0] + Math.floor(redDifference / 20);
+    const newGreen = planet_energy_color[1] + Math.floor(greenDifference / 20);
+    const newBlue = planet_energy_color[2] + Math.floor(blueDifference / 20);
     set_planet_energy_color([ newRed, newGreen, newBlue]);
   }
 
@@ -78,36 +78,36 @@ const UserDeity: React.FC<Props> = ({
     sessionClicks++;
     lastClickTime = Date.now();
     switch (sessionClicks) {
-      case 10:
+      case 100:
         set_energy_color([127, 255, 127]);
         set_energy_size(1.2);
         set_user_power(2);
         break;
-      case 20:
+      case 200:
         set_energy_color([255, 127, 255]);
         set_energy_size(1.8);
         set_user_power(16);
         break;
-      case 30:
+      case 300:
         set_energy_color([255, 0, 255]);
         set_energy_size(2);
         set_user_power(32);
         break;
-      case 40:
+      case 400:
         set_energy_color([255, 255, 127]);
         set_energy_size(2.2);
         set_user_power(32);
         break;
-      case 50:
+      case 500:
         set_energy_color([255, 255, 0]);
         set_energy_size(2.4);
         set_user_power(64);
         break;
-      case 60:
+      case 600:
         set_energy_color([255, 0, 0]);
         set_energy_size(2.6);
         set_user_power(128);
-      case 70:
+      case 700:
         set_energy_color([127, 127, 127]);
         set_energy_size(3);
         set_user_power(500);
