@@ -35,9 +35,11 @@ const Header: React.FC<Props> = ({ global_clicks, previous_global_clicks }) => {
   return (
     <HeaderTag>
       <h5>Journey to Create the Universe</h5>
-      <h6>{value}</h6>
+
+      <h6 style={{ color: 'lightBlue' }}>{value}<span style={{ paddingLeft: '1rem', fontSize: '1rem', color: 'white'}}>atoms in the Universe</span></h6>
     </HeaderTag>
   );
+
 }
 
 export default Header;

@@ -16,6 +16,7 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
   const { user_clicks } = useContext(UserContext);
 
   const [red, green, blue] = useContext(PlanetEnergyColorContext).planet_energy_color;
+  // console.log('planet_energy_color: ', red);
 
   useEffect(() => {
     const new_user_star_rect = MainDeityDivRef.current!.getBoundingClientRect();

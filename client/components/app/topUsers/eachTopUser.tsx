@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TopUser, UserClicks, UserId, UsernameContainer } from './topUsers.styles';
+import { Place, TopUser, TopUserContainer, UserClicks, UserId, UsernameContainer, UserOnlineTag } from './topUsers.styles';
 import { idToStringWithZeroes } from '../../helpers';
 import { useCountUp } from 'use-count-up';
-import { INSPECT_MAX_BYTES } from 'buffer';
 
 interface Props {
   user_name: string;
@@ -36,14 +35,17 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, 
 
   return (
     <>
-      <TopUser>
-        <UsernameContainer online={is_online}>
-          {place}{')'} {user_name}
-          <UserId>#{idToStringWithZeroes(user_id)}</UserId>
-        </UsernameContainer>
-        <UserClicks>clicks: {value}</UserClicks>
-      </TopUser>
-      <hr />
+      <TopUserContainer>
+      <Place>{place}{')'}</Place>
+        <TopUser>
+          <UsernameContainer>
+            {user_name}
+            <UserId>#{idToStringWithZeroes(user_id)}</UserId>
+            <UserOnlineTag online={is_online}> {is_online ? 'online' : 'offline'} </UserOnlineTag>
+          </UsernameContainer>
+          <UserClicks>atoms: {value}</UserClicks>
+          </TopUser>
+      </TopUserContainer>
     </>
   )
 }

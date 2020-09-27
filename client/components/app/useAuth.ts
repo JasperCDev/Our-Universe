@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Faker from 'faker';
+import regeneratorRuntime from "regenerator-runtime";
 
 export const useAuth = (set_user_clicks: React.Dispatch<React.SetStateAction<number>>) => {
   const [user_name, set_user_name] = useState<string>('');
@@ -12,7 +13,6 @@ export const useAuth = (set_user_clicks: React.Dispatch<React.SetStateAction<num
   useEffect(() => {
     const beforeunload = (e: BeforeUnloadEvent) => {
       axios.put('/online', { user_id: user_id_ref.current, is_online: false });
-      // e.returnValue = null;
       return null;
     }
 
