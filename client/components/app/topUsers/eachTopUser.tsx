@@ -13,6 +13,7 @@ interface Props {
 
 const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, is_online }) => {
   const [user_clicks_state, set_user_clicks_state] = useState<number>(0);
+  const [hovered, set_hovered] = useState<boolean>(false);
   const previous_user_clicks_ref = useRef(0);
 
   useEffect(() => {
@@ -35,10 +36,10 @@ const EachTopUser: React.FC<Props> = ({ user_name, user_clicks, place, user_id, 
 
   return (
     <>
-      <TopUserContainer>
+      <TopUserContainer onMouseOver={() => set_hovered(true)} onMouseLeave={() => set_hovered(false)}>
       <Place>{place}{')'}</Place>
         <TopUser>
-          <UsernameContainer>
+          <UsernameContainer hovered={hovered}>
             {user_name}
             <UserId>#{idToStringWithZeroes(user_id)}</UserId>
             <UserOnlineTag online={is_online}> {is_online ? 'online' : 'offline'} </UserOnlineTag>

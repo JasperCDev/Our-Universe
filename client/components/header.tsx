@@ -5,7 +5,8 @@ import { useCountUp } from 'use-count-up';
 
 const HeaderTag = styled.header`
   height: 5rem;
-  background-color: #1d2636;
+  background-color: black;
+  border-bottom: 0.0625rem solid lightblue;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,9 +35,9 @@ const Header: React.FC<Props> = ({ global_clicks, previous_global_clicks }) => {
 
   return (
     <HeaderTag>
-      <h5>Journey to Create the Universe</h5>
+      <h5>JOURNEY TO CREATE THE UNIVERSE</h5>
 
-      <h6 style={{ color: 'lightBlue' }}>{value}<span style={{ paddingLeft: '1rem', fontSize: '1rem', color: 'white'}}>atoms in the Universe</span></h6>
+      <h6 style={{ color: 'lightblue', fontWeight: 'bold' }}>{value}<span style={{ paddingLeft: '1rem', fontSize: '1rem', color: 'white'}}>ATOMS IN THE UNIVERSE</span></h6>
     </HeaderTag>
   );
 

@@ -57,7 +57,10 @@ export const Place = styled.h4`
   text-align: center;
 `;
 
-export const UsernameContainer = styled.div`
+export const UsernameContainer = styled.div<{ hovered: boolean }>`
+  font-size: 1.2rem;
+  color: ${({ hovered }) => !hovered ? 'lightblue' : 'navy'};
+  transition: all .3s ease-in-out;
 `;
 
 export const UserOnlineTag = styled.span<{ online: boolean }>`
@@ -71,10 +74,10 @@ export const UserId = styled.span`
   font-size: 0.7rem;
   padding-left: 0.2rem;
   font-style: italic;
+  color: white;
 `;
 
 export const UserClicks = styled.p`
-  padding-left: 1rem;
   font-family: monospace;
   font-weight: 300;
   font-size: 0.9em;

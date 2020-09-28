@@ -13,7 +13,7 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
   const [star_size, set_star_size] = useState<number>(0);
   const MainDeityDivRef = useRef<HTMLDivElement>(null);
 
-  const { user_clicks } = useContext(UserContext);
+  const { user_clicks, user_name } = useContext(UserContext);
 
   const [red, green, blue] = useContext(PlanetEnergyColorContext).planet_energy_color;
   // console.log('planet_energy_color: ', red);
@@ -30,9 +30,9 @@ const UserStar: FC<Props> = ({ set_user_star_rect, user_star_rect }) => {
 
   return (
     <MainDeityContainer >
-      <UniverseName>Your Planet</UniverseName>
+      <UniverseName>{user_name.toUpperCase()}'S PLANET</UniverseName>
       <Counter>
-        {numberToCommaSeperatedString(user_clicks)} atoms
+        {numberToCommaSeperatedString(user_clicks)} ATOMS
       </Counter>
       <MainDeityDivContainer starSize={star_size} ref={MainDeityDivRef} >
         <MainDeityDiv

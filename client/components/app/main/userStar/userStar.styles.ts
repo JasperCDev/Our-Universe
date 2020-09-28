@@ -20,7 +20,9 @@ export const MainDeityDivContainer = styled.div<{ starSize: number }>`
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
   background-color: black;
+  border-radius: 50%;
   opacity: 1;
+  z-index: 1000;
 `;
 
 
@@ -30,7 +32,7 @@ export const MainDeityDiv = styled.div<{ starSize: number; red: number; green: n
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
   animation: ${rotate} 8s linear infinite;
-  z-index: 20;
+  z-index: 900;
 `;
 
 export const UniverseName = styled.h1`
