@@ -21,9 +21,10 @@ const UserDeity: React.FC<Props> = ({
   const [energy_balls, set_energy_balls] = useState<Array<number>>([]);
   const [energy_ball_translate_distance, set_energy_ball_translate_distance] = useState<number>(0);
   const [energy_size, set_energy_size] = useState<number>(1);
+  const [UserDeityContainerRect, setUserDeityContainerRect] = useState<DOMRect>();
 
   const UserDeityContainerRef = useRef<HTMLDivElement>(null);
-  let UserDeityContainerRect: DOMRect;
+  // let UserDeityContainerRect: DOMRect;
 
   const energyColor = useContext(EnergyColorContext);
   const { set_energy_color } = energyColor;
@@ -47,7 +48,7 @@ const UserDeity: React.FC<Props> = ({
 
   useEffect(() => {
     if (!UserDeityContainerRect) {
-      UserDeityContainerRect = UserDeityContainerRef!.current!.getBoundingClientRect();
+      setUserDeityContainerRect(UserDeityContainerRef!.current!.getBoundingClientRect());
     }
     if (UserDeityContainerRect && user_star_rect) {
       const travelDistance = UserDeityContainerRect.top - user_star_rect.bottom;
@@ -116,33 +117,35 @@ const UserDeity: React.FC<Props> = ({
   };
 
 
-
   return (
-    <UserDeityContainer ref={UserDeityContainerRef} red={red} green={green} blue={blue}>
-      <UserDeityDiv red={red} green={green} blue={blue}>
-        {energy_balls.map((id) => (
-          <UserEnergyBall
-            animationEndHandler={handleAnimationEnd}
-            translateDistance={energy_ball_translate_distance}
-            key={id}
-            energy_red={red}
-            energy_green={green}
-            energy_blue={blue}
-            energy_size={energy_size}
-            user_power={user_power}
-          >
-          </UserEnergyBall>
-        ))}
-      </UserDeityDiv>
-      <UsernameForm user_name={user_name} user_id={user_id} set_user_name={set_user_name} />
-      <UserDeityButton onClick={() => {
-        set_energy_balls_count(energy_balls_count + 1);
-        set_energy_balls([...energy_balls, energy_balls_count]);
-        assessMultipleClicks();
-      }}>
-        Click Me!
-      </UserDeityButton>
-    </UserDeityContainer>
+    <>
+      {energy_balls.map((id) => (
+        <UserEnergyBall
+          animationEndHandler={handleAnimationEnd}
+          translateDistance={energy_ball_translate_distance}
+          key={id}
+          energy_red={red}
+          energy_green={green}
+          energy_blue={blue}
+          energy_size={energy_size}
+          user_power={user_power}
+          rect={UserDeityContainerRect}
+        >
+        </UserEnergyBall>
+      ))}
+      <UserDeityContainer ref={UserDeityContainerRef} red={red} green={green} blue={blue}>
+        <UserDeityDiv red={red} green={green} blue={blue}>
+        </UserDeityDiv>
+        <UsernameForm user_name={user_name} user_id={user_id} set_user_name={set_user_name} />
+        <UserDeityButton onClick={() => {
+          set_energy_balls_count(energy_balls_count + 1);
+          set_energy_balls([...energy_balls, energy_balls_count]);
+          assessMultipleClicks();
+        }}>
+          Click Me!
+        </UserDeityButton>
+      </UserDeityContainer>
+    </>
   );
 }
 

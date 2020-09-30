@@ -54,6 +54,7 @@ const Main: React.FC<Props> = ({ user_star_rect, set_user_star_rect, buttonClick
 
   const mainClickHandler = (e: React.MouseEvent) => {
     if (e.target !== e.currentTarget) return;
+    console.log(e.pageY);
     set_energy_balls_count(energy_balls_count + 1);
     const htmlFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const copy = energy_balls.slice(0);

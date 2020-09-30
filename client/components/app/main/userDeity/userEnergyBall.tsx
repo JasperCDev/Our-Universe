@@ -10,6 +10,7 @@ interface Props {
   energy_blue: number;
   energy_size: number;
   user_power: number;
+  rect: (DOMRect | undefined);
 }
 
 const UserEnergyBall: FC<Props> = ({
@@ -19,7 +20,8 @@ const UserEnergyBall: FC<Props> = ({
   energy_blue,
   energy_green,
   energy_size,
-  user_power
+  user_power,
+  rect
 }) => {
   const [translate_distance, set_translate_distance] = useState<number>(0);
   const [red, set_red] = useState<number>(0);
@@ -27,6 +29,8 @@ const UserEnergyBall: FC<Props> = ({
   const [blue, set_blue] = useState<number>(0);
   const [size, set_size] = useState<number>(energy_size);
   const [power, set_power] = useState<number>(user_power);
+  const [top, set_top] = useState<number>(0);
+  const [left, set_left] = useState<number>(0);
 
   useEffect(() => {
     if (red === 0) {
@@ -41,6 +45,14 @@ const UserEnergyBall: FC<Props> = ({
 
   }, [translateDistance]);
 
+  useEffect(() => {
+    if (rect && top === 0) {
+      set_top(rect.top);
+      set_left(rect.left + (rect.width / 2));
+    };
+  }, [rect]);
+
+  console.log(top);
   return (
     <UserDeityEnergyBallDiv
       size={size}
@@ -50,6 +62,8 @@ const UserEnergyBall: FC<Props> = ({
       onAnimationEnd={animationEndHandler}
       translateDistance={translate_distance}
       data-color={JSON.stringify([red, green, blue])}
+      top={top}
+      left={left}
     >
       {power}
     </UserDeityEnergyBallDiv>

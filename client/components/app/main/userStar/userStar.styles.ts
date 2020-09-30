@@ -22,17 +22,18 @@ export const MainDeityDivContainer = styled.div<{ starSize: number }>`
   background-color: black;
   border-radius: 50%;
   opacity: 1;
-  z-index: 1000;
+  position: relative;
 `;
 
 
 export const MainDeityDiv = styled.div<{ starSize: number; red: number; green: number; blue: number; }>`
   border-radius: 50%;
-  background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green - 50}, ${blue - 50}, 0.1))`};
+  background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green}, ${blue}, 0.05))`};
   height: ${({ starSize }) => starSize + 'rem'};
   width: ${({ starSize }) => starSize + 'rem'};
   animation: ${rotate} 8s linear infinite;
-  z-index: 900;
+  position: relative;
+  z-index: 10;
 `;
 
 export const UniverseName = styled.h1`

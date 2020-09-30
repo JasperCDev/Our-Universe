@@ -2,15 +2,12 @@ import React, { useState, useEffect, FC, useRef} from 'react';
 import axios from 'axios';
 import { GlobalStyle } from './app.styles';
 import Main from './main/main';
-import PlayerStats from './playerStats/playerStats';
 import TopUsers from './topUsers/topUsers';
 import { numberToCommaSeperatedString } from '../helpers';
-import Faker from 'faker';
 import { EnergyColorContext, UserContext } from './contexts';
 import Header from '../header';
 import { useGlobalIntervalState } from './useGlobalIntervalState';
 import { useAuth } from './useAuth';
-import regeneratorRuntime from "regenerator-runtime";
 
 let user_session_clicks = 0;
 let global_session_clicks = 0;
@@ -43,12 +40,10 @@ const App: FC = () => {
   user_id_ref.current = user_id;
   //-------------------------------------------//
 
-  console.log('energy_color: ', energy_color);
   useEffect(() => {
     const timer = setInterval(() => clicksLifeCycle(), 3000);
     return () => {
       clearTimeout(timer);
-      console.log('UNMOUNTED!');
     };
   }, []);
 

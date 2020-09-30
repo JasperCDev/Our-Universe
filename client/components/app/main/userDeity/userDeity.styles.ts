@@ -29,6 +29,7 @@ export const UserDeityContainer = styled.div <{ red: number; green: number; blue
   justify-content: center;
   flex-direction: column;
   transition: all 1s ease-in-out;
+  position: relative;
   z-index: 1000;
 `;
 
@@ -43,6 +44,7 @@ export const UserDeityDiv = styled.div<{ red: number; green: number; blue: numbe
   display: flex;
   justify-content: center;
   transition: all 1s ease-in-out;
+  animation: ${pulse} 2s ease-in-out;
 `;
 
 
@@ -55,19 +57,24 @@ const animateUp = (translateDistance: number, size: number) => keyframes`
     }
 `;
 
-export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; red: number; green: number; blue: number; size: number}>`
+export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; red: number; green: number; blue: number; size: number; top: number; left: number;}>`
   background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 1)`};
   height: ${({ size }) => size + 'rem'};
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: ${({ size }) => (-7.5 - size) + 'rem'};
+  top: ${({ top, size }) => `calc(${top}px - ${size * 6}rem)`};
+  left: ${({ left, size }) => `calc(${left}px - ${size / 2}rem)`};
+  margin: 0 auto;
+  transform: translateZ(-100px);
+  opacity: 0.9;
+  /* top: ${({ size }) => (-7.5 - size) + 'rem'}; */
+  z-index: -1;
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  z-index: -10;
   border: 0.0625rem solid white;
   font-size: ${({ size }) => (size * 8) + 'px'};
   animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => Math.floor(Math.abs(translateDistance) / 100)}s linear;

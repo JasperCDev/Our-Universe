@@ -18,7 +18,7 @@ const EnergyBall = styled.div <{ x: number; y: number, distanceX: number; distan
   background-color: red;
   opacity: 0.5;
   z-index: -1;
-  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 5s linear;
+  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 10s linear;
 `;
 
 interface Props {

@@ -49,8 +49,7 @@ export const useAuth = (set_user_clicks: React.Dispatch<React.SetStateAction<num
         set_user_name(response.data.user_name);
         set_user_clicks(response.data.user_clicks);
         set_user_id(response.data.id);
-        const result = await axios.put('/online', { user_id: user_id_ref.current, is_online: true });
-        console.log(result);
+        await axios.put('/online', { user_id: user_id_ref.current, is_online: true });
       }
     } catch (err) {
       console.error(err);
