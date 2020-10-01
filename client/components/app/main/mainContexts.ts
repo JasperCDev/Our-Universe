@@ -1,13 +1,13 @@
 import { createContext } from 'react';
 
-interface PlanetEnergyColor {
-  planet_energy_color: [number, number, number];
-  set_planet_energy_color: React.Dispatch<React.SetStateAction<[number, number, number]>>;
+interface planetEnergyColor {
+  planetEnergyColor: [number, number, number];
+  setPlanetEnergyColor: React.Dispatch<React.SetStateAction<[number, number, number]>>;
 }
 
-const PlanetEnergyColorInitialValue = {
-  planet_energy_color: [64, 191, 255] as [number, number, number],
-  set_planet_energy_color: (() => { }) as React.Dispatch<React.SetStateAction<[number, number, number]>>
+const planetEnergyColorInitialValue = {
+  planetEnergyColor: [64, 191, 255] as [number, number, number],
+  setPlanetEnergyColor: (() => { }) as React.Dispatch<React.SetStateAction<[number, number, number]>>
 }
 
-export const PlanetEnergyColorContext = createContext<PlanetEnergyColor>(PlanetEnergyColorInitialValue);
+export const PlanetEnergyColorContext = createContext<planetEnergyColor>(planetEnergyColorInitialValue);

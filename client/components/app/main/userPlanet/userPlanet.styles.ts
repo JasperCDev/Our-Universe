@@ -6,7 +6,7 @@ const rotate = keyframes`
   }
 `;
 
-export const MainDeityContainer = styled.div`
+export const UserPlanetContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: top;
@@ -16,9 +16,9 @@ export const MainDeityContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export const MainDeityDivContainer = styled.div<{ starSize: number }>`
-  height: ${({ starSize }) => starSize + 'rem'};
-  width: ${({ starSize }) => starSize + 'rem'};
+export const UserPlanetDivContainer = styled.div<{ planetSize: number }>`
+  height: ${({ planetSize }) => planetSize + 'rem'};
+  width: ${({ planetSize }) => planetSize + 'rem'};
   background-color: black;
   border-radius: 50%;
   opacity: 1;
@@ -26,11 +26,11 @@ export const MainDeityDivContainer = styled.div<{ starSize: number }>`
 `;
 
 
-export const MainDeityDiv = styled.div<{ starSize: number; red: number; green: number; blue: number; }>`
+export const UserPlanetDiv = styled.div<{ planetSize: number; red: number; green: number; blue: number; }>`
   border-radius: 50%;
   background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green}, ${blue}, 0.05))`};
-  height: ${({ starSize }) => starSize + 'rem'};
-  width: ${({ starSize }) => starSize + 'rem'};
+  height: ${({ planetSize }) => planetSize + 'rem'};
+  width: ${({ planetSize }) => planetSize + 'rem'};
   animation: ${rotate} 8s linear infinite;
   position: relative;
   z-index: 10;

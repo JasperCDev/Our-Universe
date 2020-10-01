@@ -3,10 +3,10 @@ import { TopUsersDiv, TopUsersTitle } from './topUsers.styles';
 import EachTopUser from './eachTopUser';
 
 interface User {
-  user_name: string;
-  user_clicks: number;
+  username: string;
+  userClicks: number;
   id: number;
-  is_online: boolean;
+  isOnline: boolean;
 }
 
 interface Props {
@@ -18,7 +18,7 @@ const TopUsers: FC<Props> = ({ users }) => {
     <TopUsersDiv>
       <TopUsersTitle style={{ textAlign: 'center' }}>TOP 25 USERS</TopUsersTitle>
       {users.map((user: User, index: number) => (
-        <EachTopUser user_name={user.user_name} user_clicks={user.user_clicks} place={index + 1} user_id={user.id} is_online={user.is_online} />
+        <EachTopUser username={user.username} userClicks={user.userClicks} place={index + 1} userid={user.id} isOnline={user.isOnline} key={user.id}/>
     ))}
   </TopUsersDiv>
 )};

@@ -4,9 +4,6 @@ import { idToStringWithZeroes, numberToCommaSeperatedString } from '../../helper
 
 export const PlayerStatsDiv = styled.div`
   padding-top: 1em;
-  /* border: 3px solid black;
-  border-top: 0;
-  border-bottom: 0; */
   width: 25vw;
   height: 88vh;
   font-weight: bold;
@@ -15,9 +12,6 @@ export const PlayerStatsDiv = styled.div`
   color: black;
   border-top: 0;
   display: flex;
-
-  /* justify-content: center; */
-  /* align-items: center; */
   flex-direction: column;
 
 `;

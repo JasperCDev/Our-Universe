@@ -12,7 +12,7 @@
     "react-build": "webpack --mode=production",
     "back-end-build": "npm run --prefix back-end back-end-build",
     "back-end-build-dev": "npm run --prefix back-end back-end-build-dev",
-    "build-dev": "webpack --watch",
+    "build-dev": "webpack --watch --mode=development",
     "seed": "node ./compiled/database/seed.js",
     "build": "npm run react-build && npm run back-end-build && npm run seed"
   },

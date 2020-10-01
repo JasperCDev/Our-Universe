@@ -36,10 +36,10 @@ export const getUser = (req: Request, res: Response) => {
 
 
 export const updateOnlineStatus = (req: Request, res: Response) => {
-  const { user_id, is_online } = req.body;
+  const { userId, isOnline } = req.body;
   const query = {
     text: 'UPDATE users SET is_online = $1 WHERE id = $2',
-    values: [is_online, user_id]
+    values: [isOnline, userId]
   }
 
   client.query(query)
@@ -56,7 +56,7 @@ export const updateOnlineStatus = (req: Request, res: Response) => {
 export const createUser = (req: Request, res: Response) => {
   const create = {
     text: 'INSERT INTO users(user_name, user_clicks, is_online) VALUES($1, $2, $3) RETURNING id',
-    values: [req.body.user_name, 0, req.body.is_online]
+    values: [req.body.username, 0, req.body.isOnline]
   }
 
   client.query(create)
@@ -80,7 +80,7 @@ export const updateUserClicks = (req: Request, res: Response) => {
 export const updateUsername = (req: Request, res: Response) => {
   const query = {
     text: 'UPDATE users SET user_name = $1 WHERE id = $2',
-    values: [req.body.new_user_name, req.body.user_id]
+    values: [req.body.newUsername, req.body.userId]
   }
   client.query(query)
   .then(() => res.send('Username updated!'))

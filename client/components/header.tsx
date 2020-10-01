@@ -18,17 +18,17 @@ const HeaderTag = styled.header`
 `;
 
 interface Props {
-  global_clicks: number;
-  previous_global_clicks: number;
+  globalClicks: number;
+  previousClicks: number;
 }
 
-const Header: React.FC<Props> = ({ global_clicks, previous_global_clicks }) => {
+const Header: React.FC<Props> = ({ globalClicks, previousClicks }) => {
   const { value } = useCountUp({
-    start: previous_global_clicks,
-    end: global_clicks,
+    start: previousClicks,
+    end: globalClicks,
     duration: 3,
     isCounting: true,
-    autoResetKey: previous_global_clicks,
+    autoResetKey: previousClicks,
     thousandsSeparator: ',',
     easing: 'linear'
   });

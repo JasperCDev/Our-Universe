@@ -33,33 +33,33 @@ const UserNameFormMessage = styled.p<{ color: string }>`
 `;
 
 interface Props {
-  user_name: string;
-  set_user_name: React.Dispatch<React.SetStateAction<string>>;
-  user_id: number;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  userId: number;
 }
 
-const UsernameForm: FC<Props> = ({ user_name, set_user_name, user_id }) => {
-  const [message, set_message] = useState<string>('click username to change');
-  const [valid, set_valid] = useState<boolean>(true);
-  const [color, set_color] = useState<'grey' | 'green' | 'red'>('grey');
+const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
+  const [message, setMessage] = useState<string>('click username to change');
+  const [valid, setValid] = useState<boolean>(true);
+  const [color, setColor] = useState<'grey' | 'green' | 'red'>('grey');
 
   const usernameChangehandler = (e: any) => {
     const userInput = removeTagFromString((e.target as HTMLElement).innerHTML);
-    if (validateNewUsername(userInput, set_valid)) {
-      set_valid(true);
-      set_message('that username is valid');
-      set_color('green');
+    if (validateNewUsername(userInput, setValid)) {
+      setValid(true);
+      setMessage('that username is valid');
+      setColor('green');
     } else {
-      set_valid(false);
-      set_color('red');
+      setValid(false);
+      setColor('red');
       if (userInput.includes(' ') || userInput.includes('&nbsp;')) {
-        set_message('Username must not include spaces');
+        setMessage('Username must not include spaces');
       } else if (userInput.length > 9) {
-        set_message('Username must be under 11 characters');
+        setMessage('Username must be under 11 characters');
       }else if (userInput.length < 2) {
-        set_message('Username must be at least 2 characters');
+        setMessage('Username must be at least 2 characters');
       } else {
-        set_message('Username cannot include special characters');
+        setMessage('Username cannot include special characters');
       }
     }
   }
@@ -67,42 +67,42 @@ const UsernameForm: FC<Props> = ({ user_name, set_user_name, user_id }) => {
   const usernameSubmitHandler = (e: Event) => {
     const element = e.target as HTMLElement;
     let userInput = removeTagFromString(element.innerHTML);
-    if (userInput === user_name) {
-      set_message('click username to change');
-      set_color('grey');
+    if (userInput === username) {
+      setMessage('click username to change');
+      setColor('grey');
       return;
     };
     userInput = removeSpecialCharactersFromString(userInput);
     if (valid) {
-      set_message('saving...');
-      axios.put('/username', { user_id, new_user_name: userInput })
+      setMessage('saving...');
+      axios.put('/username', { userId, newUsername: userInput })
         .then(() => {
-          set_message('Username updated');
-          set_user_name(userInput);
+          setMessage('Username updated');
+          setUsername(userInput);
           setTimeout(() => {
-            set_message('Click username to change');
-            set_color('grey');
+            setMessage('Click username to change');
+            setColor('grey');
           }, 1500);
         })
         .catch(() => {
-          set_valid(false);
-          set_color('red');
-          set_message('There has been an error');
-          setTimeout(() => set_message(''), 1500);
+          setValid(false);
+          setColor('red');
+          setMessage('There has been an error');
+          setTimeout(() => setMessage(''), 1500);
         });
     } else {
-      set_message('That userName is not valid');
+      setMessage('That userName is not valid');
       setTimeout(() => {
-        element.innerHTML = user_name;
-        set_valid(true);
+        element.innerHTML = username;
+        setValid(true);
       }, 1000);
-      setTimeout(() => set_message(''), 1500);
+      setTimeout(() => setMessage(''), 1500);
     }
   }
 
   const handleUsernameFormFocus = () => {
-    set_color('green');
-    set_message('That username is valid');
+    setColor('green');
+    setMessage('That username is valid');
   }
 
   return (
@@ -126,13 +126,12 @@ const UsernameForm: FC<Props> = ({ user_name, set_user_name, user_id }) => {
         onBlur={(e: Event) => usernameSubmitHandler(e)}
         spellCheck='false'
       >
-        {user_name}
+        {username}
       </Username>
       <UserNameFormMessage color={color}>
         {message}
       </UserNameFormMessage>
     </>
-
   )
 };
 

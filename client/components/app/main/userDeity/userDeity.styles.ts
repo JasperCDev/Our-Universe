@@ -39,21 +39,33 @@ export const UserDeityDiv = styled.div<{ red: number; green: number; blue: numbe
   height: 5rem;
   width: 5rem;
   /* border: 0.3rem solid ${({ red, green, blue }) => `rgb(${red - 20}, ${green - 20}, ${blue - 20})`}; */
-  margin: 4rem auto 0 auto;
+  margin: 3rem auto 1rem auto;
   position: relative;
   display: flex;
   justify-content: center;
   transition: all 1s ease-in-out;
-  animation: ${pulse} 2s ease-in-out;
+  animation: ${pulse} 5s ease-in-out infinite;
+  opacity: 0.7;
 `;
 
 
 const animateUp = (translateDistance: number, size: number) => keyframes`
     0% {
-      transform: translateY(0px);
+      opacity: 0;
+      transform: translateY(0px) scale(1) rotate(0deg);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(calc((${translateDistance}px - ${size}rem) / 4)) scale(1.5) rotate(90deg);
+    }
+    50% {
+      transform: translateY(calc((${translateDistance}px - ${size}rem) / 2)) scale(1) rotate(180deg);
+    }
+    75% {
+      transform: translateY(calc((${translateDistance}px - ${size}rem) * 0.75)) scale(1.5) rotate(270deg);
     }
     100% {
-      transform: translateY(calc(${translateDistance}px - ${size}rem));
+      transform: translateY(calc(${translateDistance}px - ${size}rem)) scale(1) rotate(360deg);
     }
 `;
 
@@ -63,7 +75,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; re
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: ${({ top, size }) => `calc(${top}px - ${size * 6}rem)`};
+  top: ${({ top, size }) => `calc(${top}px - 6rem)`};
   left: ${({ left, size }) => `calc(${left}px - ${size / 2}rem)`};
   margin: 0 auto;
   transform: translateZ(-100px);
@@ -77,7 +89,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; re
   font-weight: bold;
   border: 0.0625rem solid white;
   font-size: ${({ size }) => (size * 8) + 'px'};
-  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => Math.floor(Math.abs(translateDistance) / 100)}s linear;
+  animation: ${({ translateDistance, size }) => animateUp(translateDistance, size)} ${({ translateDistance }) => 1 + Math.floor(Math.abs(translateDistance) / 100)}s linear;
 `;
 
 

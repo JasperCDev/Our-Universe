@@ -1,28 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import regeneratorRuntime from "regenerator-runtime";
 
 
 interface User {
-  user_name: string;
-  user_clicks: number;
+  username: string;
+  userClicks: number;
   id: number;
-  is_online: boolean;
+  isOnline: boolean;
 }
 
 interface ReturnState {
-  global_clicks: number;
-  top_users: Array<User>;
-  previous_global_clicks: number
+  globalClicks: number;
+  topUsers: Array<User>;
+  previousGlobalClicks: number
 }
 
 export const useGlobalIntervalState = (): ReturnState => {
-  const [global_clicks, set_global_clicks] = useState<number>(0);
-  const [top_users, set_top_users] = useState<Array<User>>([]);
-  const [previous_global_clicks, set_previous_global_clicks] = useState<number>(0);
+  const [globalClicks, setGlobalClicks] = useState<number>(0);
+  const [topUsers, setTopUsers] = useState<Array<User>>([]);
+  const [previousGlobalClicks, setPreviousGlobalClicks] = useState<number>(0);
 
-  const global_clicks_ref = useRef<number>(0);
-  global_clicks_ref.current = global_clicks;
+  const globalClicksRef = useRef<number>(0);
+  globalClicksRef.current = globalClicks;
 
   useEffect(() => {
     clicksLifeCycle();
@@ -37,26 +36,25 @@ export const useGlobalIntervalState = (): ReturnState => {
   }
 
   const getGlobalClicks = async () => {
-    const response = await axios.get('/global_clicks');
+    const response = await axios.get('/globalClicks');
     const newClicks: number = response.data.rows[0].click_count;
-    set_previous_global_clicks(global_clicks_ref.current);
-    set_global_clicks(newClicks);
+    setPreviousGlobalClicks(globalClicksRef.current);
+    setGlobalClicks(newClicks);
   }
-
 
   const getTopUsers = async () => {
     try {
       const response = await axios.get('/users');
-      set_top_users(response.data);
+      setTopUsers(response.data);
     } catch (err) {
       console.error(err);
     }
   }
 
   return {
-    global_clicks,
-    top_users,
-    previous_global_clicks,
+    globalClicks,
+    topUsers,
+    previousGlobalClicks,
   }
 }
 

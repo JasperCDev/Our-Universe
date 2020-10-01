@@ -10,15 +10,15 @@ const animateUp = (distanceX: number, distanceY: number) => keyframes`
 
 const EnergyBall = styled.div <{ x: number; y: number, distanceX: number; distanceY: number; }>`
   position: absolute;
-  top: ${({ y }) => `calc(${y}px - 5rem - 0.5rem)`};
-  left: ${({ x }) => `calc(${x}px - 0.5rem)`};
+  top: ${({ y }) => `calc(${y}px - 5rem - 1rem)`};
+  left: ${({ x }) => `calc(${x}px - 1rem)`};
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
   background-color: red;
   opacity: 0.5;
   z-index: -1;
-  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 10s linear;
+  animation: ${({ distanceX, distanceY}) => animateUp(distanceX, distanceY)} 3s linear;
 `;
 
 interface Props {

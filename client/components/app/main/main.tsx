@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import UserStar from './userStar/userStar';
+import UserPlanet from './userPlanet/userPlanet';
 import UserDeity from './userDeity/userDeity';
 import MainEnergyBall from './mainEnergyBall';
 import { PlanetEnergyColorContext } from './mainContexts';
@@ -17,86 +17,85 @@ const MainDiv = styled.div`
 `;
 
 interface Props {
-  user_star_rect: (DOMRect | undefined);
-  set_user_star_rect: React.Dispatch<React.SetStateAction<DOMRect | undefined>>;
-  buttonClickHandler: () => void;
+  userPlanetRect: (DOMRect | undefined);
+  setUserPlanetRect: React.Dispatch<React.SetStateAction<DOMRect | undefined>>;
+  incrementClicks: () => void;
 }
 
-const Main: React.FC<Props> = ({ user_star_rect, set_user_star_rect, buttonClickHandler }) => {
-  const [energy_balls, set_energy_balls] = useState<Array<[number, number, number]>>([]);
-  const [user_star_position, set_user_star_position] = useState<[number, number]>([0, 0]);
-  const [energy_balls_count, set_energy_balls_count] = useState<number>(0);
-  const [planet_energy_color, set_planet_energy_color] = useState<[number, number, number]>([64, 191, 255]);
+const Main: React.FC<Props> = ({ userPlanetRect, setUserPlanetRect, incrementClicks }) => {
+  const [energyBalls, setEnergyBalls] = useState<Array<[number, number, number]>>([]);
+  const [userPlanetPosition, setUserPlanetPosition] = useState<[number, number]>([0, 0]);
+  const [energyBallCount, setEnergyBallCount] = useState<number>(0);
+  const [planetEnergyColor, setPlanetEnergyColor] = useState<[number, number, number]>([64, 191, 255]);
 
-  const planet_energy_color_ref = useRef([64, 191, 255]);
-  planet_energy_color_ref.current = planet_energy_color;
+  const planetEnergyColorRef = useRef([64, 191, 255]);
+  planetEnergyColorRef.current = planetEnergyColor;
 
 
   useEffect(() => {
-    const localStoragePlanetEnergyColor = localStorage.getItem('planet_energy_color');
+    const localStoragePlanetEnergyColor = localStorage.getItem('planetEnergyColor');
     if (!localStoragePlanetEnergyColor) {
-      localStorage.setItem('planet_energy_color', JSON.stringify(planet_energy_color));
+      localStorage.setItem('planetEnergyColor', JSON.stringify(planetEnergyColor));
     }
-    set_planet_energy_color(JSON.parse(localStoragePlanetEnergyColor!));
+    setPlanetEnergyColor(JSON.parse(localStoragePlanetEnergyColor!));
 
     setInterval(() => {
-      localStorage.setItem('planet_energy_color', JSON.stringify(planet_energy_color_ref.current));
+      localStorage.setItem('planetEnergyColor', JSON.stringify(planetEnergyColorRef.current));
     }, 3000);
   }, []);
 
   useEffect(() => {
-    if (user_star_rect && user_star_rect.height) {
-      const middleX = user_star_rect.left + (user_star_rect.width / 2);
-      const middleY = user_star_rect.top + (user_star_rect.height / 2);
-      set_user_star_position([middleX, middleY]);
+    if (userPlanetRect && userPlanetRect.height) {
+      const middleX = userPlanetRect.left + (userPlanetRect.width / 2);
+      const middleY = userPlanetRect.top + (userPlanetRect.height / 2);
+      setUserPlanetPosition([middleX, middleY]);
     }
-  }, [user_star_rect]);
+  }, [userPlanetRect]);
 
   const mainClickHandler = (e: React.MouseEvent) => {
     if (e.target !== e.currentTarget) return;
-    console.log(e.pageY);
-    set_energy_balls_count(energy_balls_count + 1);
+    setEnergyBallCount(energyBallCount + 1);
     const htmlFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const copy = energy_balls.slice(0);
-    copy.push([e.pageX - htmlFontSize, e.pageY - htmlFontSize, energy_balls_count]);
-    set_energy_balls(copy);
+    const copy = energyBalls.slice(0);
+    copy.push([e.pageX - htmlFontSize, e.pageY - htmlFontSize, energyBallCount]);
+    setEnergyBalls(copy);
   }
 
   const animationEndHandler = (e: React.AnimationEvent<HTMLDivElement>) => {
-    const copy = energy_balls.slice(0);
+    const copy = energyBalls.slice(0);
     copy.shift();
-    set_energy_balls(copy);
-    buttonClickHandler();
+    setEnergyBalls(copy);
+    incrementClicks();
     changePlanetColor(JSON.parse((e.target as HTMLDivElement).getAttribute('data-color')!));
   }
 
   const changePlanetColor = (energyBallColor: [number, number, number]) => {
-    const redDifference = energyBallColor[0] - planet_energy_color[0];
-    const greenDifference = energyBallColor[1] - planet_energy_color[1];
-    const blueDifference = energyBallColor[2] - planet_energy_color[2];
-    const newRed = planet_energy_color[0] + Math.floor(redDifference / 20);
-    const newGreen = planet_energy_color[1] + Math.floor(greenDifference / 20);
-    const newBlue = planet_energy_color[2] + Math.floor(blueDifference / 20);
-    set_planet_energy_color([ newRed, newGreen, newBlue]);
+    const redDifference = energyBallColor[0] - planetEnergyColor[0];
+    const greenDifference = energyBallColor[1] - planetEnergyColor[1];
+    const blueDifference = energyBallColor[2] - planetEnergyColor[2];
+    const newRed = planetEnergyColor[0] + Math.floor(redDifference / 20);
+    const newGreen = planetEnergyColor[1] + Math.floor(greenDifference / 20);
+    const newBlue = planetEnergyColor[2] + Math.floor(blueDifference / 20);
+    setPlanetEnergyColor([ newRed, newGreen, newBlue ]);
   }
 
 
   return (
-    <PlanetEnergyColorContext.Provider value={{planet_energy_color, set_planet_energy_color}}>
+    <PlanetEnergyColorContext.Provider value={{ planetEnergyColor, setPlanetEnergyColor }}>
       <MainDiv onClick={mainClickHandler}>
-        {energy_balls.map((ball) => (
+        {energyBalls.map((ball) => (
           <MainEnergyBall
             x={ball[0]}
             y={ball[1]}
-            distanceX={user_star_position[0] - ball[0]}
-            distanceY={user_star_position[1] - ball[1]}
+            distanceX={userPlanetPosition[0] - ball[0]}
+            distanceY={userPlanetPosition[1] - ball[1]}
             animationEndHandler={animationEndHandler}
             key={ball[2]}
           >
           </MainEnergyBall>
         ))}
-        <UserStar user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect}/>
-        <UserDeity user_star_rect={user_star_rect} buttonClickHandler={buttonClickHandler} />
+        <UserPlanet setUserPlanetRect={setUserPlanetRect}/>
+        <UserDeity userPlanetRect={userPlanetRect} incrementClicks={incrementClicks} />
       </MainDiv>
     </PlanetEnergyColorContext.Provider>
 

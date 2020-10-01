@@ -9,35 +9,35 @@ import Header from '../header';
 import { useGlobalIntervalState } from './useGlobalIntervalState';
 import { useAuth } from './useAuth';
 
-let user_session_clicks = 0;
-let global_session_clicks = 0;
+let userSessionClicks = 0;
+let globalSessionClicks = 0;
 
 const App: FC = () => {
-  const [user_clicks, set_user_clicks] = useState<number>(0);
-  const [user_star_rect, set_user_star_rect] = useState<DOMRect>();
-  const [energy_color, set_energy_color] = useState<[number, number, number]>([64, 191, 255]);
-  const [user_power, set_user_power] = useState<number>(1);
-  const { global_clicks, previous_global_clicks, top_users } = useGlobalIntervalState();
-  const { user_name, set_user_name, user_id } = useAuth(set_user_clicks);
+  const [userClicks, setUserClicks] = useState<number>(0);
+  const [userPlanetRect, setUserPlanetRect] = useState<DOMRect>();
+  const [energyColor, setEnergyColor] = useState<[number, number, number]>([64, 191, 255]);
+  const [userPower, setUserPower] = useState<number>(1);
+  const { globalClicks, previousGlobalClicks, topUsers } = useGlobalIntervalState();
+  const { username, setUsername, userId } = useAuth(setUserClicks);
 
    // -------REFS FOR CALLBACKS---------------\\
-  const user_name_ref = useRef<string>('');
-  user_name_ref.current = user_name;
+  const usernameRef = useRef<string>('');
+  usernameRef.current = username;
 
-  const user_session_clicks_ref = useRef<number>(0);
-  user_session_clicks_ref.current = user_session_clicks;
+  const userSessionClicksRef = useRef<number>(0);
+  userSessionClicksRef.current = userSessionClicks;
 
-  const global_session_clicks_ref = useRef<number>(0);
-  global_session_clicks_ref.current = global_session_clicks;
+  const globalSessionClicksRef = useRef<number>(0);
+  globalSessionClicksRef.current = globalSessionClicks;
 
-  const global_clicks_ref = useRef<number>(0);
-  global_clicks_ref.current = global_clicks;
+  const globalClicksRef = useRef<number>(0);
+  globalClicksRef.current = globalClicks;
 
-  const user_clicks_ref = useRef<number>(0);
-  user_clicks_ref.current = user_clicks;
+  const user_clicksRef = useRef<number>(0);
+  user_clicksRef.current = userClicks;
 
-  const user_id_ref = useRef<number>(0);
-  user_id_ref.current = user_id;
+  const userIdRef = useRef<number>(0);
+  userIdRef.current = userId;
   //-------------------------------------------//
 
   useEffect(() => {
@@ -48,8 +48,8 @@ const App: FC = () => {
   }, []);
 
   useEffect(() => {
-    document.title = numberToCommaSeperatedString(global_clicks);
-  }, [ global_clicks ]);
+    document.title = numberToCommaSeperatedString(globalClicks);
+  }, [ globalClicks ]);
 
   const clicksLifeCycle = async () => {
     await updateGlobalClicks();
@@ -57,12 +57,12 @@ const App: FC = () => {
   }
 
   const updateGlobalClicks = async () => {
-    const clicks_to_update_global = global_session_clicks_ref.current;
+    const clicksToUpdateGlobal = globalSessionClicksRef.current;
     try {
-      const response = await axios.put('/global_clicks', {
-        clicks: clicks_to_update_global
+      const response = await axios.put('/globalClicks', {
+        clicks: clicksToUpdateGlobal
       });
-      global_session_clicks = global_session_clicks_ref.current - clicks_to_update_global;
+      globalSessionClicks = globalSessionClicksRef.current - clicksToUpdateGlobal;
       return response;
     } catch (err) {
       console.error(err);
@@ -70,33 +70,33 @@ const App: FC = () => {
   }
 
   const updateUserClicks = async () => {
-    const clicks_to_update_user_total = user_session_clicks_ref.current;
+    const clicksToUpdateUserTotal = userSessionClicksRef.current;
     try {
       await axios.put('/user', {
-        id: user_id_ref.current,
-        clicks: clicks_to_update_user_total,
+        id: userIdRef.current,
+        clicks: clicksToUpdateUserTotal,
       });
-      user_session_clicks = user_session_clicks_ref.current - clicks_to_update_user_total;
+      userSessionClicks = userSessionClicksRef.current - clicksToUpdateUserTotal;
     } catch (err) {
       console.error(err);
     }
   }
 
-  const buttonClickHandler = (): void => {
-    set_user_clicks(user_clicks + user_power);
-    user_session_clicks += user_power;
-    global_session_clicks += user_power;
+  const incrementClicks = (): void => {
+    setUserClicks(userClicks + userPower);
+    userSessionClicks += userPower;
+    globalSessionClicks += userPower;
   }
 
 
   return (
     <>
       <GlobalStyle />
-      <EnergyColorContext.Provider value={{ energy_color, set_energy_color }}>
-        <UserContext.Provider value={{ user_clicks, user_name, user_id, set_user_name, user_lvl: 1, user_power, set_user_power }}>
-            <Header previous_global_clicks={previous_global_clicks} global_clicks={global_clicks}/>
-          <Main user_star_rect={user_star_rect} set_user_star_rect={set_user_star_rect} buttonClickHandler={buttonClickHandler} />
-          <TopUsers users={top_users}/>
+      <EnergyColorContext.Provider value={{ energyColor, setEnergyColor }}>
+        <UserContext.Provider value={{ userClicks, username, userId, setUsername, userLvl: 1, userPower, setUserPower }}>
+            <Header previousClicks={previousGlobalClicks} globalClicks={globalClicks}/>
+          <Main userPlanetRect={userPlanetRect} setUserPlanetRect={setUserPlanetRect} incrementClicks={incrementClicks} />
+          <TopUsers users={topUsers}/>
         </UserContext.Provider>
       </EnergyColorContext.Provider>
     </>
