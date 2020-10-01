@@ -13,8 +13,8 @@ const UserPlanet: FC<Props> = ({ setUserPlanetRect }) => {
   const userPlanetDivRef = useRef<HTMLDivElement>(null);
 
   const { userClicks, username } = useContext(UserContext);
-
-  const [red, green, blue] = useContext(PlanetEnergyColorContext).planetEnergyColor;
+  const colorContext =useContext(PlanetEnergyColorContext)
+  const [red, green, blue] = colorContext.planetEnergyColor ? colorContext.planetEnergyColor : [0, 0, 0];
 
   useEffect(() => {
     const newUserPlanetRect = userPlanetDivRef.current!.getBoundingClientRect();

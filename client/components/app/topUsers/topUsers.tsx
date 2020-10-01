@@ -18,7 +18,7 @@ const TopUsers: FC<Props> = ({ users }) => {
     <TopUsersDiv>
       <TopUsersTitle style={{ textAlign: 'center' }}>TOP 25 USERS</TopUsersTitle>
       {users.map((user: User, index: number) => (
-        <EachTopUser username={user.username} userClicks={user.userClicks} place={index + 1} userid={user.id} isOnline={user.isOnline} key={user.id}/>
+        <EachTopUser username={user.user_name} userClicks={user.user_clicks} place={index + 1} userid={user.id} isOnline={user.is_online} key={user.id}/>
     ))}
   </TopUsersDiv>
 )};

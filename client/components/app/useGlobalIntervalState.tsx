@@ -45,6 +45,7 @@ export const useGlobalIntervalState = (): ReturnState => {
   const getTopUsers = async () => {
     try {
       const response = await axios.get('/users');
+      console.log(response.data);
       setTopUsers(response.data);
     } catch (err) {
       console.error(err);

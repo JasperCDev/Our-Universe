@@ -19,9 +19,9 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(bodyParser.json());
 
-app.get('/global_clicks', (req: Request, res: Response) => getGlobalClicks(req, res));
+app.get('/globalClicks', (req: Request, res: Response) => getGlobalClicks(req, res));
 
-app.put('/global_clicks', (req: Request, res: Response) => updateGlobalClicks(req, res));
+app.put('/globalClicks', (req: Request, res: Response) => updateGlobalClicks(req, res));
 
 app.get('/user', (req: Request, res: Response) => getUser(req, res));
 

@@ -33,12 +33,12 @@ const Main: React.FC<Props> = ({ userPlanetRect, setUserPlanetRect, incrementCli
 
 
   useEffect(() => {
-    const localStoragePlanetEnergyColor = localStorage.getItem('planetEnergyColor');
-    if (!localStoragePlanetEnergyColor) {
+    let localStoragePlanetEnergyColor = localStorage.getItem('planetEnergyColor');
+    if (!localStoragePlanetEnergyColor || localStoragePlanetEnergyColor === 'null') {
       localStorage.setItem('planetEnergyColor', JSON.stringify(planetEnergyColor));
+      localStoragePlanetEnergyColor = localStorage.getItem('planetEnergyColor');
     }
     setPlanetEnergyColor(JSON.parse(localStoragePlanetEnergyColor!));
-
     setInterval(() => {
       localStorage.setItem('planetEnergyColor', JSON.stringify(planetEnergyColorRef.current));
     }, 3000);

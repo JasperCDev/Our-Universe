@@ -33,7 +33,6 @@ const UserDeity: React.FC<Props> = ({
 
   const user = useContext(UserContext);
   const { username, userId, setUsername, userPower, setUserPower } = user;
-
   const { planetEnergyColor, setPlanetEnergyColor } = useContext(PlanetEnergyColorContext);
 
   useEffect(() => {
@@ -63,6 +62,7 @@ const UserDeity: React.FC<Props> = ({
     setEnergyBalls(copy);
     incrementClicks();
     changePlanetColor(JSON.parse((e.target as HTMLDivElement).getAttribute('data-color')!));
+
   }
 
   const changePlanetColor = (energyBallColor: [number, number, number]) => {
@@ -72,6 +72,7 @@ const UserDeity: React.FC<Props> = ({
     const newRed = planetEnergyColor[0] + Math.floor(redDifference / 20);
     const newGreen = planetEnergyColor[1] + Math.floor(greenDifference / 20);
     const newBlue = planetEnergyColor[2] + Math.floor(blueDifference / 20);
+    console.log(newRed, newGreen, newBlue);
     setPlanetEnergyColor([ newRed, newGreen, newBlue]);
   }
 

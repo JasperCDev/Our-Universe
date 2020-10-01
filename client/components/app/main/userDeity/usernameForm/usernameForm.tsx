@@ -125,6 +125,7 @@ const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
         }}
         onBlur={(e: Event) => usernameSubmitHandler(e)}
         spellCheck='false'
+        suppressContentEditableWarning={true}
       >
         {username}
       </Username>
@@ -136,4 +137,4 @@ const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
 };
 
 
-export default UsernameForm;
+export default React.memo(UsernameForm);
