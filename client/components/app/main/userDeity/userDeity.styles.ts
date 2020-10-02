@@ -14,7 +14,7 @@ const pulse = keyframes`
   }
 `;
 
-export const UserDeityContainer = styled.div <{ red: number; green: number; blue: number; }>`
+export const UserDeityContainer = styled.div <{ red: number; green: number; blue: number; opacity: number; }>`
   height: 25rem;
   width: 25rem;
   margin: 7rem 0 0 0;
@@ -22,13 +22,13 @@ export const UserDeityContainer = styled.div <{ red: number; green: number; blue
   grid-row-end: 3;
   justify-self: bottom;
   border-radius: 50%;
-  border: 0.07rem solid ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
-  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.1)`};
+  border: 0.07rem solid ${({ red, green, blue, opacity }) => `rgba(${red}, ${green}, ${blue}, ${opacity})`};
+  background-color: ${({ red, green, blue, opacity }) => `rgba(${red}, ${green}, ${blue}, ${opacity - 5})`};
   padding: 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  transition: all 1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 1000;
 `;
@@ -39,13 +39,29 @@ export const UserDeityDiv = styled.div<{ red: number; green: number; blue: numbe
   height: 5rem;
   width: 5rem;
   /* border: 0.3rem solid ${({ red, green, blue }) => `rgb(${red - 20}, ${green - 20}, ${blue - 20})`}; */
-  margin: 3rem auto 1rem auto;
+  margin: 0 auto 1rem auto;
   position: relative;
   display: flex;
   justify-content: center;
-  transition: all 1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   animation: ${pulse} 5s ease-in-out infinite;
   opacity: 0.7;
+`;
+
+export const EnergyBar = styled.div<{ red: number, green: number, blue: number; }>`
+  width: 8rem;
+  height: 1rem;
+  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.2)`};
+  border: 0.07rem solid ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
+  margin: 0 auto 1rem auto;
+  transition: all 0.2s ease-in-out;
+`;
+
+export const EnergyProgress = styled.div<{ red: number, green: number, blue: number; progress: number; }>`
+  background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 1)`};
+  height: 100%;
+  width: ${({ progress }) => progress + '%'};
+  transition: background-color 0.2s ease-in-out;
 `;
 
 
@@ -75,7 +91,7 @@ export const UserDeityEnergyBallDiv = styled.div<{ translateDistance: number; re
   width: ${({ size }) => size + 'rem'};
   border-radius: 50%;
   position: absolute;
-  top: ${({ top, size }) => `calc(${top}px - 6rem)`};
+  top: ${({ top }) => `calc(${top}px - 6rem)`};
   left: ${({ left, size }) => `calc(${left}px - ${size / 2}rem)`};
   margin: 0 auto;
   transform: translateZ(-100px);

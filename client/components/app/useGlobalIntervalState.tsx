@@ -3,10 +3,10 @@ import axios from 'axios';
 
 
 interface User {
-  username: string;
-  userClicks: number;
+  user_name: string;
+  user_clicks: number;
   id: number;
-  isOnline: boolean;
+  is_online: boolean;
 }
 
 interface ReturnState {
@@ -45,7 +45,6 @@ export const useGlobalIntervalState = (): ReturnState => {
   const getTopUsers = async () => {
     try {
       const response = await axios.get('/users');
-      console.log(response.data);
       setTopUsers(response.data);
     } catch (err) {
       console.error(err);

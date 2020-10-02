@@ -3,10 +3,10 @@ import { TopUsersDiv, TopUsersTitle } from './topUsers.styles';
 import EachTopUser from './eachTopUser';
 
 interface User {
-  username: string;
-  userClicks: number;
+  user_name: string;
+  user_clicks: number;
   id: number;
-  isOnline: boolean;
+  is_online: boolean;
 }
 
 interface Props {
