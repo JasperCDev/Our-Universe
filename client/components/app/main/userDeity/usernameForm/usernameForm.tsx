@@ -7,10 +7,11 @@ const Username = styled.h2.attrs((props) => {})`
   padding-left: 8px;
   cursor: pointer;
   width: 90%;
-  margin: 1rem auto 0 auto;
+  margin: 0.5rem auto 0 auto;
   text-align: center;
   transition: all 1s ease-in-out;
   border: 0.2rem solid transparent;
+  font-size: 1rem;
   &:hover {
     letter-spacing: 4;
     background-color: white;
@@ -28,6 +29,7 @@ const UserNameFormMessage = styled.p<{ color: string }>`
   font-weight: bold;
   text-align: center;
   font-size: 0.8rem;
+  width: 100%;
   transition: all 0.2s ease-in-out;
   margin-bottom: 1rem;
 `;
@@ -53,13 +55,13 @@ const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
       setValid(false);
       setColor('red');
       if (userInput.includes(' ') || userInput.includes('&nbsp;')) {
-        setMessage('Username must not include spaces');
+        setMessage('No spaces allowed');
       } else if (userInput.length > 9) {
-        setMessage('Username must be under 11 characters');
+        setMessage('Username too long');
       }else if (userInput.length < 2) {
-        setMessage('Username must be at least 2 characters');
+        setMessage('Username too short');
       } else {
-        setMessage('Username cannot include special characters');
+        setMessage('No special characters allowed');
       }
     }
   }
@@ -91,12 +93,15 @@ const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
           setTimeout(() => setMessage(''), 1500);
         });
     } else {
-      setMessage('That userName is not valid');
+      setMessage('That username is invalid');
       setTimeout(() => {
         element.innerHTML = username;
         setValid(true);
       }, 1000);
-      setTimeout(() => setMessage(''), 1500);
+      setTimeout(() => {
+        setMessage('Click username to change');
+        setColor('grey');
+      }, 1500);
     }
   }
 
@@ -117,7 +122,7 @@ const UsernameForm: FC<Props> = ({ username, setUsername, userId }) => {
           if (e.keyCode === 13) {
             e.preventDefault();
           }
-          if (text.length >= 18) {
+          if (text.length >= 15) {
             if (e.keyCode !== 8 && e.keyCode !== 46 && e.keyCode !== 37 && e.keyCode !== 39) {
               e.preventDefault();
             }

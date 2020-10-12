@@ -15,9 +15,11 @@ const pulse = keyframes`
 `;
 
 export const UserDeityContainer = styled.div <{ red: number; green: number; blue: number; opacity: number; }>`
-  height: 25rem;
-  width: 25rem;
-  margin: 7rem 0 0 0;
+  height: 20rem;
+  width: 20rem;
+  position: absolute;
+  top: 50vh;
+  margin: 0;
   grid-row-start: 1;
   grid-row-end: 3;
   justify-self: bottom;
@@ -29,15 +31,14 @@ export const UserDeityContainer = styled.div <{ red: number; green: number; blue
   justify-content: center;
   flex-direction: column;
   transition: all 0.2s ease-in-out;
-  position: relative;
   z-index: 1000;
 `;
 
 export const UserDeityDiv = styled.div<{ red: number; green: number; blue: number; }>`
   border-radius: 50%;
   background-color: ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
-  height: 5rem;
-  width: 5rem;
+  height: 3rem;
+  width: 3rem;
   /* border: 0.3rem solid ${({ red, green, blue }) => `rgb(${red - 20}, ${green - 20}, ${blue - 20})`}; */
   margin: 0 auto 1rem auto;
   position: relative;
@@ -49,8 +50,8 @@ export const UserDeityDiv = styled.div<{ red: number; green: number; blue: numbe
 `;
 
 export const EnergyBar = styled.div<{ red: number, green: number, blue: number; }>`
-  width: 8rem;
-  height: 1rem;
+  width: 7rem;
+  height: 0.75rem;
   background-color: ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 0.2)`};
   border: 0.07rem solid ${({ red, green, blue }) => `rgb(${red}, ${green}, ${blue})`};
   margin: 0 auto 1rem auto;
@@ -125,8 +126,8 @@ export const UserDeityButton = styled(Button)`
     border: none;
     display: block;
     margin: 0 auto;
-    height: 3rem;
-    width: 10rem;
+    height: 2.5rem;
+    width: 7rem;
     position: relative;
     background-color: #ff6161;
     transition: all 0.2s ease-in-out;
@@ -135,7 +136,7 @@ export const UserDeityButton = styled(Button)`
       color: white;
     }
     &:active {
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
   }
 `;

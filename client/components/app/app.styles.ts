@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    touch-action: manipulation;
   }
 
   body {
@@ -22,7 +23,6 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     overflow: hidden;
-
     font-family: Courier;
     color: white;
     display: grid;

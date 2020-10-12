@@ -38,12 +38,12 @@ export const UserPlanetDiv = styled.div<{ planetSize: number; red: number; green
 `;
 
 export const UniverseName = styled.h1`
-  font-size: 2rem;
+  font-size: 1.5rem;
 `;
 
 export const Counter = styled.h1`
   margin-bottom: 1.3rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-align: center;
   color: #f0f0f0;
 `;

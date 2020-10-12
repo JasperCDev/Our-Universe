@@ -39,9 +39,6 @@ const UserDeity: React.FC<Props> = ({
   useEffect(() => {
     const timer = setInterval(() => {
       if (Date.now() - lastClickTime >= 1000) {
-        if (energyBalls.length) {
-          setEnergyBalls([]);
-        }
         if (sessionClicks < 10) {
           sessionClicks = 0;
         } else {
@@ -90,7 +87,6 @@ const UserDeity: React.FC<Props> = ({
   };
 
   const assignEnergyPower = () => {
-    console.log(energyOpacity);
     if (sessionClicks <= 100) {
       if (sessionClicks < 10) {
         setEnergyOpacity(.2);
@@ -139,7 +135,6 @@ const UserDeity: React.FC<Props> = ({
     }
   }
 
-  console.log(energyProgress + '%');
 
   return (
     <>
@@ -168,7 +163,7 @@ const UserDeity: React.FC<Props> = ({
           setEnergyBalls([...energyBalls, energyBallCount]);
           assessMultipleClicks();
         }}>
-          Click Me!
+          HYDRATE
         </UserDeityButton>
       </UserDeityContainer>
     </>

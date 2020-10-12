@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 
 export const TopUsersDiv = styled.div`
-  padding-top: 1em;
   /* border-left: 0.0625rem solid white; */
   width: 25vw;
   height: 90vh;
@@ -13,22 +12,24 @@ export const TopUsersDiv = styled.div`
   color: white;
   overflow: visible;
   margin-right: 4rem;
+
 `;
 
 export const TopUsersTitle = styled.h1`
   text-align: center;
-  padding-bottom: 1rem;
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
 `;
 
 
-export const TopUserContainer = styled.div`
-  font-size: 1.5rem;
+export const TopUserContainer = styled.div<{ active: boolean; }>`
+  font-size: 1rem;
   padding: 10px;
   font-weight: bold;
   position: relative;
   display: flex;
   margin: 1rem 0;
-  /* justify-content: center; */
+  background-color: ${({ active }) => active ? 'rgba(0, 255, 175, 0.1)' : 'rgba(0,0,0,0)'};
   align-items: center;
   flex-direction: row;
   transition: all .3s ease-in-out;
@@ -37,7 +38,6 @@ export const TopUserContainer = styled.div`
   width: 100%;
   &:hover {
     transform: scale(1.05) translateX(5%);
-
     background-color: rgba(64, 191, 255, 0.5);
     color: #dedede;
 
@@ -54,6 +54,7 @@ export const TopUser = styled.div`
 `;
 
 export const Place = styled.h4`
+  font-size: 1.5rem;
   text-align: center;
 `;
 
@@ -66,6 +67,10 @@ export const UsernameContainer = styled.div<{ hovered: boolean }>`
 export const UserOnlineTag = styled.span<{ online: boolean }>`
   font-size: 0.9rem;
   color: ${({ online }) => online ? 'lightgreen' : 'grey'};
+  @media (max-width: 1200px) {
+    display: block;
+    text-align: center;
+  }
 `;
 
 export const UserId = styled.span`
@@ -77,8 +82,18 @@ export const UserId = styled.span`
   color: white;
 `;
 
+export const UserActive = styled.span<{ active: boolean; }>`
+  font-size: 0.9rem;
+  color: ${({ active }) => active ? 'red' : 'grey'};
+  @media (max-width: 1500px) {
+    display: block;
+    text-align: center;
+  }
+
+`;
+
 export const UserClicks = styled.p`
   font-family: monospace;
   font-weight: 300;
-  font-size: 0.9em;
+  font-size: 1rem;
 `;

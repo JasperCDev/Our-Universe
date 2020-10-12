@@ -12,6 +12,8 @@ import { useAuth } from './useAuth';
 let userSessionClicks = 0;
 let globalSessionClicks = 0;
 
+console.log(GlobalStyle);
+
 const App: FC = () => {
   const [userClicks, setUserClicks] = useState<number>(0);
   const [userPlanetRect, setUserPlanetRect] = useState<DOMRect>();
