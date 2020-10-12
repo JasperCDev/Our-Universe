@@ -3,15 +3,19 @@ import styled from 'styled-components';
 
 export const TopUsersDiv = styled.div`
   /* border-left: 0.0625rem solid white; */
-  width: 25vw;
+  width: 30vw;
   height: 90vh;
-  overflow: scroll;
   font-weight: bold;
   font-size: 1rem;
   top: 0;
   color: white;
   overflow: visible;
   margin-right: 4rem;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
 
 `;
 
@@ -28,16 +32,17 @@ export const TopUserContainer = styled.div<{ active: boolean; }>`
   font-weight: bold;
   position: relative;
   display: flex;
-  margin: 1rem 0;
+  margin: 10px auto;
   background-color: ${({ active }) => active ? 'rgba(0, 255, 175, 0.1)' : 'rgba(0,0,0,0)'};
   align-items: center;
   flex-direction: row;
   transition: all .3s ease-in-out;
   cursor: pointer;
   border: 0.07rem solid white;
-  width: 100%;
+  width: 85%;
+
   &:hover {
-    transform: scale(1.05) translateX(5%);
+    transform: scale(1.05) translateX(-5%);
     background-color: rgba(64, 191, 255, 0.5);
     color: #dedede;
 
