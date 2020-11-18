@@ -4,7 +4,6 @@ import UserPlanet from './userPlanet/userPlanet';
 import UserDeity from './userDeity/userDeity';
 import MainEnergyBall from './mainEnergyBall';
 import { PlanetEnergyColorContext } from '../contexts';
-import { EnergyColorContext } from '../contexts';
 
 const MainDiv = styled.div`
   width: 100%;
@@ -26,7 +25,7 @@ const Main: React.FC<Props> = ({ userPlanetRect, setUserPlanetRect, incrementCli
   const [energyBalls, setEnergyBalls] = useState<Array<[number, number, number]>>([]);
   const [userPlanetPosition, setUserPlanetPosition] = useState<[number, number]>([0, 0]);
   const [energyBallCount, setEnergyBallCount] = useState<number>(0);
-  const [planetEnergyColor, setPlanetEnergyColor] = useState<[number, number, number]>([64, 191, 255]);
+  const { planetEnergyColor, setPlanetEnergyColor } = useContext(PlanetEnergyColorContext);
 
   const planetEnergyColorRef = useRef([64, 191, 255]);
   planetEnergyColorRef.current = planetEnergyColor;
@@ -81,24 +80,21 @@ const Main: React.FC<Props> = ({ userPlanetRect, setUserPlanetRect, incrementCli
 
 
   return (
-    <PlanetEnergyColorContext.Provider value={{ planetEnergyColor, setPlanetEnergyColor }}>
-      <MainDiv onClick={mainClickHandler}>
-        {energyBalls.map((ball) => (
-          <MainEnergyBall
-            x={ball[0]}
-            y={ball[1]}
-            distanceX={userPlanetPosition[0] - ball[0]}
-            distanceY={userPlanetPosition[1] - ball[1]}
-            animationEndHandler={animationEndHandler}
-            key={ball[2]}
-          >
-          </MainEnergyBall>
-        ))}
-        <UserPlanet setUserPlanetRect={setUserPlanetRect}/>
-        <UserDeity userPlanetRect={userPlanetRect} incrementClicks={incrementClicks} />
-      </MainDiv>
-    </PlanetEnergyColorContext.Provider>
-
+    <MainDiv onClick={mainClickHandler}>
+      {energyBalls.map((ball) => (
+        <MainEnergyBall
+          x={ball[0]}
+          y={ball[1]}
+          distanceX={userPlanetPosition[0] - ball[0]}
+          distanceY={userPlanetPosition[1] - ball[1]}
+          animationEndHandler={animationEndHandler}
+          key={ball[2]}
+        >
+        </MainEnergyBall>
+      ))}
+      <UserPlanet setUserPlanetRect={setUserPlanetRect}/>
+      <UserDeity userPlanetRect={userPlanetRect} incrementClicks={incrementClicks} />
+    </MainDiv>
   );
 }
 

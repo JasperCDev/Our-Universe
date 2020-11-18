@@ -7,6 +7,7 @@ interface User {
   user_clicks: number;
   id: number;
   is_online: boolean;
+  planet_color: string;
 }
 
 interface Props {
@@ -18,7 +19,14 @@ const TopUsers: FC<Props> = ({ users }) => {
     <TopUsersDiv>
       <TopUsersTitle style={{ textAlign: 'center' }}>TOP 25 USERS</TopUsersTitle>
       {users.map((user: User, index: number) => (
-        <EachTopUser username={user.user_name} userClicks={user.user_clicks} place={index + 1} userid={user.id} isOnline={user.is_online} key={user.id}/>
+        <EachTopUser
+          username={user.user_name}
+          userClicks={user.user_clicks}
+          place={index + 1}
+          userid={user.id}
+          isOnline={user.is_online}
+          planetColor={JSON.parse(user.planet_color)}
+          key={user.id} />
     ))}
   </TopUsersDiv>
 )};

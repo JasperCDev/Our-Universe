@@ -17,6 +17,7 @@ const App: FC = () => {
   const [userPlanetRect, setUserPlanetRect] = useState<DOMRect>();
   const [energyColor, setEnergyColor] = useState<[number, number, number]>([64, 191, 255]);
   const [userPower, setUserPower] = useState<number>(1);
+  const [planetEnergyColor, setPlanetEnergyColor] = useState<[number, number, number]>([0,0,0]);
   const { globalClicks, previousGlobalClicks, topUsers } = useGlobalIntervalState();
   const { username, setUsername, userId } = useAuth(setUserClicks);
 
@@ -27,12 +28,14 @@ const App: FC = () => {
   const globalSessionClicksRef = useRef<number>(0);
   globalSessionClicksRef.current = globalSessionClicks;
 
+  const planetEnergyColorRef = useRef(planetEnergyColor);
+  planetEnergyColorRef.current = planetEnergyColor;
+
   const userIdRef = useRef<number>(0);
   userIdRef.current = userId;
   //-------------------------------------------//
 
 
-  const ColorContext = useContext(PlanetEnergyColorContext);
 
   useEffect(() => {
     const timer = setInterval(() => clicksLifeCycle(), 3000);
@@ -65,11 +68,10 @@ const App: FC = () => {
 
   const updateUserData = async () => {
     const clicksToUpdateUserTotal = userSessionClicksRef.current;
-    const planetEnergyColor = ColorContext.planetEnergyColor ? ColorContext.planetEnergyColor : [0, 0, 0];
     try {
       await axios.put('/user', {
         id: userIdRef.current,
-        energyColor: planetEnergyColor,
+        energyColor: JSON.stringify(planetEnergyColorRef.current),
         clicks: clicksToUpdateUserTotal,
       });
       userSessionClicks = userSessionClicksRef.current - clicksToUpdateUserTotal;
@@ -88,20 +90,23 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
+      <PlanetEnergyColorContext.Provider value={{ planetEnergyColor, setPlanetEnergyColor }}>
       <EnergyColorContext.Provider value={{ energyColor, setEnergyColor }} >
-        <UserContext.Provider value={{ userClicks, username, userId, setUsername, userLvl: 1, userPower, setUserPower }} >
-          <Header
-            previousClicks={previousGlobalClicks}
-            globalClicks={globalClicks}
-          />
-          <Main
-            userPlanetRect={userPlanetRect}
-            setUserPlanetRect={setUserPlanetRect}
-            incrementClicks={incrementClicks}
-          />
-          <TopUsers users={topUsers} />
-        </UserContext.Provider>
+      <UserContext.Provider value={{ userClicks, username, userId, setUsername, userLvl: 1, userPower, setUserPower }} >
+        <Header
+          previousClicks={previousGlobalClicks}
+          globalClicks={globalClicks}
+        />
+        <Main
+          userPlanetRect={userPlanetRect}
+          setUserPlanetRect={setUserPlanetRect}
+          incrementClicks={incrementClicks}
+        />
+        <TopUsers users={topUsers} />
+      </UserContext.Provider>
       </EnergyColorContext.Provider>
+      </PlanetEnergyColorContext.Provider>
+
     </>
   );
 }

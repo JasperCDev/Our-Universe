@@ -14,8 +14,9 @@ const UserPlanet: FC<Props> = ({ setUserPlanetRect }) => {
 
   // CONTEXTS
   const { userClicks, username } = useContext(UserContext);
-  const colorContext =useContext(PlanetEnergyColorContext)
+  const colorContext = useContext(PlanetEnergyColorContext)
   const [red, green, blue] = colorContext.planetEnergyColor ? colorContext.planetEnergyColor : [0, 0, 0];
+
 
   useEffect(() => {
     window.addEventListener('resize', () => {

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 
 export const TopUsersDiv = styled.div`
@@ -95,4 +95,21 @@ export const UserClicks = styled.p`
   font-family: monospace;
   font-weight: 300;
   font-size: 1.1rem;
+`;
+
+
+const rotate = keyframes`
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const UserPlanetIcon = styled.div<{ red: number; green: number; blue: number; }>`
+  border-radius: 50%;
+  background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green}, ${blue}, 0.05))`};
+  height: 1.1rem;
+  width: 1.1rem;
+  background-color: white;
+  animation: ${rotate} 8s linear infinite;
+  position: relative;
 `;

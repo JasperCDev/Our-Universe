@@ -7,12 +7,13 @@ interface User {
   user_clicks: number;
   id: number;
   is_online: boolean;
+  planet_color: string;
 }
 
 interface ReturnState {
   globalClicks: number;
   topUsers: Array<User>;
-  previousGlobalClicks: number
+  previousGlobalClicks: number;
 }
 
 export const useGlobalIntervalState = (): ReturnState => {

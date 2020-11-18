@@ -76,17 +76,14 @@ export const createUser = (req: Request, res: Response) => {
 
   client.query(create)
     .then((dbResponse: QueryResult) => {
-      console.log(dbResponse.rows[0]);
       res.send(dbResponse.rows[0]);
     })
     .catch((dbErr: QueryResultRow) => {
-      console.log(';ASLDFJMK;LDASF;LKDASJFLKDASJKLFJDSAK;LFJASD;KLFJ;LDKASJFDAS');
       res.sendStatus(500).send(dbErr.detail);
   });
 }
 
 export const updateUserData = (req: Request, res: Response) => {
-  console.log(req.body);
   const query = {
     text: 'UPDATE users SET user_clicks = users.user_clicks + $1, planet_color = $2 WHERE id = $3',
     values: [req.body.clicks, req.body.energyColor, req.body.id]

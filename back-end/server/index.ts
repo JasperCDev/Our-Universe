@@ -10,7 +10,7 @@ import compression from 'compression';
 
 
 setInterval(() => {
-  updateUserData({ body: { clicks: 2, energyColor: [0, 0, 0], id: 1 } } as Request, { send: () => { }, sendStatus: () => { } } as unknown as Response);
+  updateUserData({ body: { clicks: 2, energyColor: '[64, 191, 255]', id: 1 } } as Request, { send: () => { }, sendStatus: () => { } } as unknown as Response);
   updateGlobalClicks({ body: { clicks: 2 } } as Request, { send: () => { } } as Response);
 }, 1000);
 

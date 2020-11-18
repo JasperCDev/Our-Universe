@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Place, TopUser, TopUserContainer, UserActive, UserClicks, UserId, UsernameContainer, UserOnlineTag } from './topUsers.styles';
+import { Place, TopUser, TopUserContainer, UserClicks, UserId, UsernameContainer, UserOnlineTag, UserPlanetIcon } from './topUsers.styles';
 import { idToStringWithZeroes } from '../../helpers';
 import { useCountUp } from 'use-count-up';
 
@@ -9,9 +9,10 @@ interface Props {
   place: number;
   userid: number;
   isOnline: boolean;
+  planetColor: [number, number, number];
 }
 
-const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isOnline }) => {
+const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isOnline, planetColor: [red, green, blue] }) => {
   const [userClicksState, setUserClicksState] = useState<number>(0);
   const [hovered, setHovered] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -42,6 +43,7 @@ const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isO
     }
   });
 
+  console.log(red, green, blue);
   return (
     <>
       <TopUserContainer
@@ -55,9 +57,9 @@ const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isO
             {username}
             <UserId>#{idToStringWithZeroes(userid)}</UserId>
             <UserOnlineTag online={isOnline}> {isOnline ? 'online' : 'offline'} </UserOnlineTag>
-            {/* <UserActive active={isActive}>{isActive ? 'active' : 'inactive'}</UserActive> */}
           </UsernameContainer>
           <UserClicks>ATOMS: {value}</UserClicks>
+          <UserPlanetIcon red={red} green={green} blue={blue} />
           </TopUser>
       </TopUserContainer>
     </>
