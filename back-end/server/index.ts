@@ -3,14 +3,14 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 import '../database/index';
-import { getGlobalClicks, updateGlobalClicks, getTopUsers, getUser, updateUserClicks, createUser, updateUsername, updateOnlineStatus } from '../database/controllers';
+import { getGlobalClicks, updateGlobalClicks, getTopUsers, getUser, updateUserData, createUser, updateUsername, updateOnlineStatus, updateActiveStatus } from '../database/controllers';
 import bodyParser from 'body-parser';
 import path from 'path';
 import compression from 'compression';
 
 
 setInterval(() => {
-  updateUserClicks({ body: { clicks: 2, id: 1 } } as Request, { send: () => { } } as Response);
+  updateUserData({ body: { clicks: 2, energyColor: [0, 0, 0], id: 1 } } as Request, { send: () => { }, sendStatus: () => { } } as unknown as Response);
   updateGlobalClicks({ body: { clicks: 2 } } as Request, { send: () => { } } as Response);
 }, 1000);
 
@@ -27,7 +27,7 @@ app.get('/user', (req: Request, res: Response) => getUser(req, res));
 
 app.post('/user', (req: Request, res: Response) => createUser(req, res));
 
-app.put('/user', (req: Request, res: Response) => updateUserClicks(req, res));
+app.put('/user', (req: Request, res: Response) => updateUserData(req, res));
 
 app.get('/users', (req: Request, res: Response) => getTopUsers(req, res));
 
@@ -35,6 +35,7 @@ app.put('/username', (req: Request, res: Response) => updateUsername(req, res));
 
 app.put('/online', (req: Request, res: Response) => updateOnlineStatus(req, res));
 
+app.put('/active', (req: Request, res: Response) => updateActiveStatus(req, res));
 
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

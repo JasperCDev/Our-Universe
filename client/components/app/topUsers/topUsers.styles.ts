@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 
 export const TopUsersDiv = styled.div`
-  /* border-left: 0.0625rem solid white; */
   width: 30vw;
   height: 90vh;
   font-weight: bold;
@@ -15,8 +14,7 @@ export const TopUsersDiv = styled.div`
   &::-webkit-scrollbar {
     width: 0px;
     background: transparent;
-}
-
+  }
 `;
 
 export const TopUsersTitle = styled.h1`
@@ -25,15 +23,13 @@ export const TopUsersTitle = styled.h1`
   padding-bottom: 0.5rem;
 `;
 
-
 export const TopUserContainer = styled.div<{ active: boolean; }>`
-  font-size: 1rem;
   padding: 10px;
   font-weight: bold;
   position: relative;
   display: flex;
   margin: 10px auto;
-  background-color: ${({ active }) => active ? 'rgba(0, 255, 175, 0.1)' : 'rgba(0,0,0,0)'};
+  background-color: 'black';
   align-items: center;
   flex-direction: row;
   transition: all .3s ease-in-out;
@@ -45,7 +41,6 @@ export const TopUserContainer = styled.div<{ active: boolean; }>`
     transform: scale(1.05) translateX(-5%);
     background-color: rgba(64, 191, 255, 0.5);
     color: #dedede;
-
   }
 `;
 
@@ -64,13 +59,13 @@ export const Place = styled.h4`
 `;
 
 export const UsernameContainer = styled.div<{ hovered: boolean }>`
-  font-size: 1.2rem;
-  color: ${({ hovered }) => !hovered ? 'lightblue' : 'navy'};
+  font-size:  1.1rem;
+  color: ${({ hovered }) => !hovered ? 'lightblue' : 'black'};
   transition: all .3s ease-in-out;
 `;
 
 export const UserOnlineTag = styled.span<{ online: boolean }>`
-  font-size: 0.9rem;
+  font-size:  1.1rem;
   color: ${({ online }) => online ? 'lightgreen' : 'grey'};
   @media (max-width: 1200px) {
     display: block;
@@ -88,17 +83,16 @@ export const UserId = styled.span`
 `;
 
 export const UserActive = styled.span<{ active: boolean; }>`
-  font-size: 0.9rem;
-  color: ${({ active }) => active ? 'red' : 'grey'};
+  font-size: 1.1rem;
+  color: ${({ active }) => active ? 'yellow' : 'grey'};
   @media (max-width: 1500px) {
     display: block;
     text-align: center;
   }
-
 `;
 
 export const UserClicks = styled.p`
   font-family: monospace;
   font-weight: 300;
-  font-size: 1rem;
+  font-size: 1.1rem;
 `;

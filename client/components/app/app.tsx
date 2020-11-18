@@ -1,18 +1,16 @@
-import React, { useState, useEffect, FC, useRef} from 'react';
+import React, { useState, useEffect, FC, useRef, useContext} from 'react';
 import axios from 'axios';
 import { GlobalStyle } from './app.styles';
 import Main from './main/main';
 import TopUsers from './topUsers/topUsers';
 import { numberToCommaSeperatedString } from '../helpers';
-import { EnergyColorContext, UserContext } from './contexts';
+import { EnergyColorContext, UserContext, PlanetEnergyColorContext } from './contexts';
 import Header from '../header';
 import { useGlobalIntervalState } from './useGlobalIntervalState';
 import { useAuth } from './useAuth';
 
 let userSessionClicks = 0;
 let globalSessionClicks = 0;
-
-console.log(GlobalStyle);
 
 const App: FC = () => {
   const [userClicks, setUserClicks] = useState<number>(0);
@@ -23,24 +21,18 @@ const App: FC = () => {
   const { username, setUsername, userId } = useAuth(setUserClicks);
 
    // -------REFS FOR CALLBACKS---------------\\
-  const usernameRef = useRef<string>('');
-  usernameRef.current = username;
-
   const userSessionClicksRef = useRef<number>(0);
   userSessionClicksRef.current = userSessionClicks;
 
   const globalSessionClicksRef = useRef<number>(0);
   globalSessionClicksRef.current = globalSessionClicks;
 
-  const globalClicksRef = useRef<number>(0);
-  globalClicksRef.current = globalClicks;
-
-  const user_clicksRef = useRef<number>(0);
-  user_clicksRef.current = userClicks;
-
   const userIdRef = useRef<number>(0);
   userIdRef.current = userId;
   //-------------------------------------------//
+
+
+  const ColorContext = useContext(PlanetEnergyColorContext);
 
   useEffect(() => {
     const timer = setInterval(() => clicksLifeCycle(), 3000);
@@ -55,7 +47,7 @@ const App: FC = () => {
 
   const clicksLifeCycle = async () => {
     await updateGlobalClicks();
-    await updateUserClicks();
+    await updateUserData();
   }
 
   const updateGlobalClicks = async () => {
@@ -71,11 +63,13 @@ const App: FC = () => {
     }
   }
 
-  const updateUserClicks = async () => {
+  const updateUserData = async () => {
     const clicksToUpdateUserTotal = userSessionClicksRef.current;
+    const planetEnergyColor = ColorContext.planetEnergyColor ? ColorContext.planetEnergyColor : [0, 0, 0];
     try {
       await axios.put('/user', {
         id: userIdRef.current,
+        energyColor: planetEnergyColor,
         clicks: clicksToUpdateUserTotal,
       });
       userSessionClicks = userSessionClicksRef.current - clicksToUpdateUserTotal;
@@ -94,11 +88,18 @@ const App: FC = () => {
   return (
     <>
       <GlobalStyle />
-      <EnergyColorContext.Provider value={{ energyColor, setEnergyColor }}>
-        <UserContext.Provider value={{ userClicks, username, userId, setUsername, userLvl: 1, userPower, setUserPower }}>
-            <Header previousClicks={previousGlobalClicks} globalClicks={globalClicks}/>
-          <Main userPlanetRect={userPlanetRect} setUserPlanetRect={setUserPlanetRect} incrementClicks={incrementClicks} />
-          <TopUsers users={topUsers}/>
+      <EnergyColorContext.Provider value={{ energyColor, setEnergyColor }} >
+        <UserContext.Provider value={{ userClicks, username, userId, setUsername, userLvl: 1, userPower, setUserPower }} >
+          <Header
+            previousClicks={previousGlobalClicks}
+            globalClicks={globalClicks}
+          />
+          <Main
+            userPlanetRect={userPlanetRect}
+            setUserPlanetRect={setUserPlanetRect}
+            incrementClicks={incrementClicks}
+          />
+          <TopUsers users={topUsers} />
         </UserContext.Provider>
       </EnergyColorContext.Provider>
     </>

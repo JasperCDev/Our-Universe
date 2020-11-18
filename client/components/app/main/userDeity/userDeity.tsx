@@ -3,7 +3,7 @@ import { UserDeityContainer, UserClicksSubheading, UserDeityButton, UserDeityDiv
 import UserEnergyBall from './userEnergyBall';
 import UsernameForm from './usernameForm/usernameForm';
 import { EnergyColorContext, UserContext } from '../../contexts';
-import { PlanetEnergyColorContext } from '../mainContexts';
+import { PlanetEnergyColorContext } from '../../contexts';
 import { UserPlanetContainer } from '../userPlanet/userPlanet.styles';
 
 interface Props {
@@ -14,6 +14,18 @@ interface Props {
 let sessionClicks = 0;
 let lastClickTime = Date.now();
 
+function resetSessionIfInactive(assignEnergyPower: () => void) {
+  if (Date.now() - lastClickTime >= 1000) {
+    if (sessionClicks < 10) {
+      sessionClicks = 0;
+    } else {
+      sessionClicks -= 10;
+    }
+    assignEnergyPower();
+  }
+}
+
+
 const UserDeity: React.FC<Props> = ({
   incrementClicks,
   userPlanetRect
@@ -22,7 +34,7 @@ const UserDeity: React.FC<Props> = ({
   const [energyBalls, setEnergyBalls] = useState<Array<number>>([]);
   const [energyBallTranslateDistance, setEnergyBallTranslateDistance] = useState<number>(0);
   const [energySize, setEnergySize] = useState<number>(1);
-  const [UserPlanetContainerRect, setUserPlanetContainerRect] = useState<DOMRect>();
+  const [userDeityContainerRect, setUserDeityContainerRect] = useState<DOMRect>();
   const [energyOpacity, setEnergyOpacity] = useState<number>(0.2);
   const [energyProgress, setEnergyProgress] = useState<number>(0);
 
@@ -37,27 +49,17 @@ const UserDeity: React.FC<Props> = ({
   const { planetEnergyColor, setPlanetEnergyColor } = useContext(PlanetEnergyColorContext);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (Date.now() - lastClickTime >= 1000) {
-        if (sessionClicks < 10) {
-          sessionClicks = 0;
-        } else {
-          sessionClicks -= 10;
-        }
-        assignEnergyPower();
-      }
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    }
+    const timer = setInterval(() => resetSessionIfInactive(assignEnergyPower), 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    if (!UserPlanetContainerRect) {
-      setUserPlanetContainerRect(UserDeityContainerRef!.current!.getBoundingClientRect());
+    if (!userDeityContainerRect) {
+      setUserDeityContainerRect(UserDeityContainerRef!.current!.getBoundingClientRect());
     }
-    if (UserPlanetContainerRect && userPlanetRect) {
-      const travelDistance = UserPlanetContainerRect.top - userPlanetRect.bottom;
+    if (userDeityContainerRect && userPlanetRect) {
+      const travelDistance = userDeityContainerRect.top - userPlanetRect.bottom;
       setEnergyBallTranslateDistance(-travelDistance);
     }
   }, [userPlanetRect]);
@@ -136,6 +138,7 @@ const UserDeity: React.FC<Props> = ({
   }
 
 
+
   return (
     <>
       {energyBalls.map((id) => (
@@ -148,7 +151,7 @@ const UserDeity: React.FC<Props> = ({
           energyBlue={blue}
           energySize={energySize}
           userPower={userPower}
-          rect={UserPlanetContainerRect}
+          rect={userDeityContainerRect}
         >
         </UserEnergyBall>
       ))}
@@ -159,7 +162,7 @@ const UserDeity: React.FC<Props> = ({
         </EnergyBar>
         <UsernameForm username={username} userId={userId} setUsername={setUsername} />
         <UserDeityButton onClick={() => {
-          setEnergyBallCount(energyBallCount + 1);
+          setEnergyBallCount(energyBallCount  + 1);
           setEnergyBalls([...energyBalls, energyBallCount]);
           assessMultipleClicks();
         }}>

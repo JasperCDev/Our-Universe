@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import UserPlanet from './userPlanet/userPlanet';
 import UserDeity from './userDeity/userDeity';
 import MainEnergyBall from './mainEnergyBall';
-import { PlanetEnergyColorContext } from './mainContexts';
+import { PlanetEnergyColorContext } from '../contexts';
 import { EnergyColorContext } from '../contexts';
 
 const MainDiv = styled.div`

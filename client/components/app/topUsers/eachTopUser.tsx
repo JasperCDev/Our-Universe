@@ -38,21 +38,24 @@ const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isO
       if (previousUserClicks === userClicks) {
         setShouldAnimate(false);
         setIsActive(false);
-
       };
     }
   });
 
   return (
     <>
-      <TopUserContainer active={isActive} onMouseOver={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Place>{place}{')'}</Place>
+      <TopUserContainer
+        active={isActive}
+        onMouseOver={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Place>{place}{')'}</Place>
         <TopUser>
           <UsernameContainer hovered={hovered}>
             {username}
             <UserId>#{idToStringWithZeroes(userid)}</UserId>
             <UserOnlineTag online={isOnline}> {isOnline ? 'online' : 'offline'} </UserOnlineTag>
-            <UserActive active={isActive}>{isActive ? 'active' : 'inactive'}</UserActive>
+            {/* <UserActive active={isActive}>{isActive ? 'active' : 'inactive'}</UserActive> */}
           </UsernameContainer>
           <UserClicks>ATOMS: {value}</UserClicks>
           </TopUser>

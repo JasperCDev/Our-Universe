@@ -11,6 +11,7 @@ interface Props {
   energySize: number;
   userPower: number;
   rect: (DOMRect | undefined);
+  children: never[];
 }
 
 const UserEnergyBall: FC<Props> = ({
@@ -68,5 +69,6 @@ const UserEnergyBall: FC<Props> = ({
     </UserDeityEnergyBallDiv>
   );
 }
+
 
 export default UserEnergyBall;

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Faker from 'faker';
-import regeneratorRuntime from "regenerator-runtime";
 
 export const useAuth = (setUserClicks: React.Dispatch<React.SetStateAction<number>>) => {
   const [username, setUsername] = useState<string>('');
@@ -23,6 +22,7 @@ export const useAuth = (setUserClicks: React.Dispatch<React.SetStateAction<numbe
   const checkAuth = async () => {
     const id = localStorage.getItem('userId');
     if (!id) {
+      console.log('falsey id: ', id?.toString());
       await createUser();
     }
     logInUser();
@@ -32,9 +32,11 @@ export const useAuth = (setUserClicks: React.Dispatch<React.SetStateAction<numbe
     const username = Faker.name.firstName();
     localStorage.clear();
     try {
-      const response = await axios.post('/user', { username: username, isOnline: true });
+      const response = await axios.post('/user', { username, isOnline: true, planetColor: '[64, 191, 255]' });
+      console.log('response: ', response);
       localStorage.setItem('userId', response.data.id);
     } catch (err) {
+      console.log('ERR: ');
       console.error(err);
     }
   }

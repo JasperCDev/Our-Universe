@@ -30,7 +30,7 @@ export const UserPlanetDiv = styled.div<{ planetSize: number; red: number; green
   border-radius: 50%;
   background: ${({ red, green, blue }) => `linear-gradient(to right, rgba(${red}, ${green}, ${blue}, 1), rgba(${red}, ${green}, ${blue}, 0.05))`};
   height: ${({ planetSize }) => planetSize + 'rem'};
-  width: ${({ planetSize }) => planetSize + 'rem'};
+  /* width: ${({ planetSize }) => planetSize + 'rem'}; */
   animation: ${rotate} 8s linear infinite;
   position: relative;
   z-index: 10;

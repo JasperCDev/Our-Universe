@@ -3,7 +3,7 @@ import { QueryResult, QueryResultRow } from 'pg';
 import fs from 'fs';
 
 
-const sql = fs.readFileSync('journey-to-one-million.pgsql').toString();
+const sql = fs.readFileSync('journeyToCreateTheUniverse.pgsql').toString();
 
 client.query(sql)
   .then((dbResponse: QueryResult) => console.log('import sql file', dbResponse))
@@ -14,8 +14,8 @@ client.query('INSERT INTO global_clicks(click_count) VALUES(0)')
   .catch((err: QueryResultRow) => console.error(err));
 
 const create = {
-  text: 'INSERT INTO users(user_name, user_clicks, is_online) VALUES($1, $2, $3)',
-  values: ['JasperBOT', 0, true] as [string, number, boolean]
+  text: 'INSERT INTO users(user_name, user_clicks, is_online, planet_color) VALUES($1, $2, $3, $4)',
+  values: ['JasperBOT', 0, true, '[64, 191, 255]'] as [string, number, boolean, string]
 }
 
 

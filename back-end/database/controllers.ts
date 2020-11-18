@@ -53,28 +53,51 @@ export const updateOnlineStatus = (req: Request, res: Response) => {
 
 }
 
+export const updateActiveStatus = (req: Request, res: Response) => {
+  const update = {
+    text: 'UPDATE users SET is_active = $1 WHERE id = $2',
+    values: [req.body.isActive, req.body.userId]
+  }
+
+  client.query(update)
+  .then((dbResponse: QueryResult) => res.send('active status updated'))
+    .catch((err: QueryResultRow) => {
+      console.error(err);
+      res.sendStatus(500);
+  });
+}
+
 export const createUser = (req: Request, res: Response) => {
+
   const create = {
-    text: 'INSERT INTO users(user_name, user_clicks, is_online) VALUES($1, $2, $3) RETURNING id',
-    values: [req.body.username, 0, req.body.isOnline]
+    text: 'INSERT INTO users(user_name, user_clicks, is_online, planet_color) VALUES($1, $2, $3, $4) RETURNING id',
+    values: [req.body.username, 0, req.body.isOnline, req.body.planetColor]
   }
 
   client.query(create)
-  .then((dbResponse: QueryResult) => res.send(dbResponse.rows[0]))
+    .then((dbResponse: QueryResult) => {
+      console.log(dbResponse.rows[0]);
+      res.send(dbResponse.rows[0]);
+    })
     .catch((dbErr: QueryResultRow) => {
+      console.log(';ASLDFJMK;LDASF;LKDASJFLKDASJKLFJDSAK;LFJASD;KLFJ;LDKASJFDAS');
       res.sendStatus(500).send(dbErr.detail);
   });
 }
 
-export const updateUserClicks = (req: Request, res: Response) => {
+export const updateUserData = (req: Request, res: Response) => {
+  console.log(req.body);
   const query = {
-    text: 'UPDATE users SET user_clicks = users.user_clicks + $1 WHERE id = $2',
-    values: [req.body.clicks, req.body.id]
+    text: 'UPDATE users SET user_clicks = users.user_clicks + $1, planet_color = $2 WHERE id = $3',
+    values: [req.body.clicks, req.body.energyColor, req.body.id]
   }
 
   client.query(query)
   .then(() => res.send('User clicks updated!'))
-  .catch(() => res.sendStatus(500));
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 }
 
 export const updateUsername = (req: Request, res: Response) => {
@@ -86,6 +109,7 @@ export const updateUsername = (req: Request, res: Response) => {
   .then(() => res.send('Username updated!'))
   .catch(() => res.sendStatus(500));
 }
+
 
 export const getTopUsers = (req: Request, res: Response) => {
   const query = {
