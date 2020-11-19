@@ -86,7 +86,7 @@ const UserDeity: React.FC<Props> = ({
     sessionClicks++;
     lastClickTime = Date.now();
     assignEnergyPower();
-  };
+  }
 
   const assignEnergyPower = () => {
     if (sessionClicks <= 100) {

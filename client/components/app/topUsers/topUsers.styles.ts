@@ -95,6 +95,7 @@ export const UserClicks = styled.p`
   font-family: monospace;
   font-weight: 300;
   font-size: 1.1rem;
+  display: inline;
 `;
 
 
@@ -102,6 +103,17 @@ const rotate = keyframes`
   100% {
     transform: rotate(360deg);
   }
+`;
+
+export const UserPlanetIconContainer = styled.div`
+  height: 1.1rem;
+  width: 1.1rem;
+  background-color: black;
+  border-radius: 50%;
+  opacity: 1;
+  position: relative;
+  display: inline;
+  /* border: 1px solid white; */
 `;
 
 export const UserPlanetIcon = styled.div<{ red: number; green: number; blue: number; }>`
@@ -112,4 +124,5 @@ export const UserPlanetIcon = styled.div<{ red: number; green: number; blue: num
   background-color: white;
   animation: ${rotate} 8s linear infinite;
   position: relative;
+  z-index: 20;
 `;

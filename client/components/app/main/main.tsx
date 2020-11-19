@@ -41,6 +41,7 @@ const Main: React.FC<Props> = ({ userPlanetRect, setUserPlanetRect, incrementCli
     setInterval(() => {
       localStorage.setItem('planetEnergyColor', JSON.stringify(planetEnergyColorRef.current));
     }, 3000);
+
   }, []);
 
   useEffect(() => {

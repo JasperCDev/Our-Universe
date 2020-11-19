@@ -34,7 +34,6 @@ export const UserPlanetDiv = styled.div<{ planetSize: number; red: number; green
   animation: ${rotate} 8s linear infinite;
   position: relative;
   z-index: 10;
-  box-shadow: ${({ planetSize }) => (planetSize * 2) + 'px'} ${({ red, green, blue }) => `rgba(${red}, ${green}, ${blue}, 1)`};
 `;
 
 export const UniverseName = styled.h1`

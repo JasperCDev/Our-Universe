@@ -15,8 +15,7 @@ const UserPlanet: FC<Props> = ({ setUserPlanetRect }) => {
   // CONTEXTS
   const { userClicks, username } = useContext(UserContext);
   const colorContext = useContext(PlanetEnergyColorContext)
-  const [red, green, blue] = colorContext.planetEnergyColor ? colorContext.planetEnergyColor : [0, 0, 0];
-
+  const [red, green, blue] = colorContext.planetEnergyColor ? colorContext.planetEnergyColor : [64, 191, 255];
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -32,13 +31,14 @@ const UserPlanet: FC<Props> = ({ setUserPlanetRect }) => {
 
 
   useEffect(() => {
-    if (userClicks <= 100) {
-      setPlanetSize((userClicks / 100) + 2);
-    } else if (userClicks <= 1000) {
-      setPlanetSize(planetSize + (userClicks / 100000));
-    } else if (userClicks <= 10000) {
-      setPlanetSize(userClicks / 10000000);
-    }
+    // if (userClicks <= 100) {
+    //   setPlanetSize((userClicks / 100) + 2);
+    // } else if (userClicks <= 1000) {
+    //   setPlanetSize(planetSize + (userClicks / 100000));
+    // } else if (userClicks <= 10000) {
+    //   setPlanetSize(userClicks / 10000000);
+    // }
+    if (planetSize <= 5) setPlanetSize((userClicks / 100) + 2);
 
   }, [userClicks]);
 

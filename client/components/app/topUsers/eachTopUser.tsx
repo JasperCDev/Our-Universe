@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Place, TopUser, TopUserContainer, UserClicks, UserId, UsernameContainer, UserOnlineTag, UserPlanetIcon } from './topUsers.styles';
+import { Place, TopUser, TopUserContainer, UserClicks, UserId, UsernameContainer, UserOnlineTag, UserPlanetIcon, UserPlanetIconContainer } from './topUsers.styles';
 import { idToStringWithZeroes } from '../../helpers';
 import { useCountUp } from 'use-count-up';
 
@@ -43,7 +43,7 @@ const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isO
     }
   });
 
-  console.log(red, green, blue);
+
   return (
     <>
       <TopUserContainer
@@ -59,7 +59,10 @@ const EachTopUser: React.FC<Props> = ({ username, userClicks, place, userid, isO
             <UserOnlineTag online={isOnline}> {isOnline ? 'online' : 'offline'} </UserOnlineTag>
           </UsernameContainer>
           <UserClicks>ATOMS: {value}</UserClicks>
-          <UserPlanetIcon red={red} green={green} blue={blue} />
+          <UserPlanetIconContainer>
+            <UserPlanetIcon red={red} green={green} blue={blue} />
+          </UserPlanetIconContainer>
+
           </TopUser>
       </TopUserContainer>
     </>
